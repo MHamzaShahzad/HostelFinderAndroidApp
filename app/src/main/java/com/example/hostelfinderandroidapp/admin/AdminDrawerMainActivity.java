@@ -1,17 +1,13 @@
-package com.example.hostelfinderandroidapp;
+package com.example.hostelfinderandroidapp.admin;
 
-import android.content.Intent;
 import android.os.Bundle;
 
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.hostelfinderandroidapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -26,13 +22,13 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 
-public class DrawerMainActivity extends AppCompatActivity
+public class AdminDrawerMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drawer_main);
+        setContentView(R.layout.activity_admin_drawer_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -65,7 +61,7 @@ public class DrawerMainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.drawer_main, menu);
+        getMenuInflater().inflate(R.menu.admin_drawer_main, menu);
         return true;
     }
 
@@ -97,17 +93,6 @@ public class DrawerMainActivity extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_tools) {
-
-            AuthUI.getInstance()
-                    .signOut(this)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        public void onComplete(@NonNull Task<Void> task) {
-                            // ...
-                            startActivity(new Intent(DrawerMainActivity.this, MainActivity.class));
-                            finish();
-                        }
-                    });
-
 
         } else if (id == R.id.nav_share) {
 
