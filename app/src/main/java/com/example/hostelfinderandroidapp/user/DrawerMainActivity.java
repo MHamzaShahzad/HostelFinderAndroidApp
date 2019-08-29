@@ -1,8 +1,10 @@
 package com.example.hostelfinderandroidapp.user;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.hostelfinderandroidapp.FragmentBecomeHostelOwner;
 import com.example.hostelfinderandroidapp.MainActivity;
 import com.example.hostelfinderandroidapp.R;
 import com.firebase.ui.auth.AuthUI;
@@ -31,10 +33,15 @@ import android.view.Menu;
 public class DrawerMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer_main);
+        context = this;
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -96,9 +103,11 @@ public class DrawerMainActivity extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_becomeHostelOwner) {
 
-        } else if (id == R.id.nav_tools) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentBecomeHostelOwner(context)).addToBackStack(null).commit();
+
+        } else if (id == R.id.nav_logout) {
 
             AuthUI.getInstance()
                     .signOut(this)

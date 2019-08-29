@@ -1,7 +1,9 @@
 package com.example.hostelfinderandroidapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -11,11 +13,18 @@ import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
+import com.example.hostelfinderandroidapp.model.User;
 import com.example.hostelfinderandroidapp.user.DrawerMainActivity;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -26,7 +35,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getName();
-
+    private Context context;
     private static final int RC_SIGN_IN = 1;
     List<AuthUI.IdpConfig> providers;
 
@@ -35,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context = this;
 
         if (isAlreadySignedIn())
             startHomeActivity();
@@ -45,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == RC_SIGN_IN) {
@@ -54,8 +64,46 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
                 Log.e(TAG, "onActivityResult: VALID_RESULT_CODE");
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user != null) {
+
+                    MyFirebaseDatabase.USER_REFERENCE.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.getValue() == null){
+
+                                User newUser = new User(
+                                        user.getDisplayName(),
+                                        user.getPhoneNumber(),
+                                        user.getEmail(),
+                                        String.valueOf(user.getPhotoUrl()),
+                                        Constants.ACCOUNT_TYPE_USER
+
+                                );
+                                MyFirebaseDatabase.USER_REFERENCE.child(user.getUid()).setValue(newUser).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(context, "Your account have been created successfully!", Toast.LENGTH_LONG).show();
+                                        startHomeActivity();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(context, "Your account can not be created!" + e.getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+                                });
+
+                            }else {
+                                Toast.makeText(context, "Successfully logged In!", Toast.LENGTH_LONG).show();
+                                startHomeActivity();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Toast.makeText(context, "The process could't be completed!", Toast.LENGTH_LONG).show();
+                        }
+                    });
 
                     startHomeActivity();
 
