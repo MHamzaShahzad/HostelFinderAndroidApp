@@ -10,6 +10,12 @@ public class Constants {
     public static final String ACCOUNT_STATUS_INACTIVE = "0";
     public static final String ACCOUNT_STATUS_ACTIVE = "1";
 
+    public static final String HOSTEL_STATUS_INACTIVE = "0";
+    public static final String HOSTEL_STATUS_ACTIVE = "1";
+
+    public static final String HOSTEL_DESCRIPTION_NAME = "hostel_description_name";
+
+
 
 
 

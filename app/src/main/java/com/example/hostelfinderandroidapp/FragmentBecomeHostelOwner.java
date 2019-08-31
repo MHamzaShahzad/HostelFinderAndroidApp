@@ -43,6 +43,7 @@ import com.google.firebase.storage.UploadTask;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
@@ -174,14 +175,18 @@ public class FragmentBecomeHostelOwner extends Fragment {
 
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-
+        Date date = new Date();
 
         Hostel hostel = new Hostel(
+                hostelId,
                 ownerHostelName.getText().toString(),
                 numberOfRoomsAvailable.getText().toString(),
                 maximumMembersPerRoom.getText().toString(),
                 totalNumberOfRooms.getText().toString(),
                 costPerMember.getText().toString(),
+                "1",
+                "1",
+                "1",
                 hostelDescription.getText().toString(),
                 ownerPhoneNumber.getText().toString(),
                 ownerEmailAddress.getText().toString(),
@@ -190,10 +195,13 @@ public class FragmentBecomeHostelOwner extends Fragment {
                 hostelImageUrl,
                 "",
                 "",
-                hostelAddress.getText().toString()
+                hostelAddress.getText().toString(),
+                Constants.HOSTEL_STATUS_INACTIVE,
+                date.toLocaleString()
         );
 
         final User hostelOwner = new User(
+                user.getUid(),
                 ownerName.getText().toString(),
                 ownerPhoneNumber.getText().toString(),
                 ownerEmailAddress.getText().toString(),

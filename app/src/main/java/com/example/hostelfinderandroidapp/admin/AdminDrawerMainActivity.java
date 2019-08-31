@@ -88,9 +88,12 @@ public class AdminDrawerMainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_hostels) {
 
-        } else if (id == R.id.nav_slideshow) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentHostelsListComplete()).addToBackStack(null).commit();
+
+        } else if (id == R.id.nav_owners) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentOwnersList()).addToBackStack(null).commit();
 
         } else if (id == R.id.nav_tools) {
 

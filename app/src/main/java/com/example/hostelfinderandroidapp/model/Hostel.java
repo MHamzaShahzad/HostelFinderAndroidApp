@@ -1,20 +1,26 @@
 package com.example.hostelfinderandroidapp.model;
 
-public class Hostel {
+import java.io.Serializable;
 
-    private String hostelName, availableRooms, maxMembers, totalRooms,costPerPerson,internetAvailable,electricityBackup,parking,description, phoneNumber,email, ownerId, type, imageUrl, lat, lon, address;
+public class Hostel implements Serializable {
+
+    private String hostelId, hostelName, availableRooms, maxMembers, totalRooms,costPerPerson,internetAvailable,electricityBackup,parking,description, phone,email, ownerId, type, imageUrl, lat, lon, address, status, date;
 
     public Hostel() {
     }
 
-    public Hostel(String hostelName, String availableRooms, String maxMembers, String totalRooms, String costPerPerson, String description, String phoneNumber, String email, String ownerId, String type, String imageUrl, String lat, String lon, String address) {
+    public Hostel(String hostelId,String hostelName, String availableRooms, String maxMembers, String totalRooms, String costPerPerson, String internetAvailable, String electricityBackup, String parking, String description, String phone, String email, String ownerId, String type, String imageUrl, String lat, String lon, String address, String status, String date) {
+        this.hostelId = hostelId;
         this.hostelName = hostelName;
         this.availableRooms = availableRooms;
         this.maxMembers = maxMembers;
         this.totalRooms = totalRooms;
         this.costPerPerson = costPerPerson;
+        this.internetAvailable = internetAvailable;
+        this.electricityBackup = electricityBackup;
+        this.parking = parking;
         this.description = description;
-        this.phoneNumber = phoneNumber;
+        this.phone = phone;
         this.email = email;
         this.ownerId = ownerId;
         this.type = type;
@@ -22,6 +28,12 @@ public class Hostel {
         this.lat = lat;
         this.lon = lon;
         this.address = address;
+        this.status = status;
+        this.date = date;
+    }
+
+    public String getHostelId() {
+        return hostelId;
     }
 
     public String getHostelName() {
@@ -60,8 +72,8 @@ public class Hostel {
         return description;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getPhone() {
+        return phone;
     }
 
     public String getEmail() {
@@ -91,4 +103,13 @@ public class Hostel {
     public String getAddress() {
         return address;
     }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
 }
