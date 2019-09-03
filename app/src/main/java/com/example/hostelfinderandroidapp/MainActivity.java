@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                             if (dataSnapshot.getValue() == null) {
 
                                 final User newUser = new User(
+                                        user.getUid(),
                                         user.getDisplayName(),
                                         user.getPhoneNumber(),
                                         user.getEmail(),
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                                 });
 
                             } else {
-                                Toast.makeText(context, "Successfully logged In!", Toast.LENGTH_LONG).show();
+                                //Toast.makeText(context, "Successfully logged In!", Toast.LENGTH_LONG).show();
                                 if (dataSnapshot.getValue(User.class) != null)
                                     try {
                                         goToHomeAccordingToUserType(dataSnapshot.getValue(User.class));
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(context, "The process could't be completed!", Toast.LENGTH_LONG).show();
                         }
                     });
-                    new MyFirebaseUser();
+                    MyFirebaseUser.initAuthUser();
                 }
             } else {
                 if (response != null && response.getError() != null) {
@@ -193,7 +194,12 @@ public class MainActivity extends AppCompatActivity {
                 startAdminHomeActivity();
                 break;
             case Constants.ACCOUNT_TYPE_HOSTEL_OWNER:
+                if (user.getAccountStatus() != null && user.getAccountStatus().equals(Constants.ACCOUNT_STATUS_ACTIVE))
                 startProviderHomeActivity();
+                else {
+                    Toast.makeText(context, "This account is't active now!", Toast.LENGTH_SHORT).show();
+                    MyFirebaseUser.SignOut(context);
+                }
                 break;
         }
         MyServicesControllerClass.startCustomBackgroundService(context.getApplicationContext());

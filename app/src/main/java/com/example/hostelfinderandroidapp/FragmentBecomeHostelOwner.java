@@ -132,9 +132,9 @@ public class FragmentBecomeHostelOwner extends Fragment {
 
             progressDialog.show();
 
-            final String hostelId = UUID.randomUUID().toString();
+            final String imageId = UUID.randomUUID().toString();
 
-            MyFirebaseStorage.HOSTELS_IMAGES_STORAGE_REFERENCE.child(hostelId).putFile(filePath)
+            MyFirebaseStorage.HOSTELS_IMAGES_STORAGE_REFERENCE.child(imageId).putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -146,7 +146,7 @@ public class FragmentBecomeHostelOwner extends Fragment {
                                 @Override
                                 public void onSuccess(Uri uri) {
 
-                                    uploadUserAndHostel(uri.toString(), hostelId);
+                                    uploadUserAndHostel(uri.toString());
 
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -177,12 +177,12 @@ public class FragmentBecomeHostelOwner extends Fragment {
         }
     }
 
-    private void uploadUserAndHostel(String hostelImageUrl, String hostelId) {
+    private void uploadUserAndHostel(String hostelImageUrl) {
 
-        setHostelInstance(hostelId, hostelImageUrl);
+        setHostelInstance(hostelImageUrl);
         setUserInstance();
 
-        MyFirebaseDatabase.HOSTELS_REFERENCE.child(hostelId).setValue(hostel).addOnSuccessListener(new OnSuccessListener<Void>() {
+        MyFirebaseDatabase.HOSTELS_REFERENCE.child(hostel.getHostelId()).setValue(hostel).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 
@@ -215,10 +215,11 @@ public class FragmentBecomeHostelOwner extends Fragment {
         });
     }
 
-    private void setHostelInstance(String hostelId, String hostelImageUrl){
+    private void setHostelInstance(String hostelImageUrl) {
         Date date = new Date();
+        String hostelId = UUID.randomUUID().toString();
 
-         hostel = new Hostel(
+        hostel = new Hostel(
                 hostelId,
                 ownerHostelName.getText().toString(),
                 numberOfRoomsAvailable.getText().toString(),
@@ -243,15 +244,15 @@ public class FragmentBecomeHostelOwner extends Fragment {
 
     }
 
-    private void setUserInstance(){
+    private void setUserInstance() {
         hostelOwner = new User(
                 firebaseUser.getUid(),
                 ownerName.getText().toString(),
                 ownerPhoneNumber.getText().toString(),
                 ownerEmailAddress.getText().toString(),
-                (databaseUser.getImageUrl() != null && !databaseUser.getImageUrl().equals("null"))  ? databaseUser.getImageUrl() : String.valueOf(firebaseUser.getPhotoUrl()),
-                (databaseUser.getAccountStatus() == null ) ? Constants.ACCOUNT_STATUS_INACTIVE : databaseUser.getAccountStatus(),
-                (databaseUser.getAccountType() == null ) ? Constants.ACCOUNT_TYPE_HOSTEL_OWNER : databaseUser.getAccountType()
+                (databaseUser.getImageUrl() != null && !databaseUser.getImageUrl().equals("null")) ? databaseUser.getImageUrl() : String.valueOf(firebaseUser.getPhotoUrl()),
+                (databaseUser.getAccountStatus() == null) ? Constants.ACCOUNT_STATUS_INACTIVE : databaseUser.getAccountStatus(),
+                (databaseUser.getAccountType() == null) ? Constants.ACCOUNT_TYPE_HOSTEL_OWNER : databaseUser.getAccountType()
         );
     }
 
@@ -346,28 +347,28 @@ public class FragmentBecomeHostelOwner extends Fragment {
 
     }
 
-    private String getInternetAvailabilityStatus(){
+    private String getInternetAvailabilityStatus() {
         if (checkBoxIsInternetAvailable.isChecked())
             return Constants.HOSTEL_INTERNET_AVAILABLE;
         else
             return Constants.HOSTEL_INTERNET_NOT_AVAILABLE;
     }
 
-    private String getElectricityBackupAvailabilityStatus(){
+    private String getElectricityBackupAvailabilityStatus() {
         if (checkBoxIsElectricityBackupAvailable.isChecked())
             return Constants.HOSTEL_ELECTRICITY_BACKUP_AVAILABLE;
         else
             return Constants.HOSTEL_ELECTRICITY_BACKUP_NOT_AVAILABLE;
     }
 
-    private String getParkingAvailabilityStatus(){
+    private String getParkingAvailabilityStatus() {
         if (checkBoxIsParkingAvailable.isChecked())
             return Constants.HOSTEL_PARKING_AVAILABLE;
         else
             return Constants.HOSTEL_PARKING_NOT_AVAILABLE;
     }
 
-    private void setDefaultFormFields(){
+    private void setDefaultFormFields() {
 
     }
 

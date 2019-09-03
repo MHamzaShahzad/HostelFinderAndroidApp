@@ -1,13 +1,13 @@
 package com.example.hostelfinderandroidapp.provider;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.example.hostelfinderandroidapp.Constants;
 import com.example.hostelfinderandroidapp.FragmentBecomeHostelOwner;
 import com.example.hostelfinderandroidapp.R;
-import com.example.hostelfinderandroidapp.admin.FragmentHostelsListComplete;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseUser;
+import com.example.hostelfinderandroidapp.user.FragmentHostelsListForUser;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -54,6 +54,9 @@ public class ProviderDrawerMainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentHostelsListForUser()).commit();
+
     }
 
     @Override
@@ -94,6 +97,8 @@ public class ProviderDrawerMainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        clearFragmentBackStack();
+
         if (id == R.id.nav_home) {
             // Handle the camera action
         } else if (id == R.id.nav_my_hostels) {
@@ -117,5 +122,11 @@ public class ProviderDrawerMainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void clearFragmentBackStack(){
+        for (int i = 0; i < getSupportFragmentManager().getBackStackEntryCount(); i++){
+            getSupportFragmentManager().popBackStack();
+        }
     }
 }

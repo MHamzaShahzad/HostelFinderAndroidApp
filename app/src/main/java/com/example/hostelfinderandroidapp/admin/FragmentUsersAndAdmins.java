@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.example.hostelfinderandroidapp.Constants;
 import com.example.hostelfinderandroidapp.R;
-import com.example.hostelfinderandroidapp.adapters.AdapterOwnersList;
 import com.example.hostelfinderandroidapp.adapters.AdapterUsersAndAdmins;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
 import com.example.hostelfinderandroidapp.model.User;

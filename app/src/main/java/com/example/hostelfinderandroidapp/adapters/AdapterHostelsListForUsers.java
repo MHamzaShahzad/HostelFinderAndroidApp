@@ -14,34 +14,34 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hostelfinderandroidapp.Constants;
+import com.example.hostelfinderandroidapp.user.FragmentHostelDescriptionUser;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.model.Hostel;
-import com.example.hostelfinderandroidapp.provider.FragmentMyHostelDescription;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class AdapterMyHostelsList extends RecyclerView.Adapter<AdapterMyHostelsList.Holder> {
-
+public class AdapterHostelsListForUsers extends RecyclerView.Adapter<AdapterHostelsListForUsers.Holder> {
 
     Context context;
     List<Hostel> list;
     private static Bundle bundle;
 
-    public AdapterMyHostelsList(Context context, List<Hostel> list) {
+    public AdapterHostelsListForUsers(Context context, List<Hostel> list) {
         this.context = context;
         this.list = list;
     }
 
+
     @NonNull
     @Override
-    public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterHostelsListForUsers.Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_recycler_hostel, null);
-        return new Holder(layout);
+        return new AdapterHostelsListForUsers.Holder(layout);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final Holder holder, int position) {
+    public void onBindViewHolder(@NonNull final AdapterHostelsListForUsers.Holder holder, int position) {
         Hostel hostel = list.get(position);
         if (hostel.getImageUrl() != null)
             try {
@@ -58,7 +58,7 @@ public class AdapterMyHostelsList extends RecyclerView.Adapter<AdapterMyHostelsL
         holder.cardRecyclerHostelsList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentMyHostelDescription myHostelDescription = new FragmentMyHostelDescription();
+                FragmentHostelDescriptionUser myHostelDescription = new FragmentHostelDescriptionUser();
                 bundle = new Bundle();
                 bundle.putSerializable(Constants.HOSTEL_DESCRIPTION_NAME, list.get(holder.getAdapterPosition()));
                 myHostelDescription.setArguments(bundle);

@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TableLayout;
 import android.widget.Toast;
 
 import com.example.hostelfinderandroidapp.Constants;
@@ -27,16 +26,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentOwnersList extends Fragment {
+public class FragmentOwnersListAdmin extends Fragment {
 
 
-    private static final String TAG = FragmentOwnersList.class.getName();
+    private static final String TAG = FragmentOwnersListAdmin.class.getName();
     Context context;
     View view;
     RecyclerView recycler_owners_list;
@@ -45,7 +43,7 @@ public class FragmentOwnersList extends Fragment {
     List<User> list, tempList;
     ValueEventListener valueEventListener;
 
-    public FragmentOwnersList() {
+    public FragmentOwnersListAdmin() {
         // Required empty public constructor
         list = new ArrayList<>();
         tempList = new ArrayList<>();
@@ -59,7 +57,7 @@ public class FragmentOwnersList extends Fragment {
         // Inflate the layout for this fragment
         context = container.getContext();
         if (view == null) {
-            view = inflater.inflate(R.layout.fragment_owners_list, container, false);
+            view = inflater.inflate(R.layout.fragment_owners_list_admin, container, false);
 
 
             recycler_owners_list = view.findViewById(R.id.recycler_owners_list);

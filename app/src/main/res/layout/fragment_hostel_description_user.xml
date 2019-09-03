@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentHostelDescription">
-
+    tools:context=".user.FragmentHostelDescriptionUser">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -42,7 +41,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.7" />
 
-
             </LinearLayout>
 
             <LinearLayout
@@ -63,7 +61,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.7" />
-
 
             </LinearLayout>
 
@@ -86,7 +83,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.7" />
 
-
             </LinearLayout>
 
             <LinearLayout
@@ -107,7 +103,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.7" />
-
 
             </LinearLayout>
 
@@ -130,7 +125,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.7" />
 
-
             </LinearLayout>
 
             <LinearLayout
@@ -151,7 +145,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.7" />
-
 
             </LinearLayout>
 
@@ -174,29 +167,16 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.7" />
 
-
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btnActiveInActiveHostel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/layout_hostel_description"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:visibility="gone"/>
-
-
         </RelativeLayout>
-
 
         <LinearLayout
             android:id="@+id/layout_call_sms_hostel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/send_sms_to_owner"
@@ -213,8 +193,6 @@
                 android:text="Call" />
 
         </LinearLayout>
-
-
 
     </RelativeLayout>
 

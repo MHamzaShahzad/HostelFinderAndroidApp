@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hostelfinderandroidapp.Constants;
 import com.example.hostelfinderandroidapp.R;
-import com.example.hostelfinderandroidapp.adapters.AdapterHostelsList;
+import com.example.hostelfinderandroidapp.adapters.AdapterHostelsListForUsers;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
 import com.example.hostelfinderandroidapp.model.Hostel;
 import com.google.firebase.database.DataSnapshot;
@@ -25,18 +25,18 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentActiveHostelsList extends Fragment {
+public class FragmentHostelsListForUser extends Fragment {
 
-    private static final String TAG = FragmentActiveHostelsList.class.getName();
+    private static final String TAG = FragmentHostelsListForUser.class.getName();
     Context context;
     View view;
 
     RecyclerView recycler_active_hostels_list;
-    AdapterHostelsList adapterHostelsList;
+    AdapterHostelsListForUsers adapterHostelsListForUser;
     List<Hostel> list;
     ValueEventListener valueEventListener;
 
-    public FragmentActiveHostelsList() {
+    public FragmentHostelsListForUser() {
         // Required empty public constructor
         list = new ArrayList<>();
     }
@@ -48,13 +48,13 @@ public class FragmentActiveHostelsList extends Fragment {
         // Inflate the layout for this fragment
         context = container.getContext();
         if (view == null) {
-            view = inflater.inflate(R.layout.fragment_fragment_active_hostels_list, container, false);
+            view = inflater.inflate(R.layout.fragment_hostels_list_for_user, container, false);
 
             recycler_active_hostels_list = view.findViewById(R.id.recycler_active_hostels_list);
             recycler_active_hostels_list.setHasFixedSize(true);
             recycler_active_hostels_list.setLayoutManager(new LinearLayoutManager(context));
-            adapterHostelsList = new AdapterHostelsList(context, list);
-            recycler_active_hostels_list.setAdapter(adapterHostelsList);
+            adapterHostelsListForUser = new AdapterHostelsListForUsers(context, list);
+            recycler_active_hostels_list.setAdapter(adapterHostelsListForUser);
 
             initHostelsListListener();
 
@@ -84,7 +84,7 @@ public class FragmentActiveHostelsList extends Fragment {
                     }
 
                 }
-                adapterHostelsList.notifyDataSetChanged();
+                adapterHostelsListForUser.notifyDataSetChanged();
             }
 
             @Override

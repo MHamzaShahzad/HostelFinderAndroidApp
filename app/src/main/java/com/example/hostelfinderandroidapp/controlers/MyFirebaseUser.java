@@ -24,10 +24,11 @@ public class MyFirebaseUser {
 
     private static ValueEventListener userValueEventListener;
 
-    public static FirebaseAuth mAuth;
-    public static FirebaseUser mUser;
+    public static FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    public static FirebaseUser mUser = mAuth.getCurrentUser();
 
-    public MyFirebaseUser() {
+
+    public static void initAuthUser(){
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
     }

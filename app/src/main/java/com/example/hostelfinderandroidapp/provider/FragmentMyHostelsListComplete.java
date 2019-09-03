@@ -16,9 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hostelfinderandroidapp.Constants;
 import com.example.hostelfinderandroidapp.R;
-import com.example.hostelfinderandroidapp.adapters.AdapterHostelsList;
 import com.example.hostelfinderandroidapp.adapters.AdapterMyHostelsList;
-import com.example.hostelfinderandroidapp.admin.FragmentHostelsListComplete;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseUser;
 import com.example.hostelfinderandroidapp.model.Hostel;
@@ -33,7 +31,7 @@ import java.util.List;
 public class FragmentMyHostelsListComplete extends Fragment {
 
 
-    private static final String TAG = FragmentHostelsListComplete.class.getName();
+    private static final String TAG = FragmentMyHostelsListComplete.class.getName();
     Context context;
     View view;
     TabLayout tabLayout;

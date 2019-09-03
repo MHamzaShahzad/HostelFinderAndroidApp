@@ -14,19 +14,19 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hostelfinderandroidapp.Constants;
-import com.example.hostelfinderandroidapp.FragmentHostelDescription;
+import com.example.hostelfinderandroidapp.admin.FragmentHostelDescriptionAdmin;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.model.Hostel;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class AdapterHostelsList extends RecyclerView.Adapter<AdapterHostelsList.Holder> {
+public class AdapterHostelsListAdmin extends RecyclerView.Adapter<AdapterHostelsListAdmin.Holder> {
     Context context;
     List<Hostel> list;
     private static Bundle bundle;
 
-    public AdapterHostelsList(Context context, List<Hostel> list) {
+    public AdapterHostelsListAdmin(Context context, List<Hostel> list) {
         this.context = context;
         this.list = list;
     }
@@ -58,7 +58,7 @@ public class AdapterHostelsList extends RecyclerView.Adapter<AdapterHostelsList.
         holder.cardRecyclerHostelsList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentHostelDescription hostelDescription = new FragmentHostelDescription();
+                FragmentHostelDescriptionAdmin hostelDescription = new FragmentHostelDescriptionAdmin();
                 bundle = new Bundle();
                 bundle.putSerializable(Constants.HOSTEL_DESCRIPTION_NAME, list.get(holder.getAdapterPosition()));
                 hostelDescription.setArguments(bundle);

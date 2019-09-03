@@ -14,7 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.hostelfinderandroidapp.Constants;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
+import com.example.hostelfinderandroidapp.model.Hostel;
 import com.example.hostelfinderandroidapp.model.User;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -53,10 +57,10 @@ public class AdapterOwnersList extends RecyclerView.Adapter<AdapterOwnersList.Ho
         holder.ownerEmail.setText(user.getEmail());
         holder.ownerName.setText(user.getUserName());
         holder.ownerPhoneNumber.setText(user.getPhone());
-        if (user.getAccountStatus().equals(Constants.ACCOUNT_STATUS_ACTIVE)){
+        if (user.getAccountStatus().equals(Constants.ACCOUNT_STATUS_ACTIVE)) {
             holder.btnActiveInActiveOwner.setText(USERS_LIST_BUTTON_TEXT_INACTIVE);
         }
-        if (user.getAccountStatus().equals(Constants.ACCOUNT_STATUS_INACTIVE)){
+        if (user.getAccountStatus().equals(Constants.ACCOUNT_STATUS_INACTIVE)) {
             holder.btnActiveInActiveOwner.setText(USERS_LIST_BUTTON_TEXT_ACTIVE);
         }
 
@@ -66,10 +70,11 @@ public class AdapterOwnersList extends RecyclerView.Adapter<AdapterOwnersList.Ho
 
                 User clickedUser = list.get(holder.getAdapterPosition());
 
-                if (clickedUser.getAccountStatus().equals(Constants.ACCOUNT_STATUS_ACTIVE)){
+                if (clickedUser.getAccountStatus().equals(Constants.ACCOUNT_STATUS_ACTIVE)) {
                     changeOwnerAccountStatus(clickedUser, Constants.ACCOUNT_STATUS_INACTIVE);
+                    changeOwnerHostelsStatus(user);
                 }
-                if (clickedUser.getAccountStatus().equals(Constants.ACCOUNT_STATUS_INACTIVE)){
+                if (clickedUser.getAccountStatus().equals(Constants.ACCOUNT_STATUS_INACTIVE)) {
                     changeOwnerAccountStatus(clickedUser, Constants.ACCOUNT_STATUS_ACTIVE);
                 }
 
@@ -101,9 +106,40 @@ public class AdapterOwnersList extends RecyclerView.Adapter<AdapterOwnersList.Ho
 
         }
     }
-    private void changeOwnerAccountStatus(User user, String status){
+
+    private void changeOwnerAccountStatus(User user, String status) {
 
         MyFirebaseDatabase.USER_REFERENCE.child(user.getUserId()).child("accountStatus").setValue(status);
+
+    }
+
+    private void changeOwnerHostelsStatus(final User user) {
+
+        MyFirebaseDatabase.HOSTELS_REFERENCE.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                try {
+
+                    Iterable<DataSnapshot> hostelListSnapshot = dataSnapshot.getChildren();
+                    for (DataSnapshot hostelSnapshot : hostelListSnapshot) {
+
+                        Hostel hostel = hostelSnapshot.getValue(Hostel.class);
+                        if (hostel != null && hostel.getOwnerId().equals(user.getUserId()) && hostel.getStatus().equals(Constants.HOSTEL_STATUS_ACTIVE))
+                            MyFirebaseDatabase.HOSTELS_REFERENCE.child(hostel.getHostelId()).child("status").setValue(Constants.HOSTEL_STATUS_INACTIVE);
+
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 }

@@ -56,7 +56,7 @@ public class DrawerMainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentActiveHostelsList()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentHostelsListForUser()).commit();
     }
 
     @Override
@@ -97,6 +97,8 @@ public class DrawerMainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        clearFragmentBackStack();
+
         if (id == R.id.nav_home) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
@@ -120,4 +122,10 @@ public class DrawerMainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    public void clearFragmentBackStack(){
+        for (int i = 0; i < getSupportFragmentManager().getBackStackEntryCount(); i++){
+            getSupportFragmentManager().popBackStack();
+        }
+    }
+
 }

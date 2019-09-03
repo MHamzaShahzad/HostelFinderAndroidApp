@@ -13,6 +13,10 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="Hostels" />
         <item
+            android:id="@+id/nav_users_admins_list"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Users And Admins" />
+        <item
             android:id="@+id/nav_owners"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Owners" />

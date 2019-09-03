@@ -1,6 +1,7 @@
 package com.example.hostelfinderandroidapp.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import java.util.List;
 
 public class AdapterUsersAndAdmins extends RecyclerView.Adapter<AdapterUsersAndAdmins.Holder> {
 
+    private static final String TAG = AdapterUsersAndAdmins.class.getName();
     Context context;
     List<User> list;
 
@@ -75,6 +77,8 @@ public class AdapterUsersAndAdmins extends RecyclerView.Adapter<AdapterUsersAndA
 
             }
         });
+        if (user.getUserId() != null)
+            Log.e(TAG, "onBindViewHolder: 1" );
 
         if (user.getUserId().equals(MyFirebaseUser.mUser.getUid()))
             holder.btnToggleAdminUser.setVisibility(View.GONE);

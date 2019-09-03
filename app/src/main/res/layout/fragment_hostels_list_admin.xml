@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".admin.FragmentOwnersList">
+    tools:context=".admin.FragmentHostelsListAdmin">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -29,10 +30,11 @@
         </com.google.android.material.tabs.TabLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_owners_list"
+            android:id="@+id/recycler_hostels_list"
+            android:layout_below="@id/tabLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tabLayout"/>
+            android:layout_height="wrap_content" />
+
 
     </RelativeLayout>
 

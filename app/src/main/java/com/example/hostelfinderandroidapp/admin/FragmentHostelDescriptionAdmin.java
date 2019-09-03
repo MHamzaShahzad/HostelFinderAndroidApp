@@ -1,4 +1,4 @@
-package com.example.hostelfinderandroidapp;
+package com.example.hostelfinderandroidapp.admin;
 
 
 import android.content.Context;
@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +17,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hostelfinderandroidapp.Constants;
+import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
-import com.example.hostelfinderandroidapp.controlers.MyFirebaseUser;
-import com.example.hostelfinderandroidapp.controlers.MyPrefLocalStorage;
 import com.example.hostelfinderandroidapp.model.Hostel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,10 +29,10 @@ import com.squareup.picasso.Picasso;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentHostelDescription extends Fragment {
+public class FragmentHostelDescriptionAdmin extends Fragment {
 
 
-    private static final String TAG = FragmentHostelDescription.class.getName();
+    private static final String TAG = FragmentHostelDescriptionAdmin.class.getName();
     Context context;
     View view;
     Bundle bundleArgument;
@@ -47,7 +46,7 @@ public class FragmentHostelDescription extends Fragment {
     private static final String HOSTEL_BUTTON_TEXT_INACTIVE = "In-Active";
 
 
-    public FragmentHostelDescription() {
+    public FragmentHostelDescriptionAdmin() {
         // Required empty public constructor
     }
 
@@ -58,7 +57,7 @@ public class FragmentHostelDescription extends Fragment {
         // Inflate the layout for this fragment
         context = container.getContext();
         if (view == null) {
-            view = inflater.inflate(R.layout.fragment_hostel_description, container, false);
+            view = inflater.inflate(R.layout.fragment_hostel_description_admin, container, false);
 
             hostelImage = view.findViewById(R.id.hostelImage);
             hostelNamePlace = view.findViewById(R.id.hostelNamePlace);
@@ -77,8 +76,6 @@ public class FragmentHostelDescription extends Fragment {
             call_to_owner = view.findViewById(R.id.call_to_owner);
             btnEditHostel = view.findViewById(R.id.btnEditHostel);
             btnRemoveHostel = view.findViewById(R.id.btnRemoveHostel);
-
-            checkIfAdmin();
 
             bundleArgument = getArguments();
             if (bundleArgument != null && bundleArgument.getSerializable(Constants.HOSTEL_DESCRIPTION_NAME) != null) {
@@ -121,14 +118,6 @@ public class FragmentHostelDescription extends Fragment {
 
         }
         return view;
-    }
-
-    private void checkIfAdmin(){
-        if (MyPrefLocalStorage.getCurrentUserData(context).getAccountType().equals(Constants.ACCOUNT_TYPE_ADMIN)) {
-            btnActiveInActiveHostel.setVisibility(View.VISIBLE);
-            Log.e(TAG, "checkIfAdmin: "+ MyPrefLocalStorage.getCurrentUserData(context).getAccountType() );
-
-        }
     }
 
     private void setTextToButton(){

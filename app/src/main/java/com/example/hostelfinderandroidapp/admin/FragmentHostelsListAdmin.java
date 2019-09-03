@@ -17,13 +17,10 @@ import android.widget.Toast;
 
 import com.example.hostelfinderandroidapp.Constants;
 import com.example.hostelfinderandroidapp.R;
-import com.example.hostelfinderandroidapp.adapters.AdapterHostelsList;
+import com.example.hostelfinderandroidapp.adapters.AdapterHostelsListAdmin;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
-import com.example.hostelfinderandroidapp.controlers.MyFirebaseUser;
 import com.example.hostelfinderandroidapp.model.Hostel;
-import com.example.hostelfinderandroidapp.model.User;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -34,18 +31,18 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentHostelsListComplete extends Fragment {
+public class FragmentHostelsListAdmin extends Fragment {
 
-    private static final String TAG = FragmentHostelsListComplete.class.getName();
+    private static final String TAG = FragmentHostelsListAdmin.class.getName();
     Context context;
     View view;
     TabLayout tabLayout;
     RecyclerView recycler_hostels_list;
     List<Hostel> list, tempList;
     ValueEventListener valueEventListener;
-    AdapterHostelsList adapterHostelsList;
+    AdapterHostelsListAdmin adapterHostelsList;
 
-    public FragmentHostelsListComplete() {
+    public FragmentHostelsListAdmin() {
         // Required empty public constructor
         list = new ArrayList<>();
         tempList = new ArrayList<>();
@@ -58,12 +55,12 @@ public class FragmentHostelsListComplete extends Fragment {
         // Inflate the layout for this fragment
         context = container.getContext();
         if (view == null) {
-            view = inflater.inflate(R.layout.fragment_hostels_list_complete, container, false);
+            view = inflater.inflate(R.layout.fragment_hostels_list_admin, container, false);
 
             recycler_hostels_list = view.findViewById(R.id.recycler_hostels_list);
             recycler_hostels_list.setHasFixedSize(true);
             recycler_hostels_list.setLayoutManager(new LinearLayoutManager(context));
-            adapterHostelsList = new AdapterHostelsList(context, tempList);
+            adapterHostelsList = new AdapterHostelsListAdmin(context, tempList);
             recycler_hostels_list.setAdapter(adapterHostelsList);
 
 

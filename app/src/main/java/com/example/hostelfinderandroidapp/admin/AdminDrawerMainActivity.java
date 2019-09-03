@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseUser;
+import com.example.hostelfinderandroidapp.user.FragmentHostelsListForUser;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -51,6 +52,8 @@ public class AdminDrawerMainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentHostelsListForUser()).commit();
     }
 
     @Override
@@ -91,22 +94,29 @@ public class AdminDrawerMainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        clearFragmentBackStack();
+
         if (id == R.id.nav_home) {
             // Handle the camera action
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentUsersAndAdmins()).addToBackStack(null).commit();
 
         } else if (id == R.id.nav_hostels) {
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentHostelsListComplete()).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentHostelsListAdmin()).addToBackStack(null).commit();
 
         } else if (id == R.id.nav_owners) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentOwnersList()).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentOwnersListAdmin()).addToBackStack(null).commit();
+
+        } else if (id == R.id.nav_users_admins_list) {
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentUsersAndAdmins()).addToBackStack(null).commit();
 
         } else if (id == R.id.nav_logout) {
 
             MyFirebaseUser.SignOut(context);
 
         } else if (id == R.id.nav_share) {
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentUsersAndAdmins()).addToBackStack(null).commit();
 
         } else if (id == R.id.nav_send) {
 
@@ -116,4 +126,11 @@ public class AdminDrawerMainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void clearFragmentBackStack() {
+        for (int i = 0; i < getSupportFragmentManager().getBackStackEntryCount(); i++) {
+            getSupportFragmentManager().popBackStack();
+        }
+    }
+
 }
