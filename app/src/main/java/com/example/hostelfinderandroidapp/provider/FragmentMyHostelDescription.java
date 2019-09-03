@@ -109,11 +109,11 @@ public class FragmentMyHostelDescription extends Fragment implements View.OnClic
 
     private void editHostel(){
         if (hostel != null){
-            FragmentBecomeHostelOwner becomeHostelOwner = new FragmentBecomeHostelOwner();
+            FragmentEditMyHostelPost editMyHostelPost = new FragmentEditMyHostelPost();
             Bundle bundle = new Bundle();
             bundle.putSerializable(Constants.EDIT_MY_HOSTEL_BUNDLE_NAME, hostel);
-            becomeHostelOwner.setArguments(bundle);
-            ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, becomeHostelOwner).addToBackStack(null).commit();
+            editMyHostelPost.setArguments(bundle);
+            ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, editMyHostelPost).addToBackStack(null).commit();
         }
     }
 

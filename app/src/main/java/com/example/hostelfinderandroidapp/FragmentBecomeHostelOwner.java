@@ -233,7 +233,7 @@ public class FragmentBecomeHostelOwner extends Fragment {
                 ownerPhoneNumber.getText().toString(),
                 ownerEmailAddress.getText().toString(),
                 firebaseUser.getUid(),
-                String.valueOf(hostelSelectedFor()),
+                hostelSelectedFor(),
                 hostelImageUrl,
                 "",
                 "",
@@ -334,12 +334,12 @@ public class FragmentBecomeHostelOwner extends Fragment {
         return radioGroupHostelFor.getCheckedRadioButtonId() == radioButtonHostelForGirls.getId() || radioGroupHostelFor.getCheckedRadioButtonId() == radioButtonHostelForBoys.getId();
     }
 
-    private int hostelSelectedFor() {
+    private String hostelSelectedFor() {
         if (radioGroupHostelFor.getCheckedRadioButtonId() == radioButtonHostelForGirls.getId())
-            return 0;
+            return Constants.HOSTEL_FOR_GIRLS;
         if (radioGroupHostelFor.getCheckedRadioButtonId() == radioButtonHostelForBoys.getId())
-            return 1;
-        return 2;
+            return Constants.HOSTEL_FOR_BOYS;
+        return "2";
     }
 
     private boolean isEmailValid(CharSequence email) {
@@ -366,10 +366,6 @@ public class FragmentBecomeHostelOwner extends Fragment {
             return Constants.HOSTEL_PARKING_AVAILABLE;
         else
             return Constants.HOSTEL_PARKING_NOT_AVAILABLE;
-    }
-
-    private void setDefaultFormFields() {
-
     }
 
     private void loadImageFromGallery() {

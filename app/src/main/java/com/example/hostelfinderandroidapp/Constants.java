@@ -29,5 +29,8 @@ public class Constants {
     public static final String HOSTEL_ELECTRICITY_BACKUP_AVAILABLE = "1";
     public static final String HOSTEL_ELECTRICITY_BACKUP_NOT_AVAILABLE = "0";
 
+    public static final String HOSTEL_FOR_BOYS = "1";
+    public static final String HOSTEL_FOR_GIRLS = "0";
+
 
 }
