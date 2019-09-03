@@ -11,6 +11,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import android.provider.MediaStore;
 import android.util.Log;
@@ -28,6 +29,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
+import com.example.hostelfinderandroidapp.controlers.MyFirebaseStorage;
+import com.example.hostelfinderandroidapp.controlers.MyFirebaseUser;
+import com.example.hostelfinderandroidapp.controlers.MyPrefLocalStorage;
 import com.example.hostelfinderandroidapp.model.Hostel;
 import com.example.hostelfinderandroidapp.model.User;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -54,7 +58,7 @@ import static android.app.Activity.RESULT_OK;
  */
 public class FragmentBecomeHostelOwner extends Fragment {
 
-    private static final int GALLERY_REQUEST = 1 ;
+    private static final int GALLERY_REQUEST = 1;
     private Context context;
     private View view;
     ImageView hostelImage;
@@ -64,33 +68,40 @@ public class FragmentBecomeHostelOwner extends Fragment {
     private CheckBox checkBoxIsInternetAvailable, checkBoxIsParkingAvailable, checkBoxIsElectricityBackupAvailable;
     private Button submitProviderHostelPost;
 
-    //Firebase
-    FirebaseStorage storage;
-    StorageReference storageReference;
     Uri filePath;
+
+    ProgressDialog progressDialog;
+
+    FirebaseUser firebaseUser;
+    User databaseUser;
+
+    User hostelOwner;
+    Hostel hostel;
 
     public FragmentBecomeHostelOwner() {
         // Required empty public constructor
-
-    }
-
-    public FragmentBecomeHostelOwner(Context context) {
-        this.context = context;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        context = container.getContext();
+
+        firebaseUser = MyFirebaseUser.mUser;
+        databaseUser = MyPrefLocalStorage.getCurrentUserData(context);
+
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setTitle("Uploading...");
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+
         if (view == null) {
 
             view = inflater.inflate(R.layout.fragment_become_hostel_owner, container, false);
 
             initLayoutWidgets(view);
 
-
-            storage = FirebaseStorage.getInstance();
-            storageReference = storage.getReference().child("images/");
 
             submitProviderHostelPost.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -117,37 +128,33 @@ public class FragmentBecomeHostelOwner extends Fragment {
 
     private void uploadImage() {
 
-        if(filePath != null)
-        {
-            final ProgressDialog progressDialog = new ProgressDialog(context);
-            progressDialog.setTitle("Uploading...");
+        if (filePath != null) {
+
             progressDialog.show();
 
-            final String hostelId =  UUID.randomUUID().toString();
+            final String hostelId = UUID.randomUUID().toString();
 
-            //StorageReference ref = storageReference.child("images/"+ UUID.randomUUID().toString());
-            storageReference.child(hostelId).putFile(filePath)
+            MyFirebaseStorage.HOSTELS_IMAGES_STORAGE_REFERENCE.child(hostelId).putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            progressDialog.dismiss();
+                            //progressDialog.dismiss();
                             Toast.makeText(context, "Image Uploaded", Toast.LENGTH_SHORT).show();
 
-                           Task<Uri> task = taskSnapshot.getStorage().getDownloadUrl();
-                           task.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                               @Override
-                               public void onSuccess(Uri uri) {
+                            Task<Uri> task = taskSnapshot.getStorage().getDownloadUrl();
+                            task.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
 
-                                       uploadUserAndHostel(uri.toString(), hostelId);
+                                    uploadUserAndHostel(uri.toString(), hostelId);
 
-                               }
-                           }).addOnFailureListener(new OnFailureListener() {
-                               @Override
-                               public void onFailure(@NonNull Exception e) {
-                                   Toast.makeText(context, "Can't load image url "+e.getMessage(), Toast.LENGTH_SHORT).show();
-                               }
-                           });
-
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(context, "Can't load image url " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
 
 
                         }
@@ -156,41 +163,75 @@ public class FragmentBecomeHostelOwner extends Fragment {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressDialog.dismiss();
-                            Toast.makeText(context, "Image Uploading Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Image Uploading Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
                                     .getTotalByteCount());
-                            progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                            progressDialog.setMessage("Uploaded " + (int) progress + "%");
                         }
                     });
         }
     }
 
-    private void uploadUserAndHostel(String hostelImageUrl, String hostelId){
+    private void uploadUserAndHostel(String hostelImageUrl, String hostelId) {
+
+        setHostelInstance(hostelId, hostelImageUrl);
+        setUserInstance();
+
+        MyFirebaseDatabase.HOSTELS_REFERENCE.child(hostelId).setValue(hostel).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+                Toast.makeText(context, "Hostel Uploaded", Toast.LENGTH_SHORT).show();
 
 
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                MyFirebaseDatabase.USER_REFERENCE.child(firebaseUser.getUid()).setValue(hostelOwner).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        progressDialog.dismiss();
+                        Toast.makeText(context, "User Uploaded", Toast.LENGTH_SHORT).show();
+                        ((FragmentActivity) context).getSupportFragmentManager().popBackStack();
 
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        Toast.makeText(context, "Creating Hostel Owner Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressDialog.dismiss();
+                Toast.makeText(context, "Hostel Uploading Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setHostelInstance(String hostelId, String hostelImageUrl){
         Date date = new Date();
 
-        Hostel hostel = new Hostel(
+         hostel = new Hostel(
                 hostelId,
                 ownerHostelName.getText().toString(),
                 numberOfRoomsAvailable.getText().toString(),
                 maximumMembersPerRoom.getText().toString(),
                 totalNumberOfRooms.getText().toString(),
                 costPerMember.getText().toString(),
-                "1",
-                "1",
-                "1",
+                getInternetAvailabilityStatus(),
+                getElectricityBackupAvailabilityStatus(),
+                getParkingAvailabilityStatus(),
                 hostelDescription.getText().toString(),
                 ownerPhoneNumber.getText().toString(),
                 ownerEmailAddress.getText().toString(),
-                user.getUid(),
+                firebaseUser.getUid(),
                 String.valueOf(hostelSelectedFor()),
                 hostelImageUrl,
                 "",
@@ -200,54 +241,18 @@ public class FragmentBecomeHostelOwner extends Fragment {
                 date.toLocaleString()
         );
 
-        final User hostelOwner = new User(
-                user.getUid(),
+    }
+
+    private void setUserInstance(){
+        hostelOwner = new User(
+                firebaseUser.getUid(),
                 ownerName.getText().toString(),
                 ownerPhoneNumber.getText().toString(),
                 ownerEmailAddress.getText().toString(),
-                String.valueOf(user.getPhotoUrl()),
-                Constants.ACCOUNT_STATUS_INACTIVE,
-                Constants.ACCOUNT_TYPE_HOSTEL_OWNER,
-                hostelId
+                (databaseUser.getImageUrl() != null && !databaseUser.getImageUrl().equals("null"))  ? databaseUser.getImageUrl() : String.valueOf(firebaseUser.getPhotoUrl()),
+                (databaseUser.getAccountStatus() == null ) ? Constants.ACCOUNT_STATUS_INACTIVE : databaseUser.getAccountStatus(),
+                (databaseUser.getAccountType() == null ) ? Constants.ACCOUNT_TYPE_HOSTEL_OWNER : databaseUser.getAccountType()
         );
-
-
-        MyFirebaseDatabase.HOSTELS_REFERENCE.child(hostelId).setValue(hostel).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-
-                Toast.makeText(context, "Hostel Uploaded", Toast.LENGTH_SHORT).show();
-
-
-                MyFirebaseDatabase.USER_REFERENCE.child(user.getUid()).setValue(hostelOwner).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-
-                        Toast.makeText(context, "User Uploaded", Toast.LENGTH_SHORT).show();
-
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(context, "Creating Hostel Owner Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context, "Hostel Uploading Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void loadImageFromGallery(){
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_REQUEST);
     }
 
     private void initLayoutWidgets(View view) {
@@ -314,7 +319,7 @@ public class FragmentBecomeHostelOwner extends Fragment {
 
         }
 
-        if (!isHostelForSelected()){
+        if (!isHostelForSelected()) {
             Toast.makeText(context, "Pleas select hostel for Boys or Girls", Toast.LENGTH_LONG).show();
         }
 
@@ -324,15 +329,16 @@ public class FragmentBecomeHostelOwner extends Fragment {
 
     }
 
-    private boolean isHostelForSelected(){
+    private boolean isHostelForSelected() {
         return radioGroupHostelFor.getCheckedRadioButtonId() == radioButtonHostelForGirls.getId() || radioGroupHostelFor.getCheckedRadioButtonId() == radioButtonHostelForBoys.getId();
     }
-    private int hostelSelectedFor(){
+
+    private int hostelSelectedFor() {
         if (radioGroupHostelFor.getCheckedRadioButtonId() == radioButtonHostelForGirls.getId())
             return 0;
         if (radioGroupHostelFor.getCheckedRadioButtonId() == radioButtonHostelForBoys.getId())
             return 1;
-        return  2 ;
+        return 2;
     }
 
     private boolean isEmailValid(CharSequence email) {
@@ -340,19 +346,48 @@ public class FragmentBecomeHostelOwner extends Fragment {
 
     }
 
+    private String getInternetAvailabilityStatus(){
+        if (checkBoxIsInternetAvailable.isChecked())
+            return Constants.HOSTEL_INTERNET_AVAILABLE;
+        else
+            return Constants.HOSTEL_INTERNET_NOT_AVAILABLE;
+    }
+
+    private String getElectricityBackupAvailabilityStatus(){
+        if (checkBoxIsElectricityBackupAvailable.isChecked())
+            return Constants.HOSTEL_ELECTRICITY_BACKUP_AVAILABLE;
+        else
+            return Constants.HOSTEL_ELECTRICITY_BACKUP_NOT_AVAILABLE;
+    }
+
+    private String getParkingAvailabilityStatus(){
+        if (checkBoxIsParkingAvailable.isChecked())
+            return Constants.HOSTEL_PARKING_AVAILABLE;
+        else
+            return Constants.HOSTEL_PARKING_NOT_AVAILABLE;
+    }
+
+    private void setDefaultFormFields(){
+
+    }
+
+    private void loadImageFromGallery() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_REQUEST);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK
-                && data != null && data.getData() != null )
-        {
+        if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
             filePath = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), filePath);
                 hostelImage.setImageBitmap(bitmap);
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

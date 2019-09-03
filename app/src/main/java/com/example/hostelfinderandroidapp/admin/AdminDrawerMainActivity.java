@@ -1,8 +1,10 @@
 package com.example.hostelfinderandroidapp.admin;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.example.hostelfinderandroidapp.R;
+import com.example.hostelfinderandroidapp.controlers.MyFirebaseUser;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -25,10 +27,13 @@ import android.view.Menu;
 public class AdminDrawerMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_drawer_main);
+        context = this;
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -88,6 +93,8 @@ public class AdminDrawerMainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             // Handle the camera action
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentUsersAndAdmins()).addToBackStack(null).commit();
+
         } else if (id == R.id.nav_hostels) {
 
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentHostelsListComplete()).addToBackStack(null).commit();
@@ -95,7 +102,9 @@ public class AdminDrawerMainActivity extends AppCompatActivity
         } else if (id == R.id.nav_owners) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentOwnersList()).addToBackStack(null).commit();
 
-        } else if (id == R.id.nav_tools) {
+        } else if (id == R.id.nav_logout) {
+
+            MyFirebaseUser.SignOut(context);
 
         } else if (id == R.id.nav_share) {
 

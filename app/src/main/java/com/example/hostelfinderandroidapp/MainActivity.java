@@ -13,8 +13,12 @@ import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.hostelfinderandroidapp.admin.AdminDrawerMainActivity;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
+import com.example.hostelfinderandroidapp.controlers.MyFirebaseUser;
+import com.example.hostelfinderandroidapp.controlers.MyServicesControllerClass;
 import com.example.hostelfinderandroidapp.model.User;
+import com.example.hostelfinderandroidapp.provider.ProviderDrawerMainActivity;
 import com.example.hostelfinderandroidapp.user.DrawerMainActivity;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
@@ -39,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 1;
     List<AuthUI.IdpConfig> providers;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         context = this;
 
         if (isAlreadySignedIn())
-            startHomeActivity();
+            checkUserTypeFromDBToSignIn();
         else {
             initProviders();
             showSignInOptions();
@@ -70,9 +73,9 @@ public class MainActivity extends AppCompatActivity {
                     MyFirebaseDatabase.USER_REFERENCE.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.getValue() == null){
+                            if (dataSnapshot.getValue() == null) {
 
-                                User newUser = new User(
+                                final User newUser = new User(
                                         user.getDisplayName(),
                                         user.getPhoneNumber(),
                                         user.getEmail(),
@@ -84,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Toast.makeText(context, "Your account have been created successfully!", Toast.LENGTH_LONG).show();
-                                        startHomeActivity();
+                                        goToHomeAccordingToUserType(newUser);
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
@@ -93,9 +96,14 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 });
 
-                            }else {
+                            } else {
                                 Toast.makeText(context, "Successfully logged In!", Toast.LENGTH_LONG).show();
-                                startHomeActivity();
+                                if (dataSnapshot.getValue(User.class) != null)
+                                    try {
+                                        goToHomeAccordingToUserType(dataSnapshot.getValue(User.class));
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                             }
                         }
 
@@ -104,14 +112,12 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(context, "The process could't be completed!", Toast.LENGTH_LONG).show();
                         }
                     });
-
-                    startHomeActivity();
-
+                    new MyFirebaseUser();
                 }
             } else {
                 if (response != null && response.getError() != null) {
                     Log.e(TAG, "onActivityResult: Error" + response.getError().getErrorCode());
-                    Toast.makeText(MainActivity.this, "Error : "+ response.getError().getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "Error : " + response.getError().getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -145,8 +151,18 @@ public class MainActivity extends AppCompatActivity {
         return user != null;
     }
 
-    private void startHomeActivity() {
+    private void startUserHomeActivity() {
         startActivity(new Intent(MainActivity.this, DrawerMainActivity.class));
+        finish();
+    }
+
+    private void startAdminHomeActivity() {
+        startActivity(new Intent(MainActivity.this, AdminDrawerMainActivity.class));
+        finish();
+    }
+
+    private void startProviderHomeActivity() {
+        startActivity(new Intent(MainActivity.this, ProviderDrawerMainActivity.class));
         finish();
     }
 
@@ -165,6 +181,42 @@ public class MainActivity extends AppCompatActivity {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
+    }
+
+    private void goToHomeAccordingToUserType(User user) {
+
+        switch (user.getAccountType()) {
+            case Constants.ACCOUNT_TYPE_USER:
+                startUserHomeActivity();
+                break;
+            case Constants.ACCOUNT_TYPE_ADMIN:
+                startAdminHomeActivity();
+                break;
+            case Constants.ACCOUNT_TYPE_HOSTEL_OWNER:
+                startProviderHomeActivity();
+                break;
+        }
+        MyServicesControllerClass.startCustomBackgroundService(context.getApplicationContext());
+
+    }
+
+    private void checkUserTypeFromDBToSignIn(){
+        MyFirebaseDatabase.USER_REFERENCE.child(MyFirebaseUser.mUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null){
+                    Log.e(TAG, "onDataChange: USER" );
+                    try{
+                        goToHomeAccordingToUserType(dataSnapshot.getValue(User.class));
+                    }catch (Exception e){e.printStackTrace();}
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 }

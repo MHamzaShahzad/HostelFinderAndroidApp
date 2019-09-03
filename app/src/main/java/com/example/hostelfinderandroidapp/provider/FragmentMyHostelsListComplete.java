@@ -1,55 +1,52 @@
-package com.example.hostelfinderandroidapp.admin;
+package com.example.hostelfinderandroidapp.provider;
 
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TableLayout;
-import android.widget.Toast;
-
 import com.example.hostelfinderandroidapp.Constants;
 import com.example.hostelfinderandroidapp.R;
-import com.example.hostelfinderandroidapp.adapters.AdapterOwnersList;
+import com.example.hostelfinderandroidapp.adapters.AdapterHostelsList;
+import com.example.hostelfinderandroidapp.adapters.AdapterMyHostelsList;
+import com.example.hostelfinderandroidapp.admin.FragmentHostelsListComplete;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
-import com.example.hostelfinderandroidapp.model.User;
+import com.example.hostelfinderandroidapp.controlers.MyFirebaseUser;
+import com.example.hostelfinderandroidapp.model.Hostel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class FragmentOwnersList extends Fragment {
+public class FragmentMyHostelsListComplete extends Fragment {
 
 
-    private static final String TAG = FragmentOwnersList.class.getName();
+    private static final String TAG = FragmentHostelsListComplete.class.getName();
     Context context;
     View view;
-    RecyclerView recycler_owners_list;
-     AdapterOwnersList adapterOwnersList;
     TabLayout tabLayout;
-    List<User> list, tempList;
+    RecyclerView recycler_my_hostels_list;
+    List<Hostel> list, tempList;
     ValueEventListener valueEventListener;
+    AdapterMyHostelsList adapterMyHostelsList;
 
-    public FragmentOwnersList() {
+
+    public FragmentMyHostelsListComplete() {
         // Required empty public constructor
         list = new ArrayList<>();
         tempList = new ArrayList<>();
-
     }
 
 
@@ -59,29 +56,30 @@ public class FragmentOwnersList extends Fragment {
         // Inflate the layout for this fragment
         context = container.getContext();
         if (view == null) {
-            view = inflater.inflate(R.layout.fragment_owners_list, container, false);
+
+            view = inflater.inflate(R.layout.fragment_my_hostels_list_complete, container, false);
+            recycler_my_hostels_list = view.findViewById(R.id.recycler_my_hostels_list);
+            recycler_my_hostels_list.setHasFixedSize(true);
+            recycler_my_hostels_list.setLayoutManager(new LinearLayoutManager(context));
+            adapterMyHostelsList = new AdapterMyHostelsList(context, tempList);
+            recycler_my_hostels_list.setAdapter(adapterMyHostelsList);
+
+             initMyHostelsListListener();
 
 
-            recycler_owners_list = view.findViewById(R.id.recycler_owners_list);
-            recycler_owners_list.setHasFixedSize(true);
-            recycler_owners_list.setLayoutManager(new LinearLayoutManager(context));
-            adapterOwnersList = new AdapterOwnersList(context, tempList);
-            recycler_owners_list.setAdapter(adapterOwnersList);
 
-            initOwnersListListener();
-
-            tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
+            tabLayout=(TabLayout) view.findViewById(R.id.tabLayout);
             tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
                     switch (tab.getPosition()) {
                         case 0:
                             Toast.makeText(context, "In-Active", Toast.LENGTH_LONG).show();
-                            getInActiveOwners();
+                            getInActiveHostels();
                             break;
                         case 1:
                             Toast.makeText(context, "Active", Toast.LENGTH_LONG).show();
-                            getActiveOwners();
+                            getActiveHostels();
                             break;
                         default:
                             Toast.makeText(context, "unKnown", Toast.LENGTH_LONG).show();
@@ -99,25 +97,25 @@ public class FragmentOwnersList extends Fragment {
 
                 }
             });
+
         }
         return view;
     }
-
-    private void initOwnersListListener() {
+    private void initMyHostelsListListener() {
         valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 list.clear();
 
-                Iterable<DataSnapshot> usersListSnapshot = dataSnapshot.getChildren();
-                for (DataSnapshot singleUser : usersListSnapshot) {
+                Iterable<DataSnapshot> hostelsListSnapshot = dataSnapshot.getChildren();
+                for (DataSnapshot singleHostel : hostelsListSnapshot) {
 
                     try {
-                        User user = singleUser.getValue(User.class);
-                        if (user != null && user.getAccountType().equals(Constants.ACCOUNT_TYPE_HOSTEL_OWNER)) {
-                            list.add(user);
-                            Log.e(TAG, "onDataChange: "+ user.getUserName() );
+                        Hostel hostel = singleHostel.getValue(Hostel.class);
+                        if (hostel != null && hostel.getOwnerId().equals(MyFirebaseUser.mUser.getUid())) {
+                            list.add(hostel);
+                            Log.e(TAG, "onDataChange: "+ hostel.getHostelName() );
                         }
 
                     } catch (Exception e) {
@@ -133,44 +131,44 @@ public class FragmentOwnersList extends Fragment {
 
             }
         };
-        MyFirebaseDatabase.USER_REFERENCE.addValueEventListener(valueEventListener);
+        MyFirebaseDatabase.HOSTELS_REFERENCE.addValueEventListener(valueEventListener);
     }
 
     private void initTabsLayout(){
-       if (tabLayout.getSelectedTabPosition() == 0){
-           getInActiveOwners();
-       }
+        if (tabLayout.getSelectedTabPosition() == 0){
+            getInActiveHostels();
+        }
         if (tabLayout.getSelectedTabPosition() == 1){
-            getActiveOwners();
+            getActiveHostels();
         }
     }
 
-    private void getInActiveOwners() {
+    private void getInActiveHostels() {
 
         tempList.clear();
 
         if (list.size() > 0) {
             for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).getAccountStatus() != null && list.get(i).getAccountStatus().equals(Constants.ACCOUNT_STATUS_INACTIVE))
+                if (list.get(i).getStatus().equals(Constants.ACCOUNT_STATUS_INACTIVE))
                     tempList.add(list.get(i));
             }
 
         }
-        adapterOwnersList.notifyDataSetChanged();
+        adapterMyHostelsList.notifyDataSetChanged();
 
     }
 
-    private void getActiveOwners() {
+    private void getActiveHostels() {
 
         tempList.clear();
         if (list.size() > 0) {
             for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).getAccountStatus() != null && list.get(i).getAccountStatus().equals(Constants.ACCOUNT_STATUS_ACTIVE))
+                if (list.get(i).getStatus().equals(Constants.ACCOUNT_STATUS_ACTIVE))
                     tempList.add(list.get(i));
             }
 
         }
-        adapterOwnersList.notifyDataSetChanged();
+        adapterMyHostelsList.notifyDataSetChanged();
 
     }
 
@@ -178,6 +176,7 @@ public class FragmentOwnersList extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         if (valueEventListener != null)
-            MyFirebaseDatabase.USER_REFERENCE.removeEventListener(valueEventListener);
+            MyFirebaseDatabase.HOSTELS_REFERENCE.removeEventListener(valueEventListener);
     }
+
 }

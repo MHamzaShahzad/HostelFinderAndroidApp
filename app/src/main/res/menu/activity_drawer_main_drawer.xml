@@ -14,15 +14,6 @@
             android:title="@string/menu_gallery" />
 
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
-        <item
-            android:id="@+id/nav_tools"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="@string/menu_tools" />
-
-        <item
             android:id="@+id/nav_becomeHostelOwner"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/become_hostel_owner" />

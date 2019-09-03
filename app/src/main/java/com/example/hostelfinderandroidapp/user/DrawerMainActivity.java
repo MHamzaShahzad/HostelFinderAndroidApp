@@ -1,21 +1,16 @@
 package com.example.hostelfinderandroidapp.user;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.hostelfinderandroidapp.FragmentBecomeHostelOwner;
-import com.example.hostelfinderandroidapp.MainActivity;
 import com.example.hostelfinderandroidapp.R;
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.hostelfinderandroidapp.controlers.MyFirebaseUser;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -59,6 +54,9 @@ public class DrawerMainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentActiveHostelsList()).commit();
     }
 
     @Override
@@ -105,19 +103,11 @@ public class DrawerMainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_becomeHostelOwner) {
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentBecomeHostelOwner(context)).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentBecomeHostelOwner()).addToBackStack(null).commit();
 
         } else if (id == R.id.nav_logout) {
 
-            AuthUI.getInstance()
-                    .signOut(this)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        public void onComplete(@NonNull Task<Void> task) {
-                            // ...
-                            startActivity(new Intent(DrawerMainActivity.this, MainActivity.class));
-                            finish();
-                        }
-                    });
+            MyFirebaseUser.SignOut(context);
 
 
         } else if (id == R.id.nav_share) {

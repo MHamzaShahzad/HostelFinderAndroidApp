@@ -19,9 +19,11 @@ import com.example.hostelfinderandroidapp.Constants;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.adapters.AdapterHostelsList;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
+import com.example.hostelfinderandroidapp.controlers.MyFirebaseUser;
 import com.example.hostelfinderandroidapp.model.Hostel;
 import com.example.hostelfinderandroidapp.model.User;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -64,9 +66,11 @@ public class FragmentHostelsListComplete extends Fragment {
             adapterHostelsList = new AdapterHostelsList(context, tempList);
             recycler_hostels_list.setAdapter(adapterHostelsList);
 
+
             initHostelsListListener();
 
-            tabLayout=(TabLayout) view.findViewById(R.id.tabLayout);
+
+            tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
             tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
@@ -113,7 +117,7 @@ public class FragmentHostelsListComplete extends Fragment {
                         Hostel hostel = singleHostel.getValue(Hostel.class);
                         if (hostel != null) {
                             list.add(hostel);
-                            Log.e(TAG, "onDataChange: "+ hostel.getHostelName() );
+                            Log.e(TAG, "onDataChange: " + hostel.getHostelName());
                         }
 
                     } catch (Exception e) {
@@ -132,11 +136,12 @@ public class FragmentHostelsListComplete extends Fragment {
         MyFirebaseDatabase.HOSTELS_REFERENCE.addValueEventListener(valueEventListener);
     }
 
-    private void initTabsLayout(){
-        if (tabLayout.getSelectedTabPosition() == 0){
+
+    private void initTabsLayout() {
+        if (tabLayout.getSelectedTabPosition() == 0) {
             getInActiveHostels();
         }
-        if (tabLayout.getSelectedTabPosition() == 1){
+        if (tabLayout.getSelectedTabPosition() == 1) {
             getActiveHostels();
         }
     }
@@ -176,4 +181,5 @@ public class FragmentHostelsListComplete extends Fragment {
         if (valueEventListener != null)
             MyFirebaseDatabase.HOSTELS_REFERENCE.removeEventListener(valueEventListener);
     }
+
 }

@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.hostelfinderandroidapp.Constants;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.adapters.AdapterOwnersList;
+import com.example.hostelfinderandroidapp.adapters.AdapterUsersAndAdmins;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
 import com.example.hostelfinderandroidapp.model.User;
 import com.google.android.material.tabs.TabLayout;
@@ -27,29 +28,29 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentOwnersList extends Fragment {
+public class FragmentUsersAndAdmins extends Fragment {
 
+    private static final String TAG = FragmentUsersAndAdmins.class.getName();
 
-    private static final String TAG = FragmentOwnersList.class.getName();
-    Context context;
     View view;
-    RecyclerView recycler_owners_list;
-     AdapterOwnersList adapterOwnersList;
+    Context context;
+
+    RecyclerView recycler_admins_users_list;
+    AdapterUsersAndAdmins adapterUsersAndAdmins;
     TabLayout tabLayout;
     List<User> list, tempList;
     ValueEventListener valueEventListener;
 
-    public FragmentOwnersList() {
+
+    public FragmentUsersAndAdmins() {
         // Required empty public constructor
         list = new ArrayList<>();
         tempList = new ArrayList<>();
-
     }
 
 
@@ -59,16 +60,15 @@ public class FragmentOwnersList extends Fragment {
         // Inflate the layout for this fragment
         context = container.getContext();
         if (view == null) {
-            view = inflater.inflate(R.layout.fragment_owners_list, container, false);
+            view = inflater.inflate(R.layout.fragment_users_and_admins, container, false);
 
+            recycler_admins_users_list = view.findViewById(R.id.recycler_admins_users_list);
+            recycler_admins_users_list.setHasFixedSize(true);
+            recycler_admins_users_list.setLayoutManager(new LinearLayoutManager(context));
+            adapterUsersAndAdmins = new AdapterUsersAndAdmins(context, tempList);
+            recycler_admins_users_list.setAdapter(adapterUsersAndAdmins);
 
-            recycler_owners_list = view.findViewById(R.id.recycler_owners_list);
-            recycler_owners_list.setHasFixedSize(true);
-            recycler_owners_list.setLayoutManager(new LinearLayoutManager(context));
-            adapterOwnersList = new AdapterOwnersList(context, tempList);
-            recycler_owners_list.setAdapter(adapterOwnersList);
-
-            initOwnersListListener();
+            initAdminsUsersListListener();
 
             tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
             tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -76,12 +76,12 @@ public class FragmentOwnersList extends Fragment {
                 public void onTabSelected(TabLayout.Tab tab) {
                     switch (tab.getPosition()) {
                         case 0:
-                            Toast.makeText(context, "In-Active", Toast.LENGTH_LONG).show();
-                            getInActiveOwners();
+                            Toast.makeText(context, "Users", Toast.LENGTH_LONG).show();
+                            getUsers();
                             break;
                         case 1:
-                            Toast.makeText(context, "Active", Toast.LENGTH_LONG).show();
-                            getActiveOwners();
+                            Toast.makeText(context, "Admins", Toast.LENGTH_LONG).show();
+                            getAdmins();
                             break;
                         default:
                             Toast.makeText(context, "unKnown", Toast.LENGTH_LONG).show();
@@ -99,11 +99,12 @@ public class FragmentOwnersList extends Fragment {
 
                 }
             });
+
         }
         return view;
     }
 
-    private void initOwnersListListener() {
+    private void initAdminsUsersListListener() {
         valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -115,7 +116,7 @@ public class FragmentOwnersList extends Fragment {
 
                     try {
                         User user = singleUser.getValue(User.class);
-                        if (user != null && user.getAccountType().equals(Constants.ACCOUNT_TYPE_HOSTEL_OWNER)) {
+                        if (user != null && !user.getAccountType().equals(Constants.ACCOUNT_TYPE_HOSTEL_OWNER)) {
                             list.add(user);
                             Log.e(TAG, "onDataChange: "+ user.getUserName() );
                         }
@@ -137,40 +138,40 @@ public class FragmentOwnersList extends Fragment {
     }
 
     private void initTabsLayout(){
-       if (tabLayout.getSelectedTabPosition() == 0){
-           getInActiveOwners();
-       }
+        if (tabLayout.getSelectedTabPosition() == 0){
+            getUsers();
+        }
         if (tabLayout.getSelectedTabPosition() == 1){
-            getActiveOwners();
+            getAdmins();
         }
     }
 
-    private void getInActiveOwners() {
+    private void getUsers() {
 
         tempList.clear();
 
         if (list.size() > 0) {
             for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).getAccountStatus() != null && list.get(i).getAccountStatus().equals(Constants.ACCOUNT_STATUS_INACTIVE))
+                if (list.get(i).getAccountType() != null && list.get(i).getAccountType().equals(Constants.ACCOUNT_TYPE_USER))
                     tempList.add(list.get(i));
             }
 
         }
-        adapterOwnersList.notifyDataSetChanged();
+        adapterUsersAndAdmins.notifyDataSetChanged();
 
     }
 
-    private void getActiveOwners() {
+    private void getAdmins() {
 
         tempList.clear();
         if (list.size() > 0) {
             for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).getAccountStatus() != null && list.get(i).getAccountStatus().equals(Constants.ACCOUNT_STATUS_ACTIVE))
+                if (list.get(i).getAccountType() != null && list.get(i).getAccountType().equals(Constants.ACCOUNT_TYPE_ADMIN))
                     tempList.add(list.get(i));
             }
 
         }
-        adapterOwnersList.notifyDataSetChanged();
+        adapterUsersAndAdmins.notifyDataSetChanged();
 
     }
 
@@ -180,4 +181,5 @@ public class FragmentOwnersList extends Fragment {
         if (valueEventListener != null)
             MyFirebaseDatabase.USER_REFERENCE.removeEventListener(valueEventListener);
     }
+
 }

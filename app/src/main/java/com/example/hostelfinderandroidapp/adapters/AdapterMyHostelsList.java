@@ -17,16 +17,19 @@ import com.example.hostelfinderandroidapp.Constants;
 import com.example.hostelfinderandroidapp.FragmentHostelDescription;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.model.Hostel;
+import com.example.hostelfinderandroidapp.provider.FragmentMyHostelDescription;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class AdapterHostelsList extends RecyclerView.Adapter<AdapterHostelsList.Holder> {
+public class AdapterMyHostelsList extends RecyclerView.Adapter<AdapterMyHostelsList.Holder> {
+
+
     Context context;
     List<Hostel> list;
     private static Bundle bundle;
 
-    public AdapterHostelsList(Context context, List<Hostel> list) {
+    public AdapterMyHostelsList(Context context, List<Hostel> list) {
         this.context = context;
         this.list = list;
     }
@@ -36,12 +39,10 @@ public class AdapterHostelsList extends RecyclerView.Adapter<AdapterHostelsList.
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_recycler_hostel, null);
         return new Holder(layout);
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull final Holder holder, int position) {
-
         Hostel hostel = list.get(position);
         if (hostel.getImageUrl() != null)
             try {
@@ -58,11 +59,11 @@ public class AdapterHostelsList extends RecyclerView.Adapter<AdapterHostelsList.
         holder.cardRecyclerHostelsList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentHostelDescription hostelDescription = new FragmentHostelDescription();
+                FragmentMyHostelDescription myHostelDescription = new FragmentMyHostelDescription();
                 bundle = new Bundle();
                 bundle.putSerializable(Constants.HOSTEL_DESCRIPTION_NAME, list.get(holder.getAdapterPosition()));
-                hostelDescription.setArguments(bundle);
-                ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, hostelDescription).addToBackStack(null).commit();
+                myHostelDescription.setArguments(bundle);
+                ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, myHostelDescription).addToBackStack(null).commit();
             }
         });
     }
@@ -73,15 +74,12 @@ public class AdapterHostelsList extends RecyclerView.Adapter<AdapterHostelsList.
     }
 
     public class Holder extends RecyclerView.ViewHolder {
-
         CardView cardRecyclerHostelsList;
         ImageView hostelImage;
         TextView hostelNamePlace, hostelAddressPlace, hostelAvailableRoomsPlace, hostelCostPerMemberPlace, hostelMaxMembersPerRoomPlace;
 
-
         public Holder(@NonNull View itemView) {
             super(itemView);
-
             cardRecyclerHostelsList = itemView.findViewById(R.id.cardRecyclerHostelsList);
             hostelImage = itemView.findViewById(R.id.hostelImage);
             hostelNamePlace = itemView.findViewById(R.id.hostelNamePlace);

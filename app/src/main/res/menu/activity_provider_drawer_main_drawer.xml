@@ -9,17 +9,17 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/nav_hostels"
+            android:id="@+id/nav_my_hostels"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Hostels" />
+            android:title="My Hostels" />
         <item
-            android:id="@+id/nav_owners"
+            android:id="@+id/nav_add_hostel"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Owners" />
+            android:title="Add Hostel" />
         <item
-            android:id="@+id/nav_tools"
+            android:id="@+id/nav_logout"
             android:icon="@drawable/ic_menu_manage"
-            android:title="@string/menu_tools" />
+            android:title="Logout" />
     </group>
 
     <item android:title="Communicate">

@@ -14,10 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
+import com.example.hostelfinderandroidapp.controlers.MyFirebaseUser;
+import com.example.hostelfinderandroidapp.controlers.MyPrefLocalStorage;
 import com.example.hostelfinderandroidapp.model.Hostel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -34,10 +37,11 @@ public class FragmentHostelDescription extends Fragment {
     Context context;
     View view;
     Bundle bundleArgument;
-    Button btnActiveInActiveHostel;
+    Button btnActiveInActiveHostel, send_sms_to_owner, call_to_owner, btnEditHostel, btnRemoveHostel;
     Hostel hostel;
     ImageView hostelImage;
     TextView hostelNamePlace, hostelAddressPlace, hostelAvailableRoomsPlace, hostelCostPerMemberPlace, hostelMaxMembersPerRoomPlace, hostelOwnerEmailPlace, hostelDescriptionPlace;
+    LinearLayout layout_call_sms_hostel, layout_edit_remove_hostel;
 
     private static final String HOSTEL_BUTTON_TEXT_ACTIVE = "Active";
     private static final String HOSTEL_BUTTON_TEXT_INACTIVE = "In-Active";
@@ -66,6 +70,15 @@ public class FragmentHostelDescription extends Fragment {
             hostelDescriptionPlace = view.findViewById(R.id.hostelDescriptionPlace);
             btnActiveInActiveHostel = view.findViewById(R.id.btnActiveInActiveHostel);
 
+            layout_call_sms_hostel = view.findViewById(R.id.layout_call_sms_hostel);
+            layout_edit_remove_hostel = view.findViewById(R.id.layout_edit_remove_hostel);
+
+            send_sms_to_owner = view.findViewById(R.id.send_sms_to_owner);
+            call_to_owner = view.findViewById(R.id.call_to_owner);
+            btnEditHostel = view.findViewById(R.id.btnEditHostel);
+            btnRemoveHostel = view.findViewById(R.id.btnRemoveHostel);
+
+            checkIfAdmin();
 
             bundleArgument = getArguments();
             if (bundleArgument != null && bundleArgument.getSerializable(Constants.HOSTEL_DESCRIPTION_NAME) != null) {
@@ -110,7 +123,13 @@ public class FragmentHostelDescription extends Fragment {
         return view;
     }
 
+    private void checkIfAdmin(){
+        if (MyPrefLocalStorage.getCurrentUserData(context).getAccountType().equals(Constants.ACCOUNT_TYPE_ADMIN)) {
+            btnActiveInActiveHostel.setVisibility(View.VISIBLE);
+            Log.e(TAG, "checkIfAdmin: "+ MyPrefLocalStorage.getCurrentUserData(context).getAccountType() );
 
+        }
+    }
 
     private void setTextToButton(){
         if (hostel.getStatus().equals(Constants.HOSTEL_STATUS_INACTIVE)){
@@ -137,8 +156,6 @@ public class FragmentHostelDescription extends Fragment {
                 Toast.makeText(context, "Cancelled", Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 
 }

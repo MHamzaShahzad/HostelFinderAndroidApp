@@ -83,7 +83,6 @@ public class AdapterOwnersList extends RecyclerView.Adapter<AdapterOwnersList.Ho
     }
 
     public class Holder extends RecyclerView.ViewHolder {
-        String userid;
         ImageView profileImage;
         TextView ownerName, ownerEmail, ownerPhoneNumber;
         Button btnActiveInActiveOwner;

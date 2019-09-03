@@ -1,12 +1,12 @@
 package com.example.hostelfinderandroidapp.model;
 
 public class User {
-    String userId,userName,phone,email,imageUrl,accountStatus,accountType,hostelId;
+    String userId,userName,phone,email,imageUrl,accountStatus,accountType;
 
     public User() {
     }
 
-    public User(String userId, String userName, String phone, String email, String imageUrl, String accountStatus, String accountType, String hostelId) {
+    public User(String userId, String userName, String phone, String email, String imageUrl, String accountStatus, String accountType) {
 
         this.userId = userId;
         this.userName = userName;
@@ -15,7 +15,6 @@ public class User {
         this.imageUrl = imageUrl;
         this.accountStatus = accountStatus;
         this.accountType = accountType;
-        this.hostelId = hostelId;
 
     }
 
@@ -55,9 +54,5 @@ public class User {
 
     public String getAccountType() {
         return accountType;
-    }
-
-    public String getHostelId() {
-        return hostelId;
     }
 }
