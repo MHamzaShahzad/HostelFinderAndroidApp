@@ -1,7 +1,9 @@
 package com.example.hostelfinderandroidapp.provider;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -118,13 +120,29 @@ public class FragmentMyHostelDescription extends Fragment implements View.OnClic
     }
 
     private void removeMyHostel() {
-        if (hostel != null)
-            MyFirebaseDatabase.HOSTELS_REFERENCE.child(hostel.getHostelId()).removeValue(new DatabaseReference.CompletionListener() {
-                @Override
-                public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                    ((FragmentActivity) context).getSupportFragmentManager().popBackStack();
-                }
-            });
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(false);
+        builder.setMessage("Are you sure ? This will remove your hostel permanently!");
+        builder.setPositiveButton("Yes, Continue", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (hostel != null)
+                    MyFirebaseDatabase.HOSTELS_REFERENCE.child(hostel.getHostelId()).removeValue(new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                            ((FragmentActivity) context).getSupportFragmentManager().popBackStack();
+                        }
+                    });
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                builder.setCancelable(true);
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 }

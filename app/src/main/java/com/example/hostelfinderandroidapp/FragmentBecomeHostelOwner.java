@@ -3,8 +3,10 @@ package com.example.hostelfinderandroidapp;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -39,6 +41,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -58,15 +63,21 @@ import static android.app.Activity.RESULT_OK;
  */
 public class FragmentBecomeHostelOwner extends Fragment {
 
+    private static final String TAG = FragmentBecomeHostelOwner.class.getName();
+
     private static final int GALLERY_REQUEST = 1;
     private Context context;
     private View view;
     ImageView hostelImage;
-    private EditText ownerName, ownerPhoneNumber, ownerEmailAddress, ownerHostelName, numberOfRoomsAvailable, totalNumberOfRooms, maximumMembersPerRoom, hostelAddress, hostelDescription, costPerMember;
+    private TextView hostelAddress;
+    private EditText ownerName, ownerPhoneNumber, ownerEmailAddress, ownerHostelName, numberOfRoomsAvailable, totalNumberOfRooms, maximumMembersPerRoom, hostelDescription, costPerMember;
     private RadioGroup radioGroupHostelFor;
     private RadioButton radioButtonHostelForBoys, radioButtonHostelForGirls;
     private CheckBox checkBoxIsInternetAvailable, checkBoxIsParkingAvailable, checkBoxIsElectricityBackupAvailable;
     private Button submitProviderHostelPost;
+
+    private static BroadcastReceiver broadcastReceiver;
+    String latitude, longitude, city;
 
     Uri filePath;
 
@@ -121,8 +132,37 @@ public class FragmentBecomeHostelOwner extends Fragment {
                 }
             });
 
+            getUserDefaultData();
+            setHostelAddressListener();
+            setLocationsReceiver();
         }
         return view;
+
+    }
+
+    private void setHostelAddressListener() {
+        hostelAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentMap()).addToBackStack(null).commit();
+            }
+        });
+    }
+
+    private void getUserDefaultData() {
+        if (databaseUser.getPhone() != null) {
+            ownerPhoneNumber.setText(databaseUser.getPhone());
+            ownerPhoneNumber.setEnabled(false);
+        }
+        if (databaseUser.getEmail() != null) {
+            ownerEmailAddress.setText(databaseUser.getEmail());
+            ownerEmailAddress.setEnabled(false);
+        }
+
+        if (databaseUser.getUserName() != null) {
+            ownerName.setText(databaseUser.getUserName());
+            ownerName.setEnabled(false);
+        }
 
     }
 
@@ -235,9 +275,10 @@ public class FragmentBecomeHostelOwner extends Fragment {
                 firebaseUser.getUid(),
                 hostelSelectedFor(),
                 hostelImageUrl,
-                "",
-                "",
+                latitude,
+                longitude,
                 hostelAddress.getText().toString(),
+                city,
                 Constants.HOSTEL_STATUS_INACTIVE,
                 date.toLocaleString()
         );
@@ -267,7 +308,7 @@ public class FragmentBecomeHostelOwner extends Fragment {
         maximumMembersPerRoom = (EditText) view.findViewById(R.id.maximumMembersPerRoom);
         totalNumberOfRooms = (EditText) view.findViewById(R.id.totalNumberOfRooms);
         costPerMember = (EditText) view.findViewById(R.id.costPerMember);
-        hostelAddress = (EditText) view.findViewById(R.id.hostelAddress);
+        hostelAddress = (TextView) view.findViewById(R.id.hostelAddress);
         hostelDescription = (EditText) view.findViewById(R.id.hostelDescription);
 
         radioGroupHostelFor = (RadioGroup) view.findViewById(R.id.radioGroupHostelFor);
@@ -317,7 +358,6 @@ public class FragmentBecomeHostelOwner extends Fragment {
         if (hostelDescription.length() == 0) {
             hostelDescription.setError("Field is required!");
             return false;
-
         }
 
         if (!isHostelForSelected()) {
@@ -389,5 +429,26 @@ public class FragmentBecomeHostelOwner extends Fragment {
             }
         }
     }
+
+    private void setLocationsReceiver() {
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                hostelAddress.setText(intent.getStringExtra(Constants.LOCATION_ADDRESS));
+                city = intent.getStringExtra(Constants.LOCATION_ADDRESS_CITY);
+                latitude = intent.getStringExtra(Constants.LOCATION_LATITUDE);
+                longitude = intent.getStringExtra(Constants.LOCATION_LONGITUDE);
+
+
+                Log.e(TAG, "onReceive: DEPT_DATA \n" + intent.getStringExtra(Constants.LOCATION_ADDRESS)
+                        + "\n" + intent.getStringExtra(Constants.LOCATION_ADDRESS_CITY)
+                        + "\n" + intent.getStringExtra(Constants.LOCATION_LATITUDE)
+                        + "\n" + intent.getStringExtra(Constants.LOCATION_LONGITUDE));
+
+            }
+        };
+        context.registerReceiver(broadcastReceiver, new IntentFilter(Constants.LOCATION_RECEIVING_FILTER));
+    }
+
 
 }

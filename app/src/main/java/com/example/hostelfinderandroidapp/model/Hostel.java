@@ -4,12 +4,12 @@ import java.io.Serializable;
 
 public class Hostel implements Serializable {
 
-    private String hostelId, hostelName, availableRooms, maxMembers, totalRooms, costPerPerson, internetAvailable, electricityBackup, parking, description, phone, email, ownerId, type, imageUrl, lat, lon, address, status, date;
+    private String hostelId, hostelName, availableRooms, maxMembers, totalRooms, costPerPerson, internetAvailable, electricityBackup, parking, description, phone, email, ownerId, type, imageUrl, lat, lon, address, locality, status, date;
 
     public Hostel() {
     }
 
-    public Hostel(String hostelId, String hostelName, String availableRooms, String maxMembers, String totalRooms, String costPerPerson, String internetAvailable, String electricityBackup, String parking, String description, String phone, String email, String ownerId, String type, String imageUrl, String lat, String lon, String address, String status, String date) {
+    public Hostel(String hostelId, String hostelName, String availableRooms, String maxMembers, String totalRooms, String costPerPerson, String internetAvailable, String electricityBackup, String parking, String description, String phone, String email, String ownerId, String type, String imageUrl, String lat, String lon, String address, String locality, String status, String date) {
         this.hostelId = hostelId;
         this.hostelName = hostelName;
         this.availableRooms = availableRooms;
@@ -28,6 +28,7 @@ public class Hostel implements Serializable {
         this.lat = lat;
         this.lon = lon;
         this.address = address;
+        this.locality = locality;
         this.status = status;
         this.date = date;
     }
@@ -102,6 +103,10 @@ public class Hostel implements Serializable {
 
     public String getAddress() {
         return address;
+    }
+
+    public String getLocality() {
+        return locality;
     }
 
     public String getStatus() {

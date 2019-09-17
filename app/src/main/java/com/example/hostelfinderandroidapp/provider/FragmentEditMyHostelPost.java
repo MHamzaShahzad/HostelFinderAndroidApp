@@ -412,6 +412,7 @@ public class FragmentEditMyHostelPost extends Fragment implements View.OnClickLi
                 "",
                 "",
                 hostelAddress.getText().toString(),
+                "",
                 argumentHostel.getStatus(),
                 date.toLocaleString()
         );

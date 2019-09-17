@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hostelfinderandroidapp.CommonFunctionsClass;
 import com.example.hostelfinderandroidapp.Constants;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
@@ -49,7 +50,6 @@ public class FragmentHostelDescriptionAdmin extends Fragment {
     public FragmentHostelDescriptionAdmin() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,8 +92,20 @@ public class FragmentHostelDescriptionAdmin extends Fragment {
                     hostelCostPerMemberPlace.setText(hostel.getCostPerPerson());
                     hostelNamePlace.setText(hostel.getHostelName());
                     hostelMaxMembersPerRoomPlace.setText(hostel.getMaxMembers());
+                    send_sms_to_owner.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            CommonFunctionsClass.setSend_sms_to_owner(context,hostel.getPhone());
 
+                        }
+                    });
+                    call_to_owner.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            CommonFunctionsClass.setCall_to_owner(context,hostel.getPhone());
 
+                        }
+                    });
                     setTextToButton();
                 }
             }

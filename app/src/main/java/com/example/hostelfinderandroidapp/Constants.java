@@ -33,4 +33,11 @@ public class Constants {
     public static final String HOSTEL_FOR_GIRLS = "0";
 
 
+    public static final String LOCATION_RECEIVING_FILTER = "android.intent.action.receive.location.broadcast";
+    public static final String LOCATION_ADDRESS = "locationAddress";
+    public static final String LOCATION_ADDRESS_CITY = "locationAddressCity";
+    public static final String LOCATION_LATITUDE = "latitude";
+    public static final String LOCATION_LONGITUDE= "longitude";
+
+
 }

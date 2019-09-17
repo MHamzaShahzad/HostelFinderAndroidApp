@@ -79,11 +79,13 @@
                 android:hint="Cost Per Member"
                 android:inputType="number" />
 
-            <EditText
+            <TextView
                 android:id="@+id/hostelAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Address"
+                android:drawableLeft="@drawable/ic_location_black"
+                android:drawablePadding="10dp"
                 android:inputType="text" />
 
             <EditText
