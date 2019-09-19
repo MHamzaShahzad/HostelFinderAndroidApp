@@ -1,7 +1,10 @@
 package com.example.hostelfinderandroidapp.user;
 
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,7 +26,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FragmentHostelsListForUser extends Fragment {
 
@@ -34,11 +39,15 @@ public class FragmentHostelsListForUser extends Fragment {
     RecyclerView recycler_active_hostels_list;
     AdapterHostelsListForUsers adapterHostelsListForUser;
     List<Hostel> list;
-    ValueEventListener valueEventListener;
+
+    private static ValueEventListener valueEventListener;
+    private static HashMap<String, String> mapFilter;
+    private BroadcastReceiver filtersReceiver;
 
     public FragmentHostelsListForUser() {
         // Required empty public constructor
         list = new ArrayList<>();
+        mapFilter = new HashMap<>();
     }
 
 
@@ -56,13 +65,31 @@ public class FragmentHostelsListForUser extends Fragment {
             adapterHostelsListForUser = new AdapterHostelsListForUsers(context, list);
             recycler_active_hostels_list.setAdapter(adapterHostelsListForUser);
 
-            initHostelsListListener();
-
+            initHostelsListListener(mapFilter);
+            initFiltersReceiver();
         }
         return view;
     }
 
-    private void initHostelsListListener() {
+    private void initFiltersReceiver() {
+        filtersReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                removeHostelValueEventListener();
+                initHostelsListListener(mapFilter);
+            }
+        };
+        context.registerReceiver(filtersReceiver, new IntentFilter(Constants.HOSTEL_INTENT_FILTER));
+    }
+
+    private void initHostelsListListener(final HashMap<String, String> map) {
+
+        /*final HashMap<String, String> map = new HashMap<>();
+        map.put(Hostel.LOCALITY_STRING, "Faisalabad");
+        map.put(Hostel.IS_ELECTRICITY_BACKUP_AVAILABLE_STRING, Constants.HOSTEL_ELECTRICITY_BACKUP_AVAILABLE);
+        map.put(Hostel.IS_INTERNET_AVAILABLE_STRING, Constants.HOSTEL_INTERNET_AVAILABLE);
+        map.put(Hostel.IS_PARKING_AVAILABLE_STRING, Constants.HOSTEL_PARKING_AVAILABLE);*/
+
         valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -75,7 +102,32 @@ public class FragmentHostelsListForUser extends Fragment {
                     try {
                         Hostel hostel = singleHostel.getValue(Hostel.class);
                         if (hostel != null && hostel.getStatus().equals(Constants.HOSTEL_STATUS_ACTIVE)) {
-                            list.add(hostel);
+
+                            boolean matches = true;
+
+                            if (map.size() > 0) {
+                                for (Map.Entry<String, String> entry : map.entrySet()) {
+                                    Log.e(TAG, "onDataChange: " + hostel.getClass().getDeclaredField(entry.getKey()).get(hostel));
+
+                                    switch (entry.getKey()){
+                                        case Hostel.MAX_MEMBERS_STRING:
+                                            break;
+                                        case Hostel.COST_PER_PERSON_STRING:
+                                            break;
+                                        case Hostel.DATE_STRING:
+                                            break;
+
+                                    }
+
+                                    if (!entry.getValue().equalsIgnoreCase(String.valueOf(hostel.getClass().getDeclaredField(entry.getKey()).get(hostel)))) {
+                                        matches = false;
+                                        break;
+                                    }
+                                }
+                                if (matches)
+                                    list.add(hostel);
+                            } else
+                                list.add(hostel);
                             Log.e(TAG, "onDataChange: " + hostel.getHostelName());
                         }
 
@@ -92,8 +144,24 @@ public class FragmentHostelsListForUser extends Fragment {
 
             }
         };
+
         MyFirebaseDatabase.HOSTELS_REFERENCE.addValueEventListener(valueEventListener);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        removeHostelValueEventListener();
+
+        if (filtersReceiver != null)
+            context.unregisterReceiver(filtersReceiver);
+
+    }
+
+    private void removeHostelValueEventListener() {
+        if (valueEventListener != null)
+            MyFirebaseDatabase.HOSTELS_REFERENCE.removeEventListener(valueEventListener);
+    }
 
 }

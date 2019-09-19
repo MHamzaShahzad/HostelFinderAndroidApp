@@ -169,6 +169,17 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/btn_view_on_map"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#D0FCB9"
+                android:text="View On Map"
+                android:textAlignment="center"
+                android:padding="10dp"
+                android:textSize="20sp"
+                android:layout_below="@id/layout_hostel_description"/>
+
         </RelativeLayout>
 
         <LinearLayout

@@ -3,8 +3,30 @@ package com.example.hostelfinderandroidapp.model;
 import java.io.Serializable;
 
 public class Hostel implements Serializable {
+    
+    public static final String ID_STRING = "hostelId";
+    public static final String NAME_STRING = "hostelName";
+    public static final String AVAILABLE_ROOMS_STRING = "availableRooms";
+    public static final String MAX_MEMBERS_STRING = "maxMembers";
+    public static final String TOTAL_ROOMS_STRING = "totalRooms";
+    public static final String COST_PER_PERSON_STRING = "costPerPerson";
+    public static final String IS_INTERNET_AVAILABLE_STRING = "internetAvailable";
+    public static final String IS_ELECTRICITY_BACKUP_AVAILABLE_STRING = "electricityBackup";
+    public static final String IS_PARKING_AVAILABLE_STRING = "parking";
+    public static final String DESCRIPTION_STRING = "description";
+    public static final String PHONE_STRING = "phone";
+    public static final String EMAIL_STRING = "email";
+    public static final String OWNER_ID_STRING = "ownerId";
+    public static final String TYPE_STRING = "type";
+    public static final String IMAGE_URL_STRING = "imageUrl";
+    public static final String LATITUDE_STRING = "lat";
+    public static final String LONGITUDE_STRING = "lon";
+    public static final String ADDRESS_STRING = "address";
+    public static final String LOCALITY_STRING = "locality";
+    public static final String STATUS_STRING = "status";
+    public static final String DATE_STRING = "date";
 
-    private String hostelId, hostelName, availableRooms, maxMembers, totalRooms, costPerPerson, internetAvailable, electricityBackup, parking, description, phone, email, ownerId, type, imageUrl, lat, lon, address, locality, status, date;
+    public String hostelId, hostelName, availableRooms, maxMembers, totalRooms, costPerPerson, internetAvailable, electricityBackup, parking, description, phone, email, ownerId, type, imageUrl, lat, lon, address, locality, status, date;
 
     public Hostel() {
     }

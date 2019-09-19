@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.hostelfinderandroidapp.CommonFunctionsClass;
 import com.example.hostelfinderandroidapp.Constants;
 import com.example.hostelfinderandroidapp.FragmentBecomeHostelOwner;
 import com.example.hostelfinderandroidapp.R;
@@ -36,7 +37,7 @@ public class FragmentMyHostelDescription extends Fragment implements View.OnClic
     Hostel hostel;
     Button btnEditHostel, btnRemoveHostel;
     ImageView hostelImage;
-    TextView hostelNamePlace, hostelAddressPlace, hostelAvailableRoomsPlace, hostelCostPerMemberPlace, hostelMaxMembersPerRoomPlace, hostelOwnerEmailPlace, hostelDescriptionPlace;
+    TextView btn_view_on_map, hostelNamePlace, hostelAddressPlace, hostelAvailableRoomsPlace, hostelCostPerMemberPlace, hostelMaxMembersPerRoomPlace, hostelOwnerEmailPlace, hostelDescriptionPlace;
     LinearLayout layout_edit_remove_hostel;
 
     public FragmentMyHostelDescription() {
@@ -52,6 +53,7 @@ public class FragmentMyHostelDescription extends Fragment implements View.OnClic
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_my_hostel_description, container, false);
 
+            btn_view_on_map = view.findViewById(R.id.btn_view_on_map);
             hostelImage = view.findViewById(R.id.hostelImage);
             hostelNamePlace = view.findViewById(R.id.hostelNamePlace);
             hostelAddressPlace = view.findViewById(R.id.hostelAddressPlace);
@@ -85,6 +87,19 @@ public class FragmentMyHostelDescription extends Fragment implements View.OnClic
                     hostelCostPerMemberPlace.setText(hostel.getCostPerPerson());
                     hostelNamePlace.setText(hostel.getHostelName());
                     hostelMaxMembersPerRoomPlace.setText(hostel.getMaxMembers());
+
+                    btn_view_on_map.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            CommonFunctionsClass.setBtn_view_on_map(context, hostel);
+                        }
+                    });
+                    btn_view_on_map.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            CommonFunctionsClass.setBtn_view_on_map(context, hostel);
+                        }
+                    });
 
                 }
             }

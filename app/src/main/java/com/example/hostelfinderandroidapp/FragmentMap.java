@@ -1,7 +1,6 @@
 package com.example.hostelfinderandroidapp;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -23,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,6 +61,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
 
     private TextView text_location_address;
     private ImageView btn_submit_location;
+    RelativeLayout layout_address_hostel;
 
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -78,6 +79,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
     private static final int AUTOCOMPLETE_REQUEST_CODE = 1;
 
     private String cityName;
+    private Bundle incomingArguments;
 
     public FragmentMap() {
     }
@@ -90,13 +92,13 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
         if (view == null) {
 
             view = inflater.inflate(R.layout.fragment_map, container, false);
+            layout_address_hostel = view.findViewById(R.id.layout_address_hostel);
             text_location_address = view.findViewById(R.id.text_location_address);
             btn_submit_location = view.findViewById(R.id.btn_submit_location);
 
             fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
 
-            setLocationCallback();
-            setLocationRequest();
+            incomingArguments = getArguments();
 
             initMapFragment();
 
@@ -104,12 +106,28 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
         return view;
     }
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        fetchLastLocation();
+        if (incomingArguments != null && incomingArguments.getBoolean(Constants.HOSTEL_LOCATION_MAP)) {
+            LatLng latLng = new LatLng(incomingArguments.getDouble(Constants.LOCATION_LATITUDE), incomingArguments.getDouble(Constants.LOCATION_LONGITUDE));
 
+            mMap.addMarker(
+                    new MarkerOptions()
+                            .position(
+                                    latLng
+                            ).title(
+                            getCompleteAddressString(context, incomingArguments.getDouble(Constants.LOCATION_LATITUDE), incomingArguments.getDouble(Constants.LOCATION_LONGITUDE))
+                    )
+            ).showInfoWindow();
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+            layout_address_hostel.setVisibility(View.GONE);
+
+        }else {
+            fetchLastLocation();
+            setLocationCallback();
+            setLocationRequest();
+        }
     }
 
     @Override
@@ -219,6 +237,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
     }
 
     private void stopLocationUpdates() {
+        if (locationCallback != null)
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
 
@@ -261,9 +280,5 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
             }
         });
     }
-
-
-
-
 
 }

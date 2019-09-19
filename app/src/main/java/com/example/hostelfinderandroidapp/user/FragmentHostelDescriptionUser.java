@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.hostelfinderandroidapp.CommonFunctionsClass;
 import com.example.hostelfinderandroidapp.Constants;
+import com.example.hostelfinderandroidapp.FragmentMap;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.model.Hostel;
 import com.squareup.picasso.Picasso;
@@ -29,7 +31,7 @@ public class FragmentHostelDescriptionUser extends Fragment {
     Button send_sms_to_owner, call_to_owner;
     Hostel hostel;
     ImageView hostelImage;
-    TextView hostelNamePlace, hostelAddressPlace, hostelAvailableRoomsPlace, hostelCostPerMemberPlace, hostelMaxMembersPerRoomPlace, hostelOwnerEmailPlace, hostelDescriptionPlace;
+    TextView btn_view_on_map,hostelNamePlace, hostelAddressPlace, hostelAvailableRoomsPlace, hostelCostPerMemberPlace, hostelMaxMembersPerRoomPlace, hostelOwnerEmailPlace, hostelDescriptionPlace;
     LinearLayout layout_call_sms_hostel, layout_edit_remove_hostel;
 
     public FragmentHostelDescriptionUser() {
@@ -45,6 +47,7 @@ public class FragmentHostelDescriptionUser extends Fragment {
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_hostel_description_user, container, false);
 
+            btn_view_on_map = view.findViewById(R.id.btn_view_on_map);
             hostelImage = view.findViewById(R.id.hostelImage);
             hostelNamePlace = view.findViewById(R.id.hostelNamePlace);
             hostelAddressPlace = view.findViewById(R.id.hostelAddressPlace);
@@ -64,17 +67,20 @@ public class FragmentHostelDescriptionUser extends Fragment {
             if (bundleArgument != null && bundleArgument.getSerializable(Constants.HOSTEL_DESCRIPTION_NAME) != null) {
                 hostel = (Hostel) bundleArgument.getSerializable(Constants.HOSTEL_DESCRIPTION_NAME);
                 if (hostel != null) {
+
                     if (hostel.getImageUrl() != null)
                         try {
                             Picasso.get().load(hostel.getImageUrl()).placeholder(R.drawable.placeholder_photos).fit().into(hostelImage);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+
                     hostelAddressPlace.setText(hostel.getAddress());
                     hostelAvailableRoomsPlace.setText(hostel.getAvailableRooms());
                     hostelCostPerMemberPlace.setText(hostel.getCostPerPerson());
                     hostelNamePlace.setText(hostel.getHostelName());
                     hostelMaxMembersPerRoomPlace.setText(hostel.getMaxMembers());
+
                     send_sms_to_owner.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -87,6 +93,12 @@ public class FragmentHostelDescriptionUser extends Fragment {
                         public void onClick(View view) {
                             CommonFunctionsClass.setCall_to_owner(context,hostel.getPhone());
 
+                        }
+                    });
+                    btn_view_on_map.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            CommonFunctionsClass.setBtn_view_on_map(context, hostel);
                         }
                     });
                 }

@@ -40,7 +40,7 @@ public class FragmentHostelDescriptionAdmin extends Fragment {
     Button btnActiveInActiveHostel, send_sms_to_owner, call_to_owner, btnEditHostel, btnRemoveHostel;
     Hostel hostel;
     ImageView hostelImage;
-    TextView hostelNamePlace, hostelAddressPlace, hostelAvailableRoomsPlace, hostelCostPerMemberPlace, hostelMaxMembersPerRoomPlace, hostelOwnerEmailPlace, hostelDescriptionPlace;
+    TextView btn_view_on_map, hostelNamePlace, hostelAddressPlace, hostelAvailableRoomsPlace, hostelCostPerMemberPlace, hostelMaxMembersPerRoomPlace, hostelOwnerEmailPlace, hostelDescriptionPlace;
     LinearLayout layout_call_sms_hostel, layout_edit_remove_hostel;
 
     private static final String HOSTEL_BUTTON_TEXT_ACTIVE = "Active";
@@ -59,6 +59,7 @@ public class FragmentHostelDescriptionAdmin extends Fragment {
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_hostel_description_admin, container, false);
 
+            btn_view_on_map = view.findViewById(R.id.btn_view_on_map);
             hostelImage = view.findViewById(R.id.hostelImage);
             hostelNamePlace = view.findViewById(R.id.hostelNamePlace);
             hostelAddressPlace = view.findViewById(R.id.hostelAddressPlace);
@@ -104,6 +105,12 @@ public class FragmentHostelDescriptionAdmin extends Fragment {
                         public void onClick(View view) {
                             CommonFunctionsClass.setCall_to_owner(context,hostel.getPhone());
 
+                        }
+                    });
+                    btn_view_on_map.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            CommonFunctionsClass.setBtn_view_on_map(context, hostel);
                         }
                     });
                     setTextToButton();
