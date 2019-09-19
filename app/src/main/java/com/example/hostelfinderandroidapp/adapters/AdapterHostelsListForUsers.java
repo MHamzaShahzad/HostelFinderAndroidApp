@@ -45,7 +45,7 @@ public class AdapterHostelsListForUsers extends RecyclerView.Adapter<AdapterHost
         Hostel hostel = list.get(position);
         if (hostel.getImageUrl() != null)
             try {
-                Picasso.get().load(hostel.getImageUrl()).placeholder(R.drawable.placeholder_photos).fit().into(holder.hostelImage);
+                Picasso.get().load(hostel.getImageUrl()).placeholder(R.drawable.loading_gif_1).error(R.drawable.placeholder_photos).fit().into(holder.hostelImage);
             } catch (Exception e) {
                 e.printStackTrace();
             }

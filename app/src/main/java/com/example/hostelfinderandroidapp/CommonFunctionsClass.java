@@ -1,12 +1,17 @@
 package com.example.hostelfinderandroidapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.fragment.app.FragmentActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.hostelfinderandroidapp.model.Hostel;
 
@@ -40,5 +45,32 @@ public class CommonFunctionsClass {
         }
     }
 
+    public static void hideProgressBar(ProgressBar progressBar){
+        if (progressBar != null)
+            progressBar.setVisibility(View.GONE);
+    }
+
+    public static void stopSwipeRefreshLayout(SwipeRefreshLayout swipeRefreshLayout){
+        if (swipeRefreshLayout != null)
+            swipeRefreshLayout.setRefreshing(false);
+    }
+
+    public static void startSwipeRefreshLayout(SwipeRefreshLayout swipeRefreshLayout){
+        if (swipeRefreshLayout != null)
+            swipeRefreshLayout.setRefreshing(true);
+    }
+
+    public static void showCustomDialog(Context context, String message){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(message);
+        builder.setCancelable(true);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                builder.setCancelable(true);
+            }
+        });
+        builder.create().show();
+    }
 
 }

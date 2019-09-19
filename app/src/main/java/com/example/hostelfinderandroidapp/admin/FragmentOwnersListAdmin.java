@@ -13,8 +13,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.hostelfinderandroidapp.CommonFunctionsClass;
 import com.example.hostelfinderandroidapp.Constants;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.adapters.AdapterOwnersList;
@@ -43,6 +45,8 @@ public class FragmentOwnersListAdmin extends Fragment {
     List<User> list, tempList;
     ValueEventListener valueEventListener;
 
+    private ProgressBar progressBar;
+
     public FragmentOwnersListAdmin() {
         // Required empty public constructor
         list = new ArrayList<>();
@@ -59,6 +63,7 @@ public class FragmentOwnersListAdmin extends Fragment {
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_owners_list_admin, container, false);
 
+            progressBar = view.findViewById(R.id.progressBar);
 
             recycler_owners_list = view.findViewById(R.id.recycler_owners_list);
             recycler_owners_list.setHasFixedSize(true);
@@ -124,11 +129,12 @@ public class FragmentOwnersListAdmin extends Fragment {
 
                 }
                 initTabsLayout();
+                CommonFunctionsClass.hideProgressBar(progressBar);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                CommonFunctionsClass.hideProgressBar(progressBar);
             }
         };
         MyFirebaseDatabase.USER_REFERENCE.addValueEventListener(valueEventListener);

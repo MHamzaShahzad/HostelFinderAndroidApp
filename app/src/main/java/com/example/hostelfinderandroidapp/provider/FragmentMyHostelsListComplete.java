@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.hostelfinderandroidapp.CommonFunctionsClass;
 import com.example.hostelfinderandroidapp.Constants;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.adapters.AdapterMyHostelsList;
@@ -39,6 +41,7 @@ public class FragmentMyHostelsListComplete extends Fragment {
     List<Hostel> list, tempList;
     ValueEventListener valueEventListener;
     AdapterMyHostelsList adapterMyHostelsList;
+    private ProgressBar progressBar;
 
 
     public FragmentMyHostelsListComplete() {
@@ -56,6 +59,9 @@ public class FragmentMyHostelsListComplete extends Fragment {
         if (view == null) {
 
             view = inflater.inflate(R.layout.fragment_my_hostels_list_complete, container, false);
+
+            progressBar = view.findViewById(R.id.progressBar);
+
             recycler_my_hostels_list = view.findViewById(R.id.recycler_my_hostels_list);
             recycler_my_hostels_list.setHasFixedSize(true);
             recycler_my_hostels_list.setLayoutManager(new LinearLayoutManager(context));
@@ -122,11 +128,12 @@ public class FragmentMyHostelsListComplete extends Fragment {
 
                 }
                 initTabsLayout();
+                CommonFunctionsClass.hideProgressBar(progressBar);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                CommonFunctionsClass.hideProgressBar(progressBar);
             }
         };
         MyFirebaseDatabase.HOSTELS_REFERENCE.addValueEventListener(valueEventListener);

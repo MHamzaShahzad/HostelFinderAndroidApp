@@ -13,8 +13,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.hostelfinderandroidapp.CommonFunctionsClass;
 import com.example.hostelfinderandroidapp.Constants;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.adapters.AdapterHostelsListAdmin;
@@ -42,6 +44,8 @@ public class FragmentHostelsListAdmin extends Fragment {
     ValueEventListener valueEventListener;
     AdapterHostelsListAdmin adapterHostelsList;
 
+    private ProgressBar progressBar;
+
     public FragmentHostelsListAdmin() {
         // Required empty public constructor
         list = new ArrayList<>();
@@ -56,6 +60,8 @@ public class FragmentHostelsListAdmin extends Fragment {
         context = container.getContext();
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_hostels_list_admin, container, false);
+
+            progressBar = view.findViewById(R.id.progressBar);
 
             recycler_hostels_list = view.findViewById(R.id.recycler_hostels_list);
             recycler_hostels_list.setHasFixedSize(true);
@@ -123,16 +129,17 @@ public class FragmentHostelsListAdmin extends Fragment {
 
                 }
                 initTabsLayout();
+
+                CommonFunctionsClass.hideProgressBar(progressBar);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                CommonFunctionsClass.hideProgressBar(progressBar);
             }
         };
         MyFirebaseDatabase.HOSTELS_REFERENCE.addValueEventListener(valueEventListener);
     }
-
 
     private void initTabsLayout() {
         if (tabLayout.getSelectedTabPosition() == 0) {

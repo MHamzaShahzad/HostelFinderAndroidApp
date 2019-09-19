@@ -13,9 +13,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
+import com.example.hostelfinderandroidapp.CommonFunctionsClass;
 import com.example.hostelfinderandroidapp.Constants;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.adapters.AdapterUsersAndAdmins;
@@ -45,6 +47,7 @@ public class FragmentUsersAndAdmins extends Fragment {
     List<User> list, tempList;
     ValueEventListener valueEventListener;
 
+    private ProgressBar progressBar;
 
     public FragmentUsersAndAdmins() {
         // Required empty public constructor
@@ -60,6 +63,8 @@ public class FragmentUsersAndAdmins extends Fragment {
         context = container.getContext();
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_users_and_admins, container, false);
+
+            progressBar = view.findViewById(R.id.progressBar);
 
             recycler_admins_users_list = view.findViewById(R.id.recycler_admins_users_list);
             recycler_admins_users_list.setHasFixedSize(true);
@@ -126,11 +131,13 @@ public class FragmentUsersAndAdmins extends Fragment {
 
                 }
                 initTabsLayout();
+                CommonFunctionsClass.hideProgressBar(progressBar);
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                CommonFunctionsClass.hideProgressBar(progressBar);
             }
         };
         MyFirebaseDatabase.USER_REFERENCE.addValueEventListener(valueEventListener);

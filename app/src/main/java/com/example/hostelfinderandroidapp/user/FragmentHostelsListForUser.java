@@ -10,12 +10,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.hostelfinderandroidapp.CommonFunctionsClass;
 import com.example.hostelfinderandroidapp.Constants;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.adapters.AdapterHostelsListForUsers;
@@ -30,7 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FragmentHostelsListForUser extends Fragment {
+public class FragmentHostelsListForUser extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = FragmentHostelsListForUser.class.getName();
     Context context;
@@ -44,12 +47,13 @@ public class FragmentHostelsListForUser extends Fragment {
     private static HashMap<String, String> mapFilter;
     private BroadcastReceiver filtersReceiver;
 
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+
     public FragmentHostelsListForUser() {
         // Required empty public constructor
         list = new ArrayList<>();
         mapFilter = new HashMap<>();
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,7 +69,7 @@ public class FragmentHostelsListForUser extends Fragment {
             adapterHostelsListForUser = new AdapterHostelsListForUsers(context, list);
             recycler_active_hostels_list.setAdapter(adapterHostelsListForUser);
 
-            initHostelsListListener(mapFilter);
+            initSwipeRefreshLayout();
             initFiltersReceiver();
         }
         return view;
@@ -75,6 +79,7 @@ public class FragmentHostelsListForUser extends Fragment {
         filtersReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+
                 removeHostelValueEventListener();
                 initHostelsListListener(mapFilter);
             }
@@ -137,10 +142,16 @@ public class FragmentHostelsListForUser extends Fragment {
 
                 }
                 adapterHostelsListForUser.notifyDataSetChanged();
+
+                CommonFunctionsClass.stopSwipeRefreshLayout(mSwipeRefreshLayout);
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                CommonFunctionsClass.stopSwipeRefreshLayout(mSwipeRefreshLayout);
+                CommonFunctionsClass.showCustomDialog(context, databaseError.getMessage());
 
             }
         };
@@ -162,6 +173,37 @@ public class FragmentHostelsListForUser extends Fragment {
     private void removeHostelValueEventListener() {
         if (valueEventListener != null)
             MyFirebaseDatabase.HOSTELS_REFERENCE.removeEventListener(valueEventListener);
+    }
+
+    private void initSwipeRefreshLayout(){
+        // SwipeRefreshLayout
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
+                android.R.color.holo_green_dark,
+                android.R.color.holo_orange_dark,
+                android.R.color.holo_blue_dark);
+        /*
+         * Showing Swipe Refresh animation on activity create
+         * As animation won't start on onCreate, post runnable is used
+         */
+        mSwipeRefreshLayout.post(new Runnable() {
+
+            @Override
+            public void run() {
+
+                CommonFunctionsClass.startSwipeRefreshLayout(mSwipeRefreshLayout);
+
+                // Fetching data from server
+                initHostelsListListener(mapFilter);
+            }
+        });
+    }
+
+    @Override
+    public void onRefresh() {
+        removeHostelValueEventListener();
+        initHostelsListListener(mapFilter);
     }
 
 }
