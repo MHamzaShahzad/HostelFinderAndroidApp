@@ -80,8 +80,13 @@ public class FragmentHostelsListForUser extends Fragment implements SwipeRefresh
             @Override
             public void onReceive(Context context, Intent intent) {
 
-                removeHostelValueEventListener();
-                initHostelsListListener(mapFilter);
+                try {
+                    mapFilter = (HashMap<String, String>) intent.getSerializableExtra(Constants.HOSTEL_FILTER_MAP);
+                    removeHostelValueEventListener();
+                    initHostelsListListener(mapFilter);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         };
         context.registerReceiver(filtersReceiver, new IntentFilter(Constants.HOSTEL_INTENT_FILTER));
@@ -89,11 +94,7 @@ public class FragmentHostelsListForUser extends Fragment implements SwipeRefresh
 
     private void initHostelsListListener(final HashMap<String, String> map) {
 
-        /*final HashMap<String, String> map = new HashMap<>();
-        map.put(Hostel.LOCALITY_STRING, "Faisalabad");
-        map.put(Hostel.IS_ELECTRICITY_BACKUP_AVAILABLE_STRING, Constants.HOSTEL_ELECTRICITY_BACKUP_AVAILABLE);
-        map.put(Hostel.IS_INTERNET_AVAILABLE_STRING, Constants.HOSTEL_INTERNET_AVAILABLE);
-        map.put(Hostel.IS_PARKING_AVAILABLE_STRING, Constants.HOSTEL_PARKING_AVAILABLE);*/
+
 
         valueEventListener = new ValueEventListener() {
             @Override
@@ -112,27 +113,55 @@ public class FragmentHostelsListForUser extends Fragment implements SwipeRefresh
 
                             if (map.size() > 0) {
                                 for (Map.Entry<String, String> entry : map.entrySet()) {
+
                                     Log.e(TAG, "onDataChange: " + hostel.getClass().getDeclaredField(entry.getKey()).get(hostel));
 
-                                    switch (entry.getKey()){
+                                    switch (entry.getKey()) {
+
                                         case Hostel.MAX_MEMBERS_STRING:
+
+                                            try {
+                                                if (Integer.parseInt(hostel.getMaxMembers()) > Integer.parseInt(entry.getValue())) {
+                                                    matches = false;
+                                                }
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+
                                             break;
+
                                         case Hostel.COST_PER_PERSON_STRING:
-                                            break;
-                                        case Hostel.DATE_STRING:
+
+                                            try {
+                                                if (Integer.parseInt(hostel.getCostPerPerson()) > Integer.parseInt(entry.getValue())) {
+                                                    matches = false;
+                                                }
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
                                             break;
 
+                                        case Hostel.ADDRESS_STRING:
+
+                                            if (!hostel.getAddress().contains(entry.getValue())){
+                                                matches = false;
+                                            }
+                                            break;
+
+                                        default:
+
+                                            if (!entry.getValue().equalsIgnoreCase(String.valueOf(hostel.getClass().getDeclaredField(entry.getKey()).get(hostel)))) {
+                                                matches = false;
+                                                break;
+                                            }
                                     }
 
-                                    if (!entry.getValue().equalsIgnoreCase(String.valueOf(hostel.getClass().getDeclaredField(entry.getKey()).get(hostel)))) {
-                                        matches = false;
-                                        break;
-                                    }
                                 }
                                 if (matches)
                                     list.add(hostel);
                             } else
                                 list.add(hostel);
+
                             Log.e(TAG, "onDataChange: " + hostel.getHostelName());
                         }
 
@@ -175,7 +204,7 @@ public class FragmentHostelsListForUser extends Fragment implements SwipeRefresh
             MyFirebaseDatabase.HOSTELS_REFERENCE.removeEventListener(valueEventListener);
     }
 
-    private void initSwipeRefreshLayout(){
+    private void initSwipeRefreshLayout() {
         // SwipeRefreshLayout
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setOnRefreshListener(this);

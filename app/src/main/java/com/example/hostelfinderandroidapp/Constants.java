@@ -41,6 +41,7 @@ public class Constants {
 
 
     public static final String HOSTEL_INTENT_FILTER = "intent.action.filter.broadcast";
+    public static final String HOSTEL_FILTER_MAP = "hostel_filter_map";
     public static final String HOSTEL_LOCATION_MAP = "hostel_map_location";
 
 
