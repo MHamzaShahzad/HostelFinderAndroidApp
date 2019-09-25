@@ -13,97 +13,178 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <ImageView
                 android:id="@+id/hostelImage"
                 android:layout_width="300dp"
                 android:layout_height="300dp"
                 android:layout_gravity="center"
-                android:src="@drawable/placeholder_photos"/>
+                android:background="@drawable/style_edit_box"
+                android:src="@drawable/placeholder_photos" />
 
             <EditText
                 android:id="@+id/ownerName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/ralewaylight"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/style_edit_box"
                 android:hint="Owner Name"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textColor="@color/colorText"
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/ownerPhoneNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Phone Number"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/ralewaylight"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/style_edit_box"
+                android:textColor="@color/colorText"
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/ownerEmailAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email" />
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/ralewaylight"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/style_edit_box"
+
+                android:textColor="@color/colorText"
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/ownerHostelName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/ralewaylight"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/style_edit_box"
                 android:hint="Hostel Name"
-                android:inputType="textEmailAddress" />
+                android:inputType="textPersonName"
+                android:textColor="@color/colorText"
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/numberOfRoomsAvailable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/ralewaylight"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/style_edit_box"
                 android:hint="No of rooms available"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColor="@color/colorText"
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/totalNumberOfRooms"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/ralewaylight"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/style_edit_box"
                 android:hint="Total number of rooms"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColor="@color/colorText"
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/maximumMembersPerRoom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/ralewaylight"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/style_edit_box"
                 android:hint="Maximim members in each room"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColor="@color/colorText"
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/costPerMember"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/ralewaylight"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/style_edit_box"
                 android:hint="Cost Per Member"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColor="@color/colorText"
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/hostelAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/ralewaylight"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/style_edit_box"
+                android:drawableLeft="@drawable/ic_location_black"
                 android:hint="Address"
-                android:inputType="text" />
+                android:inputType="text"
+                android:paddingLeft="5dp"
+                android:textColor="@color/colorText"
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/hostelDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/ralewaylight"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/style_edit_box"
                 android:hint="description"
                 android:inputType="text"
-                android:lines="4" />
+                android:lines="4"
+                android:textColor="@color/colorText"
+                android:textSize="15sp" />
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="7dp"
-                    android:text="Hostel For" />
+                    android:text="Hostel For"
+                    android:layout_marginRight="15dp"
+                    android:fontFamily="@font/raleway_bold"
+                    android:textColor="@color/colorText"
+                    android:textSize="15sp" />
 
                 <RadioGroup
                     android:id="@+id/radioGroupHostelFor"
@@ -115,12 +196,19 @@
                         android:id="@+id/radioButtonHostelForBoys"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/raleway_bold"
+                        android:textColor="@color/colorText"
+                        android:layout_marginRight="20dp"
+                        android:textSize="15sp"
                         android:text="Boys" />
 
                     <RadioButton
                         android:id="@+id/radioButtonHostelForGirls"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/raleway_bold"
+                        android:textColor="@color/colorText"
+                        android:textSize="15sp"
                         android:text="Girls" />
 
                 </RadioGroup>
@@ -131,26 +219,51 @@
                 android:id="@+id/checkBoxIsInternetAvailable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/raleway_bold"
+                android:textColor="@color/colorText"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
                 android:text="Is Internet Available" />
 
             <CheckBox
                 android:id="@+id/checkBoxIsParkingAvailable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/raleway_bold"
+                android:textColor="@color/colorText"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
                 android:text="Is Parking Available" />
 
             <CheckBox
                 android:id="@+id/checkBoxIsElectricityBackupAvailable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/raleway_bold"
+                android:textColor="@color/colorText"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
                 android:text="Is Electricity Backup Available" />
 
             <Button
                 android:id="@+id/updateProviderHostelPost"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Submit" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/style_button_solid"
+                android:text="Submit"
+                android:textAllCaps="false"
+                android:textColor="@color/colorText"
+                android:textSize="17sp" />
 
         </LinearLayout>
 
