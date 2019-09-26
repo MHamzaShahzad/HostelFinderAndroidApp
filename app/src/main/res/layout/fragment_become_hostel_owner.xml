@@ -196,7 +196,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Boys"
-                        android:fontFamily="@font/raleway_bold"
+                        android:fontFamily="@font/ralewaylight"
                         android:textColor="@color/colorText"
                         android:layout_marginRight="20dp"
                         android:textSize="15sp"/>
@@ -206,7 +206,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Girls"
-                        android:fontFamily="@font/raleway_bold"
+                        android:fontFamily="@font/ralewaylight"
                         android:textColor="@color/colorText"
                         android:textSize="15sp"/>
 
@@ -218,14 +218,20 @@
                 android:id="@+id/checkBoxIsInternetAvailable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Is Internet Available" />
+                android:text="Is Internet Available"
+                android:fontFamily="@font/ralewaylight"
+                android:textColor="@color/colorText"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
 
             <CheckBox
                 android:id="@+id/checkBoxIsParkingAvailable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Is Parking Available"
-                android:fontFamily="@font/raleway_bold"
+                android:fontFamily="@font/ralewaylight"
                 android:textColor="@color/colorText"
                 android:textSize="15sp"
                 android:layout_marginTop="10dp"
@@ -237,7 +243,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Is Electricity Backup Available"
-                android:fontFamily="@font/raleway_bold"
+                android:fontFamily="@font/ralewaylight"
                 android:textColor="@color/colorText"
                 android:textSize="15sp"
                 android:layout_marginTop="10dp"

@@ -102,8 +102,6 @@ public class DrawerMainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
         } else if (id == R.id.nav_becomeHostelOwner) {
 
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentBecomeHostelOwner()).addToBackStack(null).commit();
