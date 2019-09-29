@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -38,13 +37,13 @@ import java.util.Map;
 public class FragmentHostelsListForUser extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = FragmentHostelsListForUser.class.getName();
-    Context context;
-    View view;
+    private Context context;
+    private View view;
 
     private Button btnShowFilters;
-    RecyclerView recycler_active_hostels_list;
-    AdapterHostelsListForUsers adapterHostelsListForUser;
-    List<Hostel> list;
+    private RecyclerView recycler_active_hostels_list;
+    private AdapterHostelsListForUsers adapterHostelsListForUser;
+    private List<Hostel> list;
 
     private static ValueEventListener valueEventListener;
     private static HashMap<String, String> mapFilter;
