@@ -147,7 +147,7 @@ public class FragmentHostelsListForUser extends Fragment implements SwipeRefresh
 
                                         case Hostel.ADDRESS_STRING:
 
-                                            if (!hostel.getAddress().contains(entry.getValue())) {
+                                            if (!hostel.getAddress().toLowerCase().contains(entry.getValue().toLowerCase()) ) {
                                                 matches = false;
                                             }
                                             break;
