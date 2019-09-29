@@ -4,11 +4,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.hostelfinderandroidapp.Constants;
 import com.example.hostelfinderandroidapp.MainActivity;
+import com.example.hostelfinderandroidapp.admin.AdminDrawerMainActivity;
 import com.example.hostelfinderandroidapp.model.User;
+import com.example.hostelfinderandroidapp.provider.ProviderDrawerMainActivity;
+import com.example.hostelfinderandroidapp.user.DrawerMainActivity;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,7 +33,7 @@ public class MyFirebaseUser {
     public static FirebaseUser mUser = mAuth.getCurrentUser();
 
 
-    public static void initAuthUser(){
+    public static void initAuthUser() {
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
     }
@@ -54,16 +59,29 @@ public class MyFirebaseUser {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 Log.d(TAG, "onDataChange: " + dataSnapshot);
+
                 if (dataSnapshot.getValue() != null)
                     try {
                         User user = dataSnapshot.getValue(User.class);
-                        if (user != null && MyPrefLocalStorage.getCurrentUserData(context).getAccountType() != null) {
-                            if (!user.getAccountType().equals(MyPrefLocalStorage.getCurrentUserData(context).getAccountType())) {
-                                //MyFirebaseUser.SignOut(context);
+
+                        if (user != null) {
+
+                            switch (user.getAccountType()) {
+                                case Constants.ACCOUNT_TYPE_USER:
+                                    DrawerMainActivity.setNavigationHeader(user);
+                                    break;
+                                case Constants.ACCOUNT_TYPE_ADMIN:
+                                    AdminDrawerMainActivity.setNavigationHeader(user);
+                                    break;
+                                case Constants.ACCOUNT_TYPE_HOSTEL_OWNER:
+                                    ProviderDrawerMainActivity.setNavigationHeader(user);
+                                    break;
                             }
+
+                            MyPrefLocalStorage.saveCurrentUserData(context, user);
+                            Log.e(TAG, "onDataChange: PREF_USER_TYPE : " + MyPrefLocalStorage.getCurrentUserData(context) );
+
                         }
-                        MyPrefLocalStorage.saveCurrentUserData(context, user);
-                        Log.e(TAG, "onDataChange: PREF_USER_TYPE : " + MyPrefLocalStorage.getCurrentUserData(context).getAccountType());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -78,13 +96,14 @@ public class MyFirebaseUser {
         MyFirebaseDatabase.USER_REFERENCE.child(MyFirebaseUser.mUser.getUid()).addValueEventListener(userValueEventListener);
     }
 
-    public static void removeUserValueEventListener() {
+    public static void removeUserValueEventListener(Context context) {
 
         Log.d(TAG, "removeUserValueEventListener: ");
 
         if (userValueEventListener != null)
             MyFirebaseDatabase.USER_REFERENCE.child(MyFirebaseUser.mUser.getUid()).removeEventListener(userValueEventListener);
-        MyPrefLocalStorage.clearPreferences();
+        MyPrefLocalStorage.clearPreferences(context);
+
     }
 
 

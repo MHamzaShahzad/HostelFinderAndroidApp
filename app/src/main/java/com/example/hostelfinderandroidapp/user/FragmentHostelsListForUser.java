@@ -10,10 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -39,6 +41,7 @@ public class FragmentHostelsListForUser extends Fragment implements SwipeRefresh
     Context context;
     View view;
 
+    private Button btnShowFilters;
     RecyclerView recycler_active_hostels_list;
     AdapterHostelsListForUsers adapterHostelsListForUser;
     List<Hostel> list;
@@ -63,12 +66,14 @@ public class FragmentHostelsListForUser extends Fragment implements SwipeRefresh
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_hostels_list_for_user, container, false);
 
+            btnShowFilters = view.findViewById(R.id.btnShowFilters);
             recycler_active_hostels_list = view.findViewById(R.id.recycler_active_hostels_list);
             recycler_active_hostels_list.setHasFixedSize(true);
             recycler_active_hostels_list.setLayoutManager(new LinearLayoutManager(context));
             adapterHostelsListForUser = new AdapterHostelsListForUsers(context, list);
             recycler_active_hostels_list.setAdapter(adapterHostelsListForUser);
 
+            setBtnShowFilters();
             initSwipeRefreshLayout();
             initFiltersReceiver();
         }
@@ -84,7 +89,7 @@ public class FragmentHostelsListForUser extends Fragment implements SwipeRefresh
                     mapFilter = (HashMap<String, String>) intent.getSerializableExtra(Constants.HOSTEL_FILTER_MAP);
                     removeHostelValueEventListener();
                     initHostelsListListener(mapFilter);
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -93,7 +98,6 @@ public class FragmentHostelsListForUser extends Fragment implements SwipeRefresh
     }
 
     private void initHostelsListListener(final HashMap<String, String> map) {
-
 
 
         valueEventListener = new ValueEventListener() {
@@ -143,7 +147,7 @@ public class FragmentHostelsListForUser extends Fragment implements SwipeRefresh
 
                                         case Hostel.ADDRESS_STRING:
 
-                                            if (!hostel.getAddress().contains(entry.getValue())){
+                                            if (!hostel.getAddress().contains(entry.getValue())) {
                                                 matches = false;
                                             }
                                             break;
@@ -225,6 +229,15 @@ public class FragmentHostelsListForUser extends Fragment implements SwipeRefresh
 
                 // Fetching data from server
                 initHostelsListListener(mapFilter);
+            }
+        });
+    }
+
+    private void setBtnShowFilters() {
+        btnShowFilters.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentFilterHostelsList()).addToBackStack(null).commit();
             }
         });
     }

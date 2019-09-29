@@ -172,9 +172,7 @@ public class FragmentBecomeHostelOwner extends Fragment {
 
             progressDialog.show();
 
-            final String imageId = UUID.randomUUID().toString();
-
-            MyFirebaseStorage.HOSTELS_IMAGES_STORAGE_REFERENCE.child(imageId).putFile(filePath)
+            MyFirebaseStorage.HOSTELS_IMAGES_STORAGE_REFERENCE.child(filePath.getLastPathSegment() + ".jpg").putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

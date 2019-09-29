@@ -30,7 +30,7 @@ public class BackgroundService extends Service {
     @Override
     public void onDestroy() {
         Log.d(TAG, "onDestroy: ");
-        MyFirebaseUser.removeUserValueEventListener();
+        MyFirebaseUser.removeUserValueEventListener(getApplicationContext());
         super.onDestroy();
     }
 }

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +30,7 @@ public class FragmentHostelDescriptionUser extends Fragment {
     Button send_sms_to_owner, call_to_owner;
     Hostel hostel;
     ImageView hostelImage;
-    TextView btn_view_on_map,hostelNamePlace, hostelAddressPlace, hostelAvailableRoomsPlace, hostelCostPerMemberPlace, hostelMaxMembersPerRoomPlace, hostelOwnerEmailPlace, hostelDescriptionPlace;
+    TextView hostelAvailableForPlace, hostelInternetAvailablePlace, hostelParkingAvailablePlace, hostelElectricityBackupAvailablePlace, hostelCityPlace, hostelUpdatedAtPlace, btn_view_on_map, hostelNamePlace, hostelAddressPlace, hostelAvailableRoomsPlace, hostelCostPerMemberPlace, hostelMaxMembersPerRoomPlace, hostelOwnerEmailPlace, hostelDescriptionPlace;
     LinearLayout layout_call_sms_hostel, layout_edit_remove_hostel;
 
     public FragmentHostelDescriptionUser() {
@@ -56,6 +55,13 @@ public class FragmentHostelDescriptionUser extends Fragment {
             hostelMaxMembersPerRoomPlace = view.findViewById(R.id.hostelMaxMembersPerRoomPlace);
             hostelOwnerEmailPlace = view.findViewById(R.id.hostelOwnerEmailPlace);
             hostelDescriptionPlace = view.findViewById(R.id.hostelDescriptionPlace);
+            hostelCityPlace = view.findViewById(R.id.hostelCityPlace);
+
+            hostelAvailableForPlace = view.findViewById(R.id.hostelAvailableForPlace);
+            hostelInternetAvailablePlace = view.findViewById(R.id.hostelInternetAvailablePlace);
+            hostelParkingAvailablePlace = view.findViewById(R.id.hostelParkingAvailablePlace);
+            hostelElectricityBackupAvailablePlace = view.findViewById(R.id.hostelElectricityBackupAvailablePlace);
+            hostelUpdatedAtPlace = view.findViewById(R.id.hostelUpdatedAtPlace);
 
             layout_call_sms_hostel = view.findViewById(R.id.layout_call_sms_hostel);
             layout_edit_remove_hostel = view.findViewById(R.id.layout_edit_remove_hostel);
@@ -80,18 +86,36 @@ public class FragmentHostelDescriptionUser extends Fragment {
                     hostelCostPerMemberPlace.setText(hostel.getCostPerPerson());
                     hostelNamePlace.setText(hostel.getHostelName());
                     hostelMaxMembersPerRoomPlace.setText(hostel.getMaxMembers());
+                    hostelDescriptionPlace.setText(hostel.getDescription());
+                    hostelCityPlace.setText(hostel.getLocality());
+                    hostelOwnerEmailPlace.setText(hostel.getEmail());
+                    hostelUpdatedAtPlace.setText(hostel.getDate());
+                    hostelInternetAvailablePlace.setText((hostel.getInternetAvailable().equals(Constants.HOSTEL_INTERNET_AVAILABLE)) ? "Yes" : "No");
+                    hostelParkingAvailablePlace.setText((hostel.getParking().equals(Constants.HOSTEL_PARKING_AVAILABLE)) ? "Yes" : "No");
+                    hostelElectricityBackupAvailablePlace.setText((hostel.getElectricityBackup().equals(Constants.HOSTEL_ELECTRICITY_BACKUP_AVAILABLE)) ? "Yes" : "No");
+
+                    switch (hostel.getType()) {
+                        case Constants.HOSTEL_FOR_BOYS:
+                            hostelAvailableForPlace.setText("Boys");
+                            break;
+                        case Constants.HOSTEL_FOR_GIRLS:
+                            hostelAvailableForPlace.setText("Girls");
+                            break;
+
+                    }
+
 
                     send_sms_to_owner.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            CommonFunctionsClass.setSend_sms_to_owner(context,hostel.getPhone());
+                            CommonFunctionsClass.setSend_sms_to_owner(context, hostel.getPhone());
 
                         }
                     });
                     call_to_owner.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            CommonFunctionsClass.setCall_to_owner(context,hostel.getPhone());
+                            CommonFunctionsClass.setCall_to_owner(context, hostel.getPhone());
 
                         }
                     });
@@ -106,6 +130,5 @@ public class FragmentHostelDescriptionUser extends Fragment {
         }
         return view;
     }
-
 
 }

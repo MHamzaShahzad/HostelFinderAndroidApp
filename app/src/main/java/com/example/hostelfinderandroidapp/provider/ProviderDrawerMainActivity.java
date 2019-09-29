@@ -4,13 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.example.hostelfinderandroidapp.CommonFunctionsClass;
 import com.example.hostelfinderandroidapp.FragmentBecomeHostelOwner;
+import com.example.hostelfinderandroidapp.FragmentUpdateProfile;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseUser;
+import com.example.hostelfinderandroidapp.model.User;
 import com.example.hostelfinderandroidapp.user.FragmentHostelsListForUser;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.core.view.GravityCompat;
@@ -19,6 +23,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -26,11 +31,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class ProviderDrawerMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    Context context;
+    private static final String TAG = ProviderDrawerMainActivity.class.getName();
+    private Context context;
+
+    public static ImageView userNavHeaderImage;
+    public static TextView userNavHeaderName, headerPhoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +66,7 @@ public class ProviderDrawerMainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+        initHeaderWidgets(navigationView.getHeaderView(0));
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentHostelsListForUser()).commit();
 
     }
@@ -129,4 +141,35 @@ public class ProviderDrawerMainActivity extends AppCompatActivity
             getSupportFragmentManager().popBackStack();
         }
     }
+
+    private void initHeaderWidgets(View view) {
+        if (view != null) {
+            userNavHeaderImage = view.findViewById(R.id.headerImageView);
+            userNavHeaderName = view.findViewById(R.id.headerUserName);
+            headerPhoneNumber = view.findViewById(R.id.headerPhoneNumber);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FragmentUpdateProfile.newInstance().show(getSupportFragmentManager(), "Update Profile");
+                }
+            });
+        }
+    }
+
+    public static void setNavigationHeader(User user) {
+        if (user != null) {
+            Log.e(TAG, "setNavigationHeader: " + user.getImageUrl() + " : " + user.getUserName() + " : " + user.getPhone() + " : " + user.getEmail() );
+            if (user.getImageUrl() != null)
+                try {
+                    Picasso.get().load(user.getImageUrl()).placeholder(R.drawable.user_avatar).fit().into(userNavHeaderImage);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            userNavHeaderName.setText(user.getUserName());
+            headerPhoneNumber.setText((user.getPhone() == null) ? user.getEmail() : user.getPhone());
+        }
+    }
+
+
+
 }

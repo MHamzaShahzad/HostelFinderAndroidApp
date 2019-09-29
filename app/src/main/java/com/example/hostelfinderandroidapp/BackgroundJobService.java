@@ -32,7 +32,7 @@ public class BackgroundJobService extends JobService {
     @Override
     public boolean onStopJob(JobParameters jobParameters) {
         Log.d(TAG, "onStopJob: " );
-        MyFirebaseUser.removeUserValueEventListener();
+        MyFirebaseUser.removeUserValueEventListener(getApplicationContext());
         return false;
     }
 

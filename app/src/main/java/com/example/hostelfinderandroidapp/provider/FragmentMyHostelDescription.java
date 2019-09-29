@@ -37,13 +37,12 @@ public class FragmentMyHostelDescription extends Fragment implements View.OnClic
     Hostel hostel;
     Button btnEditHostel, btnRemoveHostel;
     ImageView hostelImage;
-    TextView btn_view_on_map, hostelNamePlace, hostelAddressPlace, hostelAvailableRoomsPlace, hostelCostPerMemberPlace, hostelMaxMembersPerRoomPlace, hostelOwnerEmailPlace, hostelDescriptionPlace;
+    TextView hostelAvailableForPlace, hostelInternetAvailablePlace, hostelParkingAvailablePlace, hostelElectricityBackupAvailablePlace, hostelCityPlace, hostelUpdatedAtPlace, btn_view_on_map, hostelNamePlace, hostelAddressPlace, hostelAvailableRoomsPlace, hostelCostPerMemberPlace, hostelMaxMembersPerRoomPlace, hostelOwnerEmailPlace, hostelDescriptionPlace;
     LinearLayout layout_edit_remove_hostel;
 
     public FragmentMyHostelDescription() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,6 +61,13 @@ public class FragmentMyHostelDescription extends Fragment implements View.OnClic
             hostelMaxMembersPerRoomPlace = view.findViewById(R.id.hostelMaxMembersPerRoomPlace);
             hostelOwnerEmailPlace = view.findViewById(R.id.hostelOwnerEmailPlace);
             hostelDescriptionPlace = view.findViewById(R.id.hostelDescriptionPlace);
+
+            hostelCityPlace = view.findViewById(R.id.hostelCityPlace);
+            hostelAvailableForPlace = view.findViewById(R.id.hostelAvailableForPlace);
+            hostelInternetAvailablePlace = view.findViewById(R.id.hostelInternetAvailablePlace);
+            hostelParkingAvailablePlace = view.findViewById(R.id.hostelParkingAvailablePlace);
+            hostelElectricityBackupAvailablePlace = view.findViewById(R.id.hostelElectricityBackupAvailablePlace);
+            hostelUpdatedAtPlace = view.findViewById(R.id.hostelUpdatedAtPlace);
 
             layout_edit_remove_hostel = view.findViewById(R.id.layout_edit_remove_hostel);
 
@@ -87,13 +93,25 @@ public class FragmentMyHostelDescription extends Fragment implements View.OnClic
                     hostelCostPerMemberPlace.setText(hostel.getCostPerPerson());
                     hostelNamePlace.setText(hostel.getHostelName());
                     hostelMaxMembersPerRoomPlace.setText(hostel.getMaxMembers());
+                    hostelDescriptionPlace.setText(hostel.getDescription());
 
-                    btn_view_on_map.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            CommonFunctionsClass.setBtn_view_on_map(context, hostel);
-                        }
-                    });
+                    hostelCityPlace.setText(hostel.getLocality());
+                    hostelOwnerEmailPlace.setText(hostel.getEmail());
+                    hostelUpdatedAtPlace.setText(hostel.getDate());
+                    hostelInternetAvailablePlace.setText((hostel.getInternetAvailable().equals(Constants.HOSTEL_INTERNET_AVAILABLE)) ? "Yes" : "No");
+                    hostelParkingAvailablePlace.setText((hostel.getParking().equals(Constants.HOSTEL_PARKING_AVAILABLE)) ? "Yes" : "No");
+                    hostelElectricityBackupAvailablePlace.setText((hostel.getElectricityBackup().equals(Constants.HOSTEL_ELECTRICITY_BACKUP_AVAILABLE)) ? "Yes" : "No");
+
+                    switch (hostel.getType()) {
+                        case Constants.HOSTEL_FOR_BOYS:
+                            hostelAvailableForPlace.setText("Boys");
+                            break;
+                        case Constants.HOSTEL_FOR_GIRLS:
+                            hostelAvailableForPlace.setText("Girls");
+                            break;
+
+                    }
+
                     btn_view_on_map.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {

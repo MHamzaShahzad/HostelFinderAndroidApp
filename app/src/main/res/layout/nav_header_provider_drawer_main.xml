@@ -13,22 +13,26 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageView"
+        android:id="@+id/headerImageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:contentDescription="@string/nav_header_desc"
         android:src="@drawable/profile"/>
 
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:id="@+id/headerUserName"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Provider Name"
-        android:textSize="18sp"
-        android:textColor="#fff"
-        android:fontFamily="@font/raleway_bold"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"/>
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:text="@string/nav_header_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    <TextView
+        android:id="@+id/headerPhoneNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

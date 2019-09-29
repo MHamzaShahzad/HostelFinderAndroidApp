@@ -1,7 +1,7 @@
 package com.example.hostelfinderandroidapp.model;
 
 public class User {
-    String userId,userName,phone,email,imageUrl,accountStatus,accountType;
+    String userId, userName, phone, email, imageUrl, accountStatus, accountType;
 
     public User() {
     }

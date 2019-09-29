@@ -18,49 +18,282 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardSelectLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    >
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_location_black"
+                            android:textSize="20sp"
+                            android:padding="5dp"
+                            android:text="Select Locations" />
+
+                        <EditText
+                            android:id="@+id/cityName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/style_edit_box"
+                            android:hint="City Name"
+                            android:layout_margin="10dp"
+                            />
+
+                        <EditText
+                            android:id="@+id/placeName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/style_edit_box"
+                            android:layout_margin="10dp"
+                            android:hint="Place Name"/>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardPriceRange"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@id/cardSelectLocation">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_location_black"
+                            android:textSize="20sp"
+                            android:padding="5dp"
+                            android:text="Price Change (PKR)" />
+
+                        <EditText
+                            android:id="@+id/maxPrice"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/style_edit_box"
+                            android:layout_margin="10dp"
+                            android:inputType="number"
+                            android:hint="Max Price"/>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardMaxMembers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@id/cardPriceRange">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_location_black"
+                            android:textSize="20sp"
+                            android:padding="5dp"
+                            android:text="Select Maximim Members" />
+
+                        <EditText
+                            android:id="@+id/maxMembers"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/style_edit_box"
+                            android:layout_margin="10dp"
+                            android:inputType="number"
+                            android:hint="Maximum Members"/>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardHostelFor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@id/cardMaxMembers">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_location_black"
+                            android:textSize="20sp"
+                            android:padding="5dp"
+                            android:text="Hostel Selection" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:layout_gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="7dp"
+                                android:text="Hostel For"
+                                android:layout_marginRight="15dp"
+                                android:fontFamily="@font/raleway_bold"
+                                android:textColor="@color/colorText"
+                                android:textSize="15sp"/>
+
+                            <RadioGroup
+                                android:id="@+id/radioGroupHostelFor"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <RadioButton
+                                    android:id="@+id/radioButtonHostelForBoys"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Boys"
+                                    android:fontFamily="@font/ralewaylight"
+                                    android:textColor="@color/colorText"
+                                    android:layout_marginRight="20dp"
+                                    android:textSize="15sp"/>
+
+                                <RadioButton
+                                    android:id="@+id/radioButtonHostelForGirls"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Girls"
+                                    android:fontFamily="@font/ralewaylight"
+                                    android:textColor="@color/colorText"
+                                    android:textSize="15sp"/>
+
+                            </RadioGroup>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardHostelFacilities"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@id/cardHostelFor">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_location_black"
+                            android:textSize="20sp"
+                            android:padding="5dp"
+                            android:text="Hostel Facilities" />
+
+                        <CheckBox
+                            android:id="@+id/checkBoxIsInternetAvailable"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Should Internet Available"
+                            android:fontFamily="@font/ralewaylight"
+                            android:textColor="@color/colorText"
+                            android:textSize="15sp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"/>
+
+                        <CheckBox
+                            android:id="@+id/checkBoxIsParkingAvailable"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Should Parking Available"
+                            android:fontFamily="@font/ralewaylight"
+                            android:textColor="@color/colorText"
+                            android:textSize="15sp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"/>
+
+                        <CheckBox
+                            android:id="@+id/checkBoxIsElectricityBackupAvailable"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Should Electricity Backup Available"
+                            android:fontFamily="@font/ralewaylight"
+                            android:textColor="@color/colorText"
+                            android:textSize="15sp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"/>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
 
             </RelativeLayout>
 
-
         </ScrollView>
-
 
         <LinearLayout
             android:id="@+id/layout_reset_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
             android:layout_margin="10dp"
             android:layout_marginBottom="20dp"
-            android:layout_alignParentBottom="true">
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnReset"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+                android:layout_weight="0.3"
+                android:background="@drawable/style_button_solid"
+                android:fontFamily="@font/ralewaylight"
                 android:text="Reset"
                 android:textAllCaps="false"
-                android:fontFamily="@font/ralewaylight"
-                android:textSize="17sp"
-                android:background="@drawable/style_button_solid"
-                android:textColor="@color/colorWhite"/>
+                android:textColor="@color/colorWhite"
+                android:textSize="17sp" />
 
             <Button
                 android:id="@+id/btnSearch"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+                android:layout_weight="0.7"
+                android:background="@drawable/style_button_solid"
+                android:fontFamily="@font/ralewaylight"
                 android:text="Search"
                 android:textAllCaps="false"
-                android:fontFamily="@font/ralewaylight"
-                android:textSize="17sp"
-                android:background="@drawable/style_button_solid"
-                android:textColor="@color/colorWhite"/>
+                android:textColor="@color/colorWhite"
+                android:textSize="17sp" />
 
         </LinearLayout>
+
     </RelativeLayout>
 
 </FrameLayout>

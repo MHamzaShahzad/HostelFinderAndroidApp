@@ -5,18 +5,31 @@
     android:layout_height="match_parent"
     tools:context=".user.FragmentHostelsListForUser">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_container"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_active_hostels_list"
+        <Button
+            android:id="@+id/btnShowFilters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="Filter"
+            android:textAllCaps="false" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent">
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_active_hostels_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    </LinearLayout>
 
 </FrameLayout>

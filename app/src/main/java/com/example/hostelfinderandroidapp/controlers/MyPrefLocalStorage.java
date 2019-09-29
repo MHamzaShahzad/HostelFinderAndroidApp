@@ -32,7 +32,9 @@ public class MyPrefLocalStorage {
         return gson.fromJson(json, User.class);
     }
 
-    public static void clearPreferences(){
+    public static void clearPreferences(Context context){
+        sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         editor.clear().apply();
     }
 
