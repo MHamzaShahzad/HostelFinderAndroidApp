@@ -1,7 +1,6 @@
 package com.example.hostelfinderandroidapp;
 
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -39,17 +38,9 @@ import com.example.hostelfinderandroidapp.model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.Date;
@@ -58,9 +49,6 @@ import java.util.UUID;
 import static android.app.Activity.RESULT_OK;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class FragmentBecomeHostelOwner extends Fragment {
 
     private static final String TAG = FragmentBecomeHostelOwner.class.getName();
@@ -68,7 +56,7 @@ public class FragmentBecomeHostelOwner extends Fragment {
     private static final int GALLERY_REQUEST = 1;
     private Context context;
     private View view;
-    ImageView hostelImage;
+    private ImageView hostelImage;
     private TextView hostelAddress;
     private EditText ownerName, ownerPhoneNumber, ownerEmailAddress, ownerHostelName, numberOfRoomsAvailable, totalNumberOfRooms, maximumMembersPerRoom, hostelDescription, costPerMember;
     private RadioGroup radioGroupHostelFor;
@@ -77,17 +65,17 @@ public class FragmentBecomeHostelOwner extends Fragment {
     private Button submitProviderHostelPost;
 
     private static BroadcastReceiver broadcastReceiver;
-    String latitude, longitude, city;
+    private String latitude, longitude, city;
 
-    Uri filePath;
+    private Uri filePath;
 
-    ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
 
-    FirebaseUser firebaseUser;
-    User databaseUser;
+    private FirebaseUser firebaseUser;
+    private User databaseUser;
 
-    User hostelOwner;
-    Hostel hostel;
+    private User hostelOwner;
+    private Hostel hostel;
 
     public FragmentBecomeHostelOwner() {
         // Required empty public constructor
@@ -447,6 +435,5 @@ public class FragmentBecomeHostelOwner extends Fragment {
         };
         context.registerReceiver(broadcastReceiver, new IntentFilter(Constants.LOCATION_RECEIVING_FILTER));
     }
-
 
 }

@@ -146,7 +146,7 @@ public class FragmentHostelsListForUser extends Fragment implements SwipeRefresh
 
                                         case Hostel.ADDRESS_STRING:
 
-                                            if (!hostel.getAddress().toLowerCase().contains(entry.getValue().toLowerCase()) ) {
+                                            if (!hostel.getAddress().toLowerCase().contains(entry.getValue().toLowerCase())) {
                                                 matches = false;
                                             }
                                             break;
@@ -164,6 +164,8 @@ public class FragmentHostelsListForUser extends Fragment implements SwipeRefresh
                                     list.add(hostel);
                             } else
                                 list.add(hostel);
+
+                            showHideNoItemFound();
 
                             Log.e(TAG, "onDataChange: " + hostel.getHostelName());
                         }
@@ -245,6 +247,14 @@ public class FragmentHostelsListForUser extends Fragment implements SwipeRefresh
     public void onRefresh() {
         removeHostelValueEventListener();
         initHostelsListListener(mapFilter);
+    }
+
+    private void showHideNoItemFound() {
+        if (list != null && list.size() == 0) {
+            CommonFunctionsClass.showNoItemFoundText(context, R.id.text_no_item_found);
+        } else
+            CommonFunctionsClass.hideNoItemFoundText(context, R.id.text_no_item_found);
+
     }
 
 }
