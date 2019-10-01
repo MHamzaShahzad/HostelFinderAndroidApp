@@ -10,6 +10,7 @@
         android:layout_height="match_parent">
 
         <include layout="@layout/layout_progress_bar" />
+        <include layout="@layout/layout_no_item_found" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"

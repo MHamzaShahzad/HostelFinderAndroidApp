@@ -7,16 +7,21 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.hostelfinderandroidapp.model.Hostel;
+import com.google.firestore.admin.v1beta1.Progress;
 
 public class CommonFunctionsClass {
+
+    private static final String TAG = CommonFunctionsClass.class.getName();
 
     public static void setSend_sms_to_owner(Context context, String phoneNumber) {
         Intent smsIntent = new Intent(Intent.ACTION_VIEW);
@@ -73,6 +78,33 @@ public class CommonFunctionsClass {
             }
         });
         builder.create().show();
+    }
+
+    public static void setTextToNoItemFound(Context context, int id, String text){
+        try {
+            TextView textView = (TextView) ((FragmentActivity) context).findViewById(id);
+            textView.setText(text);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void showNoItemFoundText(Context context, int id){
+        Log.e(TAG, "showNoItemFoundText: "+ id );
+        try {
+            ((FragmentActivity) context).findViewById(id).setVisibility(View.VISIBLE);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void hideNoItemFoundText(Context context, int id){
+        Log.e(TAG, "hideNoItemFoundText: "+ id );
+        try {
+            ((FragmentActivity) context).findViewById(id).setVisibility(View.INVISIBLE);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 }

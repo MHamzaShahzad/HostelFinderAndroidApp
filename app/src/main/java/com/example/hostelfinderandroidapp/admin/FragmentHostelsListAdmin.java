@@ -148,6 +148,8 @@ public class FragmentHostelsListAdmin extends Fragment {
         if (tabLayout.getSelectedTabPosition() == 1) {
             getActiveHostels();
         }
+
+        showHideNoItemFound();
     }
 
     private void getInActiveHostels() {
@@ -184,6 +186,14 @@ public class FragmentHostelsListAdmin extends Fragment {
         super.onDestroy();
         if (valueEventListener != null)
             MyFirebaseDatabase.HOSTELS_REFERENCE.removeEventListener(valueEventListener);
+    }
+
+    private void showHideNoItemFound(){
+        if (tempList.size() == 0){
+            CommonFunctionsClass.showNoItemFoundText(context, R.id.text_no_item_found);
+        }else
+            CommonFunctionsClass.hideNoItemFoundText(context, R.id.text_no_item_found);
+
     }
 
 }

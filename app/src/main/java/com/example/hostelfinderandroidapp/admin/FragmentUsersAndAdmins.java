@@ -133,6 +133,7 @@ public class FragmentUsersAndAdmins extends Fragment {
                 initTabsLayout();
                 CommonFunctionsClass.hideProgressBar(progressBar);
 
+
             }
 
             @Override
@@ -150,6 +151,7 @@ public class FragmentUsersAndAdmins extends Fragment {
         if (tabLayout.getSelectedTabPosition() == 1){
             getAdmins();
         }
+        showHideNoItemFound();
     }
 
     private void getUsers() {
@@ -164,7 +166,6 @@ public class FragmentUsersAndAdmins extends Fragment {
 
         }
         adapterUsersAndAdmins.notifyDataSetChanged();
-
     }
 
     private void getAdmins() {
@@ -178,7 +179,6 @@ public class FragmentUsersAndAdmins extends Fragment {
 
         }
         adapterUsersAndAdmins.notifyDataSetChanged();
-
     }
 
     @Override
@@ -186,6 +186,13 @@ public class FragmentUsersAndAdmins extends Fragment {
         super.onDestroy();
         if (valueEventListener != null)
             MyFirebaseDatabase.USER_REFERENCE.removeEventListener(valueEventListener);
+    }
+
+    private void showHideNoItemFound(){
+        if (tempList.size() == 0){
+            CommonFunctionsClass.showNoItemFoundText(context,R.id.text_no_item_found);
+        }else
+            CommonFunctionsClass.hideNoItemFoundText(context,R.id.text_no_item_found);
     }
 
 }

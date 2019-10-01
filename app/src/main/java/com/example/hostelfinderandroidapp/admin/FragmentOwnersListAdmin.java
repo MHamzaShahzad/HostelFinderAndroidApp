@@ -147,6 +147,8 @@ public class FragmentOwnersListAdmin extends Fragment {
         if (tabLayout.getSelectedTabPosition() == 1){
             getActiveOwners();
         }
+
+        showHideNoItemFound();
     }
 
     private void getInActiveOwners() {
@@ -184,4 +186,12 @@ public class FragmentOwnersListAdmin extends Fragment {
         if (valueEventListener != null)
             MyFirebaseDatabase.USER_REFERENCE.removeEventListener(valueEventListener);
     }
+
+    private void showHideNoItemFound(){
+        if (tempList.size() == 0){
+            CommonFunctionsClass.showNoItemFoundText(context, R.id.text_no_item_found);
+        }else
+            CommonFunctionsClass.hideNoItemFoundText(context, R.id.text_no_item_found);
+    }
+
 }
