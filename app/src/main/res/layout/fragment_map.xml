@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_margin="20dp"
-            android:background="#fff"
+            android:background="@drawable/style_button_lining"
             android:elevation="1dp"
             android:padding="15dp">
 
@@ -23,6 +23,8 @@
                 android:id="@+id/text_location_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/ralewaylight"
+                android:textStyle="bold"
                 android:drawableLeft="@drawable/ic_location_black"
                 android:drawablePadding="13dp"
                 android:text="Location" />

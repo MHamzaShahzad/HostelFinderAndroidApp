@@ -22,7 +22,7 @@
                     android:id="@+id/cardSelectLocation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_margin="5dp"
                     >
 
                     <LinearLayout
@@ -34,8 +34,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/ic_location_black"
-                            android:textSize="20sp"
+                            android:textSize="18sp"
                             android:padding="5dp"
+                            android:drawablePadding="10dp"
+                            android:fontFamily="@font/ralewaylight"
+                            android:textColor="@color/colorText"
                             android:text="Select Locations" />
 
                         <EditText
@@ -44,6 +47,9 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/style_edit_box"
                             android:hint="City Name"
+                            android:textSize="15sp"
+                            android:textColor="@color/colorText"
+                            android:fontFamily="@font/ralewaylight"
                             android:layout_margin="10dp"
                             />
 
@@ -52,7 +58,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/style_edit_box"
-                            android:layout_margin="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="15sp"
+                            android:textColor="@color/colorText"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/ralewaylight"
                             android:hint="Place Name"/>
 
                     </LinearLayout>
@@ -63,7 +74,8 @@
                     android:id="@+id/cardPriceRange"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_below="@id/cardSelectLocation">
 
                     <LinearLayout
@@ -74,9 +86,12 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/ic_location_black"
-                            android:textSize="20sp"
+                            android:drawableLeft="@drawable/price_change"
+                            android:textSize="18sp"
                             android:padding="5dp"
+                            android:drawablePadding="10dp"
+                            android:textColor="@color/colorText"
+                            android:fontFamily="@font/ralewaylight"
                             android:text="Price Change (PKR)" />
 
                         <EditText
@@ -85,6 +100,9 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/style_edit_box"
                             android:layout_margin="10dp"
+                            android:textSize="15sp"
+                            android:textColor="@color/colorText"
+                            android:fontFamily="@font/ralewaylight"
                             android:inputType="number"
                             android:hint="Max Price"/>
 
@@ -97,6 +115,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_below="@id/cardPriceRange">
 
                     <LinearLayout
@@ -107,9 +127,12 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/ic_location_black"
-                            android:textSize="20sp"
+                            android:drawableLeft="@drawable/admin_user"
+                            android:textSize="18sp"
                             android:padding="5dp"
+                            android:drawablePadding="10dp"
+                            android:textColor="@color/colorText"
+                            android:fontFamily="@font/ralewaylight"
                             android:text="Select Maximim Members" />
 
                         <EditText
@@ -118,6 +141,9 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/style_edit_box"
                             android:layout_margin="10dp"
+                            android:textSize="15sp"
+                            android:fontFamily="@font/ralewaylight"
+                            android:textColor="@color/colorText"
                             android:inputType="number"
                             android:hint="Maximum Members"/>
 
@@ -130,6 +156,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_below="@id/cardMaxMembers">
 
                     <LinearLayout
@@ -139,10 +167,13 @@
 
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/ic_location_black"
-                            android:textSize="20sp"
+                            android:layout_height="30dp"
+                            android:drawableLeft="@drawable/admin_user"
+                            android:textSize="18sp"
+                            android:textColor="@color/colorText"
                             android:padding="5dp"
+                            android:drawablePadding="10dp"
+                            android:fontFamily="@font/ralewaylight"
                             android:text="Hostel Selection" />
 
                         <LinearLayout
@@ -200,6 +231,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="20dp"
                     android:layout_below="@id/cardHostelFor">
 
                     <LinearLayout
@@ -210,8 +244,11 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/ic_location_black"
-                            android:textSize="20sp"
+                            android:drawableLeft="@drawable/facilities"
+                            android:drawablePadding="10dp"
+                            android:textSize="18sp"
+                            android:textColor="@color/colorText"
+                            android:fontFamily="@font/ralewaylight"
                             android:padding="5dp"
                             android:text="Hostel Facilities" />
 
@@ -264,32 +301,40 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_margin="10dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/style_button_solid"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnReset"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:background="@drawable/style_button_solid"
+                android:layout_weight="0.5"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/style_button_lining"
                 android:fontFamily="@font/ralewaylight"
                 android:text="Reset"
+                android:layout_marginRight="5dp"
                 android:textAllCaps="false"
-                android:textColor="@color/colorWhite"
+                android:textColor="#015E6B"
                 android:textSize="17sp" />
 
             <Button
                 android:id="@+id/btnSearch"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:background="@drawable/style_button_solid"
+                android:layout_weight="0.5"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/style_button_lining"
                 android:fontFamily="@font/ralewaylight"
                 android:text="Search"
                 android:textAllCaps="false"
-                android:textColor="@color/colorWhite"
+                android:textColor="#015E6B"
                 android:textSize="17sp" />
 
         </LinearLayout>
