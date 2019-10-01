@@ -1,6 +1,7 @@
 package com.example.hostelfinderandroidapp.user;
 
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.hostelfinderandroidapp.CommonFunctionsClass;
 import com.example.hostelfinderandroidapp.Constants;
+import com.example.hostelfinderandroidapp.FragmentInteractionListenerInterface;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.adapters.AdapterHostelsListForUsers;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
@@ -50,6 +52,8 @@ public class FragmentHostelsListForUser extends Fragment implements SwipeRefresh
     private BroadcastReceiver filtersReceiver;
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private FragmentInteractionListenerInterface mListener;
+
 
     public FragmentHostelsListForUser() {
         // Required empty public constructor
@@ -62,6 +66,9 @@ public class FragmentHostelsListForUser extends Fragment implements SwipeRefresh
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         context = container.getContext();
+        if (mListener != null) {
+            mListener.onFragmentInteraction("Home");
+        }
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_hostels_list_for_user, container, false);
 
@@ -257,4 +264,28 @@ public class FragmentHostelsListForUser extends Fragment implements SwipeRefresh
 
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (FragmentInteractionListenerInterface) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mListener != null) {
+            mListener.onFragmentInteraction("Home");
+        }
+    }
 }

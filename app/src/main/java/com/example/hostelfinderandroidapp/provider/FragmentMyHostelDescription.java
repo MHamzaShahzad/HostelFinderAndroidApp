@@ -1,6 +1,7 @@
 package com.example.hostelfinderandroidapp.provider;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,6 +22,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.example.hostelfinderandroidapp.CommonFunctionsClass;
 import com.example.hostelfinderandroidapp.Constants;
 import com.example.hostelfinderandroidapp.FragmentBecomeHostelOwner;
+import com.example.hostelfinderandroidapp.FragmentInteractionListenerInterface;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
 import com.example.hostelfinderandroidapp.model.Hostel;
@@ -40,6 +42,8 @@ public class FragmentMyHostelDescription extends Fragment implements View.OnClic
     TextView hostelAvailableForPlace, hostelInternetAvailablePlace, hostelParkingAvailablePlace, hostelElectricityBackupAvailablePlace, hostelCityPlace, hostelUpdatedAtPlace, btn_view_on_map, hostelNamePlace, hostelAddressPlace, hostelAvailableRoomsPlace, hostelCostPerMemberPlace, hostelMaxMembersPerRoomPlace, hostelOwnerEmailPlace, hostelDescriptionPlace;
     LinearLayout layout_edit_remove_hostel;
 
+    private FragmentInteractionListenerInterface mListener;
+
     public FragmentMyHostelDescription() {
         // Required empty public constructor
     }
@@ -49,6 +53,10 @@ public class FragmentMyHostelDescription extends Fragment implements View.OnClic
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         context = container.getContext();
+        if (mListener != null) {
+            mListener.onFragmentInteraction("Description");
+        }
+
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_my_hostel_description, container, false);
 
@@ -176,6 +184,31 @@ public class FragmentMyHostelDescription extends Fragment implements View.OnClic
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (FragmentInteractionListenerInterface) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mListener != null) {
+            mListener.onFragmentInteraction("Description");
+        }
     }
 
 }

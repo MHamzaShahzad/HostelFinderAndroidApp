@@ -1,6 +1,7 @@
 package com.example.hostelfinderandroidapp;
 
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -77,6 +78,8 @@ public class FragmentBecomeHostelOwner extends Fragment {
     private User hostelOwner;
     private Hostel hostel;
 
+    private FragmentInteractionListenerInterface mListener;
+
     public FragmentBecomeHostelOwner() {
         // Required empty public constructor
     }
@@ -86,6 +89,9 @@ public class FragmentBecomeHostelOwner extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         context = container.getContext();
+        if (mListener != null) {
+            mListener.onFragmentInteraction("Upload Hostel");
+        }
 
         firebaseUser = MyFirebaseUser.mUser;
         databaseUser = MyPrefLocalStorage.getCurrentUserData(context);
@@ -434,6 +440,31 @@ public class FragmentBecomeHostelOwner extends Fragment {
             }
         };
         context.registerReceiver(broadcastReceiver, new IntentFilter(Constants.LOCATION_RECEIVING_FILTER));
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (FragmentInteractionListenerInterface) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mListener != null) {
+            mListener.onFragmentInteraction("Upload Hostel");
+        }
     }
 
 }

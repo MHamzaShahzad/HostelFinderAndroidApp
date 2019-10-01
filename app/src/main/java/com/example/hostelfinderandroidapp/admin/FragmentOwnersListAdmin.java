@@ -1,6 +1,7 @@
 package com.example.hostelfinderandroidapp.admin;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.hostelfinderandroidapp.CommonFunctionsClass;
 import com.example.hostelfinderandroidapp.Constants;
+import com.example.hostelfinderandroidapp.FragmentInteractionListenerInterface;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.adapters.AdapterOwnersList;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
@@ -46,6 +48,7 @@ public class FragmentOwnersListAdmin extends Fragment {
     ValueEventListener valueEventListener;
 
     private ProgressBar progressBar;
+    private FragmentInteractionListenerInterface mListener;
 
     public FragmentOwnersListAdmin() {
         // Required empty public constructor
@@ -60,6 +63,9 @@ public class FragmentOwnersListAdmin extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         context = container.getContext();
+        if (mListener != null) {
+            mListener.onFragmentInteraction("Hostel Owners");
+        }
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_owners_list_admin, container, false);
 
@@ -192,6 +198,31 @@ public class FragmentOwnersListAdmin extends Fragment {
             CommonFunctionsClass.showNoItemFoundText(context, R.id.text_no_item_found);
         }else
             CommonFunctionsClass.hideNoItemFoundText(context, R.id.text_no_item_found);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (FragmentInteractionListenerInterface) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mListener != null) {
+            mListener.onFragmentInteraction("Hostel Owners");
+        }
     }
 
 }

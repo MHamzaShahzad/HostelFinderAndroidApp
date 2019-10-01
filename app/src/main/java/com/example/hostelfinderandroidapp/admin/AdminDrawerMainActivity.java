@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.example.hostelfinderandroidapp.CommonFunctionsClass;
+import com.example.hostelfinderandroidapp.FragmentInteractionListenerInterface;
 import com.example.hostelfinderandroidapp.FragmentUpdateProfile;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseUser;
@@ -32,7 +33,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class AdminDrawerMainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, FragmentInteractionListenerInterface {
 
     private Context context;
 
@@ -171,4 +172,9 @@ public class AdminDrawerMainActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public void onFragmentInteraction(String title) {
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setTitle(title);
+    }
 }

@@ -81,6 +81,8 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
     private String cityName;
     private Bundle incomingArguments;
 
+    private FragmentInteractionListenerInterface mListener;
+
     public FragmentMap() {
     }
 
@@ -88,6 +90,10 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         context = container.getContext();
+        if (mListener != null) {
+            mListener.onFragmentInteraction("Hostel Location");
+        }
+
         // Inflate the layout for this fragment
         if (view == null) {
 
@@ -279,6 +285,31 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
                 ((FragmentActivity) context).getSupportFragmentManager().popBackStack();
             }
         });
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (FragmentInteractionListenerInterface) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mListener != null) {
+            mListener.onFragmentInteraction("Hostel Location");
+        }
     }
 
 }
