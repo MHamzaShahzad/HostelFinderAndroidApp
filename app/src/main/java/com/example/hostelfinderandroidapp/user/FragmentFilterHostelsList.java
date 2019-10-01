@@ -1,6 +1,7 @@
 package com.example.hostelfinderandroidapp.user;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.hostelfinderandroidapp.Constants;
+import com.example.hostelfinderandroidapp.FragmentInteractionListenerInterface;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.model.Hostel;
 
@@ -31,6 +33,8 @@ public class FragmentFilterHostelsList extends DialogFragment implements View.On
 
     Context context;
     View view;
+
+    private FragmentInteractionListenerInterface mListener;
 
     private HashMap<String, String> map;
     private Intent bradCastIntent;
@@ -55,6 +59,9 @@ public class FragmentFilterHostelsList extends DialogFragment implements View.On
         context = container.getContext();
         map = new HashMap<>();
         bradCastIntent = new Intent(Constants.HOSTEL_INTENT_FILTER);
+        if (mListener != null) {
+            mListener.onFragmentInteraction("Filter");
+        }
         // Inflate the layout for this fragment
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_filter_hostels_list, container, false);
@@ -147,5 +154,31 @@ public class FragmentFilterHostelsList extends DialogFragment implements View.On
         radioButtonHostelForBoys.setChecked(false);
         radioButtonHostelForGirls.setChecked(false);
 
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (FragmentInteractionListenerInterface) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mListener != null) {
+            mListener.onFragmentInteraction("Filter");
+        }
     }
 }

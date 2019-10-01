@@ -1,6 +1,7 @@
 package com.example.hostelfinderandroidapp.provider;
 
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -27,6 +28,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.hostelfinderandroidapp.Constants;
+import com.example.hostelfinderandroidapp.FragmentInteractionListenerInterface;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseStorage;
@@ -68,6 +70,8 @@ public class FragmentEditMyHostelPost extends Fragment implements View.OnClickLi
     Uri filePath;
 
     User databaseUser;
+    private FragmentInteractionListenerInterface mListener;
+
 
     public FragmentEditMyHostelPost() {
         // Required empty public constructor
@@ -79,6 +83,9 @@ public class FragmentEditMyHostelPost extends Fragment implements View.OnClickLi
                              Bundle savedInstanceState) {
 
         context = container.getContext();
+        if (mListener != null) {
+            mListener.onFragmentInteraction("Edit Hostel");
+        }
         databaseUser = MyPrefLocalStorage.getCurrentUserData(context);
 
         progressDialog = new ProgressDialog(context);
@@ -417,5 +424,28 @@ public class FragmentEditMyHostelPost extends Fragment implements View.OnClickLi
                 date.toLocaleString()
         );
     }
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (FragmentInteractionListenerInterface) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mListener != null) {
+            mListener.onFragmentInteraction("Edit Hostel");
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.hostelfinderandroidapp.admin;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.hostelfinderandroidapp.CommonFunctionsClass;
 import com.example.hostelfinderandroidapp.Constants;
+import com.example.hostelfinderandroidapp.FragmentInteractionListenerInterface;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
 import com.example.hostelfinderandroidapp.model.Hostel;
@@ -46,6 +48,7 @@ public class FragmentHostelDescriptionAdmin extends Fragment {
     private static final String HOSTEL_BUTTON_TEXT_ACTIVE = "Active";
     private static final String HOSTEL_BUTTON_TEXT_INACTIVE = "In-Active";
 
+    private FragmentInteractionListenerInterface mListener;
 
     public FragmentHostelDescriptionAdmin() {
         // Required empty public constructor
@@ -56,6 +59,9 @@ public class FragmentHostelDescriptionAdmin extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         context = container.getContext();
+        if (mListener != null) {
+            mListener.onFragmentInteraction("Description");
+        }
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_hostel_description_admin, container, false);
 
@@ -190,6 +196,31 @@ public class FragmentHostelDescriptionAdmin extends Fragment {
                 Toast.makeText(context, "Cancelled", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (FragmentInteractionListenerInterface) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mListener != null) {
+            mListener.onFragmentInteraction("Description");
+        }
     }
 
 }

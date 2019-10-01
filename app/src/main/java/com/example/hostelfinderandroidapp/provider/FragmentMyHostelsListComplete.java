@@ -1,6 +1,7 @@
 package com.example.hostelfinderandroidapp.provider;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hostelfinderandroidapp.CommonFunctionsClass;
 import com.example.hostelfinderandroidapp.Constants;
+import com.example.hostelfinderandroidapp.FragmentInteractionListenerInterface;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.adapters.AdapterMyHostelsList;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
@@ -43,6 +45,7 @@ public class FragmentMyHostelsListComplete extends Fragment {
     AdapterMyHostelsList adapterMyHostelsList;
     private ProgressBar progressBar;
 
+    private FragmentInteractionListenerInterface mListener;
 
     public FragmentMyHostelsListComplete() {
         // Required empty public constructor
@@ -56,6 +59,9 @@ public class FragmentMyHostelsListComplete extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         context = container.getContext();
+        if (mListener != null) {
+            mListener.onFragmentInteraction("My Hostels");
+        }
         if (view == null) {
 
             view = inflater.inflate(R.layout.fragment_my_hostels_list_complete, container, false);
@@ -193,5 +199,29 @@ public class FragmentMyHostelsListComplete extends Fragment {
             CommonFunctionsClass.hideNoItemFoundText(context, R.id.text_no_item_found);
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (FragmentInteractionListenerInterface) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mListener != null) {
+            mListener.onFragmentInteraction("My Hostels");
+        }
+    }
 
 }
