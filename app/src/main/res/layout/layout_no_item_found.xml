@@ -13,6 +13,7 @@
         android:textSize="25sp"
         android:textColor="#C4BCBC"
         android:visibility="gone"
+        android:fontFamily="@font/ralewaylight"
         android:textStyle="bold"/>
 
 </RelativeLayout>

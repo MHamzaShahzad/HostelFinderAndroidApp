@@ -11,6 +11,10 @@ import android.content.pm.Signature;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hostelfinderandroidapp.admin.AdminDrawerMainActivity;
@@ -38,6 +42,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    TextView animText;
+    ImageView splashImage;
+    Animation fromBottom, fromTop;
     private static final String TAG = MainActivity.class.getName();
     private Context context;
     private static final int RC_SIGN_IN = 1;
@@ -48,6 +55,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = this;
+
+        animText = findViewById(R.id.txt_splash);
+        splashImage = findViewById(R.id.splash_logo);
+        fromBottom = AnimationUtils.loadAnimation(this,R.anim.frombottom);
+        fromTop = AnimationUtils.loadAnimation(this,R.anim.fromtop);
+        animText.setAnimation(fromBottom);
+        splashImage.setAnimation(fromTop);
 
         if (isAlreadySignedIn())
             checkUserTypeFromDBToSignIn();

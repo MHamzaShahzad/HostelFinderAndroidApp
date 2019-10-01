@@ -13,9 +13,14 @@
         <Button
             android:id="@+id/btnShowFilters"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_gravity="end"
             android:text="Filter"
+            android:textColor="@color/colorWhite"
+            android:fontFamily="@font/ralewaylight"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorPrimaryDark"
             android:textAllCaps="false" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
