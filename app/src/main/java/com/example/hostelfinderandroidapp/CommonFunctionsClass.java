@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.fragment.app.FragmentActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.hostelfinderandroidapp.controlers.MyFirebaseUser;
 import com.example.hostelfinderandroidapp.model.Hostel;
 import com.google.firestore.admin.v1beta1.Progress;
 
@@ -105,6 +106,22 @@ public class CommonFunctionsClass {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public static void showDialogAndSignOut(final Context context, String message){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(message);
+        builder.setCancelable(false);
+        builder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                MyFirebaseUser.SignOut(context);
+            }
+        });
+
+        builder.create().show();
+
     }
 
 }

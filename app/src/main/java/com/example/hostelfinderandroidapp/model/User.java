@@ -18,17 +18,6 @@ public class User {
 
     }
 
-    public User(String userId, String userName, String phone, String email, String imageUrl, String accountType) {
-
-        this.userId = userId;
-        this.userName = userName;
-        this.phone = phone;
-        this.email = email;
-        this.imageUrl = imageUrl;
-        this.accountType = accountType;
-
-    }
-
     public String getUserId() {
         return userId;
     }

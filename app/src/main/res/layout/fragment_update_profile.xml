@@ -53,9 +53,9 @@
                 android:layout_height="wrap_content"
                 android:hint="User Name"
                 android:fontFamily="@font/ralewaylight"
+                android:inputType="textPersonName"
                 android:textSize="15sp"
-                android:textColor="@color/colorText"
-                android:background="@drawable/style_edit_box"/>
+                android:textColor="@color/colorText"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -71,9 +71,9 @@
                 android:layout_height="wrap_content"
                 android:hint="Phone Number"
                 android:textColor="@color/colorText"
+                android:inputType="number"
                 android:textSize="15sp"
-                android:fontFamily="@font/ralewaylight"
-                android:background="@drawable/style_edit_box"/>
+                android:fontFamily="@font/ralewaylight"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -87,10 +87,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email Address"
+                android:inputType="textEmailAddress"
                 android:textColor="@color/colorText"
                 android:textSize="15sp"
-                android:fontFamily="@font/ralewaylight"
-                android:background="@drawable/style_edit_box"/>
+                android:fontFamily="@font/ralewaylight"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

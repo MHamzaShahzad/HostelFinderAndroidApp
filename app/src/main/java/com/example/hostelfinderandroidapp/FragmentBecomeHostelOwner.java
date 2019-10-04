@@ -285,7 +285,7 @@ public class FragmentBecomeHostelOwner extends Fragment {
                 ownerEmailAddress.getText().toString(),
                 (databaseUser.getImageUrl() != null && !databaseUser.getImageUrl().equals("null")) ? databaseUser.getImageUrl() : String.valueOf(firebaseUser.getPhotoUrl()),
                 (databaseUser.getAccountStatus() == null) ? Constants.ACCOUNT_STATUS_INACTIVE : databaseUser.getAccountStatus(),
-                (databaseUser.getAccountType() == null) ? Constants.ACCOUNT_TYPE_HOSTEL_OWNER : databaseUser.getAccountType()
+                (databaseUser.getAccountType() == null || databaseUser.getAccountStatus().equals(Constants.ACCOUNT_TYPE_USER)) ? Constants.ACCOUNT_TYPE_HOSTEL_OWNER : databaseUser.getAccountType()
         );
     }
 
@@ -314,13 +314,15 @@ public class FragmentBecomeHostelOwner extends Fragment {
     }
 
     private Boolean validatePostForm() {
+        boolean result = true;
         if (ownerName.length() == 0) {
             ownerName.setError("Field is required!");
-            return false;
+            result = false;
         }
         if (ownerHostelName.length() == 0) {
             ownerHostelName.setError("Field is required!");
-            return false;
+            result = false;
+
         }
         if (ownerPhoneNumber.length() == 0) {
             ownerPhoneNumber.setError("Field is required!");
@@ -328,36 +330,48 @@ public class FragmentBecomeHostelOwner extends Fragment {
         }
         if (ownerEmailAddress.length() > 0 && !isEmailValid(ownerEmailAddress.getText().toString())) {
             ownerEmailAddress.setError("Invalid Email");
-            return false;
+            result = false;
+
         }
         if (numberOfRoomsAvailable.length() == 0) {
             numberOfRoomsAvailable.setError("Field is required!");
-            return false;
+            result = false;
+
         }
         if (totalNumberOfRooms.length() == 0) {
             totalNumberOfRooms.setError("Field is required!");
-            return false;
+            result = false;
+
         }
         if (maximumMembersPerRoom.length() == 0) {
             maximumMembersPerRoom.setError("Field is required!");
-            return false;
+            result = false;
+
         }
         if (hostelAddress.length() == 0) {
             hostelAddress.setError("Field is required!");
-            return false;
+            result = false;
+
 
         }
         if (hostelDescription.length() == 0) {
             hostelDescription.setError("Field is required!");
-            return false;
+            result = false;
+
         }
 
+        if (filePath == null){
+            Toast.makeText(context, "Upload Hostel image.", Toast.LENGTH_LONG).show();
+            result = false;
+
+        }
         if (!isHostelForSelected()) {
             Toast.makeText(context, "Pleas select hostel for Boys or Girls", Toast.LENGTH_LONG).show();
+            result = false;
         }
 
 
-        return true;
+        return result;
 
 
     }

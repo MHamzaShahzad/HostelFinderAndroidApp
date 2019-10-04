@@ -4,23 +4,32 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.example.hostelfinderandroidapp.CommonFunctionsClass;
+import com.example.hostelfinderandroidapp.Constants;
 import com.example.hostelfinderandroidapp.FragmentInteractionListenerInterface;
 import com.example.hostelfinderandroidapp.FragmentUpdateProfile;
 import com.example.hostelfinderandroidapp.R;
+import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseUser;
 import com.example.hostelfinderandroidapp.model.User;
 import com.example.hostelfinderandroidapp.user.FragmentHostelsListForUser;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -35,16 +44,25 @@ import android.widget.TextView;
 public class AdminDrawerMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FragmentInteractionListenerInterface {
 
+    private static final String TAG = AdminDrawerMainActivity.class.getName();
     private Context context;
 
     public static ImageView userNavHeaderImage;
     public static TextView userNavHeaderName, headerPhoneNumber;
+
+    private FirebaseUser firebaseUser;
+    private ValueEventListener userValueEventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_drawer_main);
         context = this;
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser == null) {
+            MyFirebaseUser.SignOut(context);
+        }
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -65,6 +83,7 @@ public class AdminDrawerMainActivity extends AppCompatActivity
 
         initHeaderWidgets(navigationView.getHeaderView(0));
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentHostelsListForUser()).commit();
+        initCheckUserAccount();
     }
 
     @Override
@@ -172,9 +191,58 @@ public class AdminDrawerMainActivity extends AppCompatActivity
         }
     }
 
+    private void initCheckUserAccount() {
+        userValueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists() && dataSnapshot.getValue() != null) {
+                    Log.e(TAG, "onDataChange: " + dataSnapshot.getValue() );
+                    try {
+                        User user = dataSnapshot.getValue(User.class);
+                        if (user != null) {
+
+                            //If account de-activated
+                            if (user.getAccountStatus().equals(Constants.ACCOUNT_STATUS_INACTIVE)) {
+                                Log.e(TAG, "onDataChange: STATUS_INACTIVE"  );
+                                CommonFunctionsClass.showDialogAndSignOut(context, "Your account has been de-activated by admin.");
+                            }
+
+                            //If account type changes
+                            if (user.getAccountStatus().equals(Constants.ACCOUNT_STATUS_ACTIVE) && (user.getAccountType().equals(Constants.ACCOUNT_TYPE_USER) || user.getAccountType().equals(Constants.ACCOUNT_TYPE_HOSTEL_OWNER))) {
+                                CommonFunctionsClass.showDialogAndSignOut(context, "Your account type have been changed, click continue to re-authenticate!");
+                            }
+
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        MyFirebaseDatabase.USER_REFERENCE.child(firebaseUser.getUid()).addValueEventListener(userValueEventListener);
+    }
+
+    private void removeUserValueEventListener() {
+        MyFirebaseDatabase.USER_REFERENCE.child(firebaseUser.getUid()).removeEventListener(userValueEventListener);
+    }
+
     @Override
     public void onFragmentInteraction(String title) {
         if (getSupportActionBar() != null)
             getSupportActionBar().setTitle(title);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        removeUserValueEventListener();
+    }
+
 }

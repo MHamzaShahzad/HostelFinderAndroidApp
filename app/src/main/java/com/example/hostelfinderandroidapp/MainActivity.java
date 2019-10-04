@@ -9,6 +9,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 import android.view.animation.Animation;
@@ -58,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
         animText = findViewById(R.id.txt_splash);
         splashImage = findViewById(R.id.splash_logo);
-        fromBottom = AnimationUtils.loadAnimation(this,R.anim.frombottom);
-        fromTop = AnimationUtils.loadAnimation(this,R.anim.fromtop);
+        fromBottom = AnimationUtils.loadAnimation(this, R.anim.frombottom);
+        fromTop = AnimationUtils.loadAnimation(this, R.anim.fromtop);
         animText.setAnimation(fromBottom);
         splashImage.setAnimation(fromTop);
 
@@ -67,7 +68,13 @@ public class MainActivity extends AppCompatActivity {
             checkUserTypeFromDBToSignIn();
         else {
             initProviders();
-            showSignInOptions();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    showSignInOptions();
+                }
+            }, 3000);
         }
     }
 
@@ -95,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
                                         user.getPhoneNumber(),
                                         user.getEmail(),
                                         String.valueOf(user.getPhotoUrl()),
+                                        Constants.ACCOUNT_STATUS_ACTIVE,
                                         Constants.ACCOUNT_TYPE_USER
 
                                 );
@@ -113,12 +121,15 @@ public class MainActivity extends AppCompatActivity {
 
                             } else {
                                 //Toast.makeText(context, "Successfully logged In!", Toast.LENGTH_LONG).show();
-                                if (dataSnapshot.getValue(User.class) != null)
-                                    try {
-                                        goToHomeAccordingToUserType(dataSnapshot.getValue(User.class));
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
+                                try {
+                                    User myUser = dataSnapshot.getValue(User.class);
+                                    if (myUser != null)
+
+                                        goToHomeAccordingToUserType(myUser);
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
 
@@ -199,36 +210,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void goToHomeAccordingToUserType(User user) {
-
-        switch (user.getAccountType()) {
-            case Constants.ACCOUNT_TYPE_USER:
-                startUserHomeActivity();
-                break;
-            case Constants.ACCOUNT_TYPE_ADMIN:
-                startAdminHomeActivity();
-                break;
-            case Constants.ACCOUNT_TYPE_HOSTEL_OWNER:
-                if (user.getAccountStatus() != null && user.getAccountStatus().equals(Constants.ACCOUNT_STATUS_ACTIVE))
-                startProviderHomeActivity();
-                else {
-                    Toast.makeText(context, "This account is't active now!", Toast.LENGTH_SHORT).show();
-                    MyFirebaseUser.SignOut(context);
-                }
-                break;
+        if (user.getAccountStatus() != null && user.getAccountStatus().equals(Constants.ACCOUNT_STATUS_ACTIVE)) {
+            switch (user.getAccountType()) {
+                case Constants.ACCOUNT_TYPE_USER:
+                    startUserHomeActivity();
+                    break;
+                case Constants.ACCOUNT_TYPE_ADMIN:
+                    startAdminHomeActivity();
+                    break;
+                case Constants.ACCOUNT_TYPE_HOSTEL_OWNER:
+                    startProviderHomeActivity();
+                    break;
+            }
+            MyServicesControllerClass.startCustomBackgroundService(context.getApplicationContext());
         }
-        MyServicesControllerClass.startCustomBackgroundService(context.getApplicationContext());
+        else {
+            Toast.makeText(context, "This account is't active now!", Toast.LENGTH_SHORT).show();
+            MyFirebaseUser.SignOut(context);
+        }
 
     }
 
-    private void checkUserTypeFromDBToSignIn(){
+    private void checkUserTypeFromDBToSignIn() {
         MyFirebaseDatabase.USER_REFERENCE.child(MyFirebaseUser.mUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null){
-                    Log.e(TAG, "onDataChange: USER" );
-                    try{
+                if (dataSnapshot.getValue() != null) {
+                    Log.e(TAG, "onDataChange: USER");
+                    try {
                         goToHomeAccordingToUserType(dataSnapshot.getValue(User.class));
-                    }catch (Exception e){e.printStackTrace();}
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -239,4 +252,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

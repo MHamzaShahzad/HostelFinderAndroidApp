@@ -261,7 +261,7 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/style_button_solid"
                 android:textAllCaps="false"
-                android:textColor="@color/colorText"
+                android:textColor="@color/colorWhite"
                 android:textSize="17sp" />
 
         </LinearLayout>
