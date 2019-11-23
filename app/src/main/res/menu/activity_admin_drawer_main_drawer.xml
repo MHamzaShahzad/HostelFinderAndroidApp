@@ -11,31 +11,37 @@
         <item
             android:id="@+id/nav_hostels"
             android:icon="@drawable/hostal"
-            android:title="Hostels" />
+            android:title="@string/menu_hostels" />
         <item
             android:id="@+id/nav_users_admins_list"
             android:icon="@drawable/admin_user"
-            android:title="Users And Admins" />
+            android:title="@string/menu_users_and_admins" />
         <item
             android:id="@+id/nav_owners"
             android:icon="@drawable/owner"
-            android:title="Owners" />
+            android:title="@string/menu_owners" />
+
+        <item
+            android:id="@+id/nav_my_bookings"
+            android:icon="@drawable/ic_bookings"
+            android:title="@string/menu_bookings" />
+
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout"
-            android:title="Logout" />
+            android:title="@string/menu_logout" />
     </group>
 
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_contact_us"
                 android:icon="@drawable/contect_us"
-                android:title="Contect Us" />
+                android:title="@string/menu_contact_us" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_about_us"
                 android:icon="@drawable/about_us"
-                android:title="About Us" />
+                android:title="@string/menu_about_us" />
         </menu>
     </item>
 

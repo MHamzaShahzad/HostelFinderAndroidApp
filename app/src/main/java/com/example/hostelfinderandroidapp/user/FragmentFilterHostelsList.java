@@ -19,8 +19,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.example.hostelfinderandroidapp.Constants;
-import com.example.hostelfinderandroidapp.FragmentInteractionListenerInterface;
+import com.example.hostelfinderandroidapp.common.Constants;
+import com.example.hostelfinderandroidapp.interfaces.FragmentInteractionListenerInterface;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.model.Hostel;
 

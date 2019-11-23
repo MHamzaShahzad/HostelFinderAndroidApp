@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".user.FragmentHostelDescriptionUser">
+    android:background="@color/colorWhite"
+    android:clickable="true"
+    tools:context=".common.FragmentBookingDescription">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,7 +23,7 @@
                 android:padding="10dp">
 
                 <ImageView
-                    android:id="@+id/hostelImage"
+                    android:id="@+id/hostelUserImage"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:layout_marginBottom="10dp"
@@ -31,7 +33,7 @@
                     android:id="@+id/layout_hostel_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/hostelImage"
+                    android:layout_below="@id/hostelUserImage"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:orientation="horizontal"
@@ -70,7 +72,7 @@
                     android:background="#015E6B" />
 
                 <LinearLayout
-                    android:id="@+id/layout_hostel_available_for"
+                    android:id="@+id/layout_hostel_user_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/viewLauyout1"
@@ -85,12 +87,12 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:fontFamily="@font/ralewaylight"
-                        android:text="Hostel For"
+                        android:text="User Name"
                         android:textColor="@color/colorText"
                         android:textSize="17sp" />
 
                     <TextView
-                        android:id="@+id/hostelAvailableForPlace"
+                        android:id="@+id/userNamePlace"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
@@ -102,10 +104,10 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/layout_hostel_available_rooms"
+                    android:id="@+id/layout_phone_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/layout_hostel_available_for"
+                    android:layout_below="@id/layout_hostel_user_name"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:background="@drawable/style_dark_background"
@@ -118,12 +120,12 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:fontFamily="@font/ralewaylight"
-                        android:text="Available Rooms"
+                        android:text="Phone Number"
                         android:textColor="@color/colorText"
                         android:textSize="17sp" />
 
                     <TextView
-                        android:id="@+id/hostelAvailableRoomsPlace"
+                        android:id="@+id/phoneNumberPlace"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
@@ -135,10 +137,10 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/layout_max_members_per_room"
+                    android:id="@+id/layout_user_belongs_to"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/layout_hostel_available_rooms"
+                    android:layout_below="@id/layout_phone_number"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:orientation="horizontal"
@@ -150,12 +152,12 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:fontFamily="@font/ralewaylight"
-                        android:text="Members/Room"
+                        android:text="Belongs To"
                         android:textColor="@color/colorText"
                         android:textSize="17sp" />
 
                     <TextView
-                        android:id="@+id/hostelMaxMembersPerRoomPlace"
+                        android:id="@+id/belongsToPlace"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
@@ -167,10 +169,10 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/layout_cost_per_member"
+                    android:id="@+id/layout_user_institute"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/layout_max_members_per_room"
+                    android:layout_below="@id/layout_user_belongs_to"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:background="@drawable/style_dark_background"
@@ -183,12 +185,12 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:fontFamily="@font/ralewaylight"
-                        android:text="Cost/Member"
+                        android:text="Institute"
                         android:textColor="@color/colorText"
                         android:textSize="17sp" />
 
                     <TextView
-                        android:id="@+id/hostelCostPerMemberPlace"
+                        android:id="@+id/institutePlace"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
@@ -200,10 +202,10 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/layout_is_internet_available"
+                    android:id="@+id/layout_book_from"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/layout_cost_per_member"
+                    android:layout_below="@id/layout_user_institute"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:orientation="horizontal"
@@ -215,12 +217,12 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:fontFamily="@font/ralewaylight"
-                        android:text="Internet Available"
+                        android:text="Book From"
                         android:textColor="@color/colorText"
                         android:textSize="17sp" />
 
                     <TextView
-                        android:id="@+id/hostelInternetAvailablePlace"
+                        android:id="@+id/bookFromPlace"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
@@ -232,10 +234,10 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/layout_is_parking_available"
+                    android:id="@+id/layout_book_till"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/layout_is_internet_available"
+                    android:layout_below="@id/layout_book_from"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:background="@drawable/style_dark_background"
@@ -248,12 +250,12 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:fontFamily="@font/ralewaylight"
-                        android:text="Parking Available"
+                        android:text="Book Till"
                         android:textColor="@color/colorText"
                         android:textSize="17sp" />
 
                     <TextView
-                        android:id="@+id/hostelParkingAvailablePlace"
+                        android:id="@+id/bookTillPlace"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
@@ -265,10 +267,10 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/layout_is_electricity_backup_available"
+                    android:id="@+id/layout_requested_at"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/layout_is_parking_available"
+                    android:layout_below="@id/layout_book_till"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:orientation="horizontal"
@@ -280,12 +282,12 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:fontFamily="@font/ralewaylight"
-                        android:text="Electricity Backup"
+                        android:text="Requested At"
                         android:textColor="@color/colorText"
                         android:textSize="17sp" />
 
                     <TextView
-                        android:id="@+id/hostelElectricityBackupAvailablePlace"
+                        android:id="@+id/requestedAtPlace"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
@@ -297,13 +299,45 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/layout_hostel_updated_at"
+                    android:id="@+id/layout_user_cnic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/layout_is_electricity_backup_available"
+                    android:layout_below="@id/layout_requested_at"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:background="@drawable/style_dark_background"
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:fontFamily="@font/ralewaylight"
+                        android:text="User CNIC"
+                        android:textColor="@color/colorText"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/userCNICPlace"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:fontFamily="@font/ralewaylight"
+                        android:textAlignment="center"
+                        android:textColor="#028394"
+                        android:textSize="17sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/layout_user_cnic"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:orientation="horizontal"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp">
@@ -314,49 +348,16 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="0.5"
                         android:fontFamily="@font/ralewaylight"
-                        android:text="Updated At"
+                        android:text="Email"
                         android:textColor="@color/colorText"
                         android:textSize="17sp" />
 
                     <TextView
-                        android:id="@+id/hostelUpdatedAtPlace"
+                        android:id="@+id/emailPlace"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:fontFamily="sans-serif-light"
-                        android:textAlignment="center"
-                        android:textColor="#028394"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/layout_owner_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/layout_hostel_updated_at"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:orientation="horizontal"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:layout_gravity="center_vertical"
-                        android:fontFamily="@font/ralewaylight"
-                        android:text="Owner Email"
-                        android:textColor="@color/colorText"
-                        android:textSize="17sp" />
-
-                    <TextView
-                        android:id="@+id/hostelOwnerEmailPlace"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:fontFamily="@font/ralewaylight"
                         android:textAlignment="center"
                         android:textColor="#028394"
                         android:textSize="15sp" />
@@ -367,7 +368,7 @@
                     android:id="@+id/layout_hostel_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/layout_owner_email"
+                    android:layout_below="@id/layout_email"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:background="@drawable/style_dark_background"
@@ -379,7 +380,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="0.3"
+                        android:layout_weight="0.5"
                         android:fontFamily="@font/ralewaylight"
                         android:text="Address"
                         android:textColor="@color/colorText"
@@ -389,11 +390,11 @@
                         android:id="@+id/hostelAddressPlace"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.7"
+                        android:layout_weight="0.5"
                         android:fontFamily="@font/ralewaylight"
                         android:textAlignment="center"
                         android:textColor="#028394"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
@@ -412,7 +413,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="0.5"
+                        android:layout_weight="0.3"
                         android:fontFamily="@font/ralewaylight"
                         android:text="City"
                         android:textColor="@color/colorText"
@@ -422,16 +423,16 @@
                         android:id="@+id/hostelCityPlace"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
+                        android:layout_weight="0.7"
                         android:fontFamily="@font/ralewaylight"
                         android:textAlignment="center"
                         android:textColor="#028394"
-                        android:textSize="17sp" />
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/layout_hostel_description"
+                    android:id="@+id/layout_booking_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/layout_hostel_city"
@@ -450,7 +451,7 @@
                         android:textSize="17sp" />
 
                     <TextView
-                        android:id="@+id/hostelDescriptionPlace"
+                        android:id="@+id/bookingDescriptionPlace"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -464,29 +465,15 @@
                     android:id="@+id/btn_view_on_map"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/layout_hostel_description"
+                    android:layout_below="@id/layout_booking_description"
                     android:layout_marginTop="10dp"
                     android:background="#019EB3"
                     android:fontFamily="@font/ralewaylight"
                     android:padding="10dp"
+                    android:layout_marginBottom="45dp"
                     android:text="View On Map"
                     android:textAlignment="center"
                     android:textColor="@color/colorWhite"
-                    android:textSize="17sp" />
-
-                <TextView
-                    android:id="@+id/btn_book"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/btn_view_on_map"
-                    android:layout_marginTop="10dp"
-                    android:background="#019EB3"
-                    android:fontFamily="@font/ralewaylight"
-                    android:padding="10dp"
-                    android:text="Book Hostel"
-                    android:textAlignment="center"
-                    android:textColor="@color/colorWhite"
-                    android:layout_marginBottom="45dp"
                     android:textSize="17sp" />
 
             </RelativeLayout>
@@ -494,10 +481,53 @@
         </ScrollView>
 
         <LinearLayout
-            android:id="@+id/layout_call_sms_hostel"
+            android:id="@+id/layout_accept_reject_booking_req"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:visibility="invisible"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="3dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnAcceptRequest"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_weight="0.5"
+                android:background="@drawable/style_button_solid"
+                android:fontFamily="@font/ralewaylight"
+                android:text="Accept"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"
+                android:textSize="17sp"
+                android:layout_marginEnd="5dp" />
+
+            <Button
+                android:id="@+id/btnRejectRequest"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="0.5"
+                android:background="@drawable/style_button_solid"
+                android:fontFamily="@font/ralewaylight"
+                android:text="Reject"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"
+                android:textSize="17sp"
+                android:layout_marginStart="5dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_edit_remove_booking_req"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:visibility="invisible"
             android:layout_marginBottom="3dp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"
@@ -505,30 +535,33 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/send_sms_to_owner"
+                android:id="@+id/btnEditRequest"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:layout_marginRight="5dp"
                 android:background="@drawable/style_button_solid"
                 android:fontFamily="@font/ralewaylight"
-                android:text="SMS"
+                android:text="Edit"
+                android:visibility="gone"
+                android:layout_marginRight="5dp"
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite"
-                android:textSize="17sp" />
+                android:textSize="17sp"
+                android:layout_marginEnd="5dp" />
 
             <Button
-                android:id="@+id/call_to_owner"
+                android:id="@+id/btnRemoveRequest"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:layout_marginLeft="5dp"
                 android:background="@drawable/style_button_solid"
                 android:fontFamily="@font/ralewaylight"
-                android:text="Call"
+                android:text="Remove"
+                android:layout_marginLeft="5dp"
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite"
-                android:textSize="17sp" />
+                android:textSize="17sp"
+                android:layout_marginStart="5dp" />
 
         </LinearLayout>
 

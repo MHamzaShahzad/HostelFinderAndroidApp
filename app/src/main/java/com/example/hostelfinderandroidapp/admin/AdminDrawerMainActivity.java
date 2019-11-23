@@ -3,14 +3,15 @@ package com.example.hostelfinderandroidapp.admin;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.example.hostelfinderandroidapp.CommonFunctionsClass;
-import com.example.hostelfinderandroidapp.Constants;
-import com.example.hostelfinderandroidapp.FragmentInteractionListenerInterface;
-import com.example.hostelfinderandroidapp.FragmentUpdateProfile;
+import com.example.hostelfinderandroidapp.common.CommonFunctionsClass;
+import com.example.hostelfinderandroidapp.common.Constants;
+import com.example.hostelfinderandroidapp.interfaces.FragmentInteractionListenerInterface;
+import com.example.hostelfinderandroidapp.common.FragmentUpdateProfile;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseUser;
 import com.example.hostelfinderandroidapp.model.User;
+import com.example.hostelfinderandroidapp.user.FragmentBookingsUser;
 import com.example.hostelfinderandroidapp.user.FragmentHostelsListForUser;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -140,15 +141,18 @@ public class AdminDrawerMainActivity extends AppCompatActivity
 
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentUsersAndAdmins()).addToBackStack(null).commit();
 
+        } else if (id == R.id.nav_my_bookings) {
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentBookingsUser()).addToBackStack(null).commit();
+
         } else if (id == R.id.nav_logout) {
 
             MyFirebaseUser.SignOut(context);
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_contact_us) {
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentUsersAndAdmins()).addToBackStack(null).commit();
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_about_us) {
 
         }
 
@@ -196,14 +200,14 @@ public class AdminDrawerMainActivity extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists() && dataSnapshot.getValue() != null) {
-                    Log.e(TAG, "onDataChange: " + dataSnapshot.getValue() );
+                    Log.e(TAG, "onDataChange: " + dataSnapshot.getValue());
                     try {
                         User user = dataSnapshot.getValue(User.class);
                         if (user != null) {
 
                             //If account de-activated
                             if (user.getAccountStatus().equals(Constants.ACCOUNT_STATUS_INACTIVE)) {
-                                Log.e(TAG, "onDataChange: STATUS_INACTIVE"  );
+                                Log.e(TAG, "onDataChange: STATUS_INACTIVE");
                                 CommonFunctionsClass.showDialogAndSignOut(context, "Your account has been de-activated by admin.");
                             }
 

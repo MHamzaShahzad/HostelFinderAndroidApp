@@ -1,4 +1,4 @@
-package com.example.hostelfinderandroidapp;
+package com.example.hostelfinderandroidapp.common;
 
 public class Constants {
 
@@ -44,5 +44,24 @@ public class Constants {
     public static final String HOSTEL_FILTER_MAP = "hostel_filter_map";
     public static final String HOSTEL_LOCATION_MAP = "hostel_map_location";
 
+    public static final String USER_CAT_STUDENT = "0";
+    public static final String USER_CAT_JOB_HOLDER = "1";
+    public static final String USER_CAT_OTHERS = "2";
 
+    public static final String BOOKING_STATUS_PENDING = "0";
+    public static final String BOOKING_STATUS_ACCEPTED = "1";
+    public static final String BOOKING_STATUS_REJECTED = "2";
+
+    public static final String STRING_BOOKING_STATUS_PENDING = "Pending";
+    public static final String STRING_BOOKING_STATUS_ACCEPTED = "Accepted";
+    public static final String STRING_BOOKING_STATUS_REJECTED = "Rejected";
+
+    public static final String STRING_USER_CAT_STUDENT = "Student";
+    public static final String STRING_USER_CAT_JOB_HOLDER = "Job Holder";
+    public static final String STRING_USER_CAT_OTHERS = "Other";
+
+    public static final String HOSTEL_OBJECT = "hostel_object";
+    public static final String BOOKING_OBJECT = "booking_object";
+
+    public static final String STRING_IS_PROVIDER = "is_provider";
 }

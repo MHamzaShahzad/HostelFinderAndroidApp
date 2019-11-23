@@ -3,11 +3,11 @@ package com.example.hostelfinderandroidapp.user;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.example.hostelfinderandroidapp.CommonFunctionsClass;
-import com.example.hostelfinderandroidapp.Constants;
-import com.example.hostelfinderandroidapp.FragmentBecomeHostelOwner;
-import com.example.hostelfinderandroidapp.FragmentInteractionListenerInterface;
-import com.example.hostelfinderandroidapp.FragmentUpdateProfile;
+import com.example.hostelfinderandroidapp.common.CommonFunctionsClass;
+import com.example.hostelfinderandroidapp.common.Constants;
+import com.example.hostelfinderandroidapp.common.FragmentBecomeHostelOwner;
+import com.example.hostelfinderandroidapp.interfaces.FragmentInteractionListenerInterface;
+import com.example.hostelfinderandroidapp.common.FragmentUpdateProfile;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseUser;
@@ -136,14 +136,19 @@ public class DrawerMainActivity extends AppCompatActivity
 
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentBecomeHostelOwner()).addToBackStack(null).commit();
 
+        } else if (id == R.id.nav_my_bookings) {
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentBookingsUser()).addToBackStack(null).commit();
+
         } else if (id == R.id.nav_logout) {
 
             MyFirebaseUser.SignOut(context);
 
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_contact_us) {
 
-        } else if (id == R.id.nav_send) {
+
+        } else if (id == R.id.nav_about_us) {
 
         }
 
@@ -239,4 +244,5 @@ public class DrawerMainActivity extends AppCompatActivity
         super.onDestroy();
         removeUserValueEventListener();
     }
+
 }

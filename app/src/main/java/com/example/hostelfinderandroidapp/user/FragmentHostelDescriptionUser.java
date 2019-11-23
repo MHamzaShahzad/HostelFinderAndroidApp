@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +16,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.hostelfinderandroidapp.CommonFunctionsClass;
-import com.example.hostelfinderandroidapp.Constants;
-import com.example.hostelfinderandroidapp.FragmentInteractionListenerInterface;
-import com.example.hostelfinderandroidapp.FragmentMap;
+import com.example.hostelfinderandroidapp.common.CommonFunctionsClass;
+import com.example.hostelfinderandroidapp.common.Constants;
+import com.example.hostelfinderandroidapp.interfaces.FragmentInteractionListenerInterface;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.model.Hostel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 public class FragmentHostelDescriptionUser extends Fragment {
@@ -32,8 +34,13 @@ public class FragmentHostelDescriptionUser extends Fragment {
     Button send_sms_to_owner, call_to_owner;
     Hostel hostel;
     ImageView hostelImage;
-    TextView hostelAvailableForPlace, hostelInternetAvailablePlace, hostelParkingAvailablePlace, hostelElectricityBackupAvailablePlace, hostelCityPlace, hostelUpdatedAtPlace, btn_view_on_map, hostelNamePlace, hostelAddressPlace, hostelAvailableRoomsPlace, hostelCostPerMemberPlace, hostelMaxMembersPerRoomPlace, hostelOwnerEmailPlace, hostelDescriptionPlace;
+    TextView hostelAvailableForPlace, hostelInternetAvailablePlace, hostelParkingAvailablePlace,
+            hostelElectricityBackupAvailablePlace, hostelCityPlace, hostelUpdatedAtPlace, btn_view_on_map,
+            hostelNamePlace, hostelAddressPlace, hostelAvailableRoomsPlace, hostelCostPerMemberPlace,
+            hostelMaxMembersPerRoomPlace, hostelOwnerEmailPlace, hostelDescriptionPlace, btn_book;
     LinearLayout layout_call_sms_hostel, layout_edit_remove_hostel;
+
+    private FirebaseUser firebaseUser;
 
     private FragmentInteractionListenerInterface mListener;
 
@@ -46,6 +53,7 @@ public class FragmentHostelDescriptionUser extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         context = container.getContext();
         if (mListener != null) {
             mListener.onFragmentInteraction("Description");
@@ -53,6 +61,7 @@ public class FragmentHostelDescriptionUser extends Fragment {
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_hostel_description_user, container, false);
 
+            btn_book = view.findViewById(R.id.btn_book);
             btn_view_on_map = view.findViewById(R.id.btn_view_on_map);
             hostelImage = view.findViewById(R.id.hostelImage);
             hostelNamePlace = view.findViewById(R.id.hostelNamePlace);
@@ -132,6 +141,20 @@ public class FragmentHostelDescriptionUser extends Fragment {
                             CommonFunctionsClass.setBtn_view_on_map(context, hostel);
                         }
                     });
+
+                    if (hostel.getOwnerId().equals(firebaseUser.getUid()))
+                        btn_book.setVisibility(View.INVISIBLE);
+                    else
+                        btn_book.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                FragmentBookingForHostelRooms bookingForHostelRooms = new FragmentBookingForHostelRooms();
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable(Constants.HOSTEL_OBJECT, hostel);
+                                bookingForHostelRooms.setArguments(bundle);
+                                ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().add(R.id.fragment_home, bookingForHostelRooms).addToBackStack(null).commit();
+                            }
+                        });
                 }
             }
         }
@@ -162,4 +185,5 @@ public class FragmentHostelDescriptionUser extends Fragment {
             mListener.onFragmentInteraction("Description");
         }
     }
+
 }

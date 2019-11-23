@@ -1,4 +1,4 @@
-package com.example.hostelfinderandroidapp;
+package com.example.hostelfinderandroidapp.common;
 
 
 import android.app.Activity;
@@ -30,10 +30,12 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseStorage;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseUser;
 import com.example.hostelfinderandroidapp.controlers.MyPrefLocalStorage;
+import com.example.hostelfinderandroidapp.interfaces.FragmentInteractionListenerInterface;
 import com.example.hostelfinderandroidapp.model.Hostel;
 import com.example.hostelfinderandroidapp.model.User;
 import com.google.android.gms.tasks.OnFailureListener;

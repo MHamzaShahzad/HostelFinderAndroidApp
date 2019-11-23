@@ -16,9 +16,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hostelfinderandroidapp.CommonFunctionsClass;
-import com.example.hostelfinderandroidapp.Constants;
-import com.example.hostelfinderandroidapp.FragmentInteractionListenerInterface;
+import com.example.hostelfinderandroidapp.common.CommonFunctionsClass;
+import com.example.hostelfinderandroidapp.common.Constants;
+import com.example.hostelfinderandroidapp.interfaces.FragmentInteractionListenerInterface;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.adapters.AdapterMyHostelsList;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;

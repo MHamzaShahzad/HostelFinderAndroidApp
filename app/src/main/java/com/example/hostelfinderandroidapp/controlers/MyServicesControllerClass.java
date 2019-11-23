@@ -7,8 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
-import com.example.hostelfinderandroidapp.BackgroundJobService;
-import com.example.hostelfinderandroidapp.BackgroundService;
+import com.example.hostelfinderandroidapp.services.BackgroundJobService;
+import com.example.hostelfinderandroidapp.services.BackgroundService;
 
 import static android.content.Context.JOB_SCHEDULER_SERVICE;
 

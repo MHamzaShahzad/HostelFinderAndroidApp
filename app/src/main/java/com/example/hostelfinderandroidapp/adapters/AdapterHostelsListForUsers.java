@@ -13,7 +13,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hostelfinderandroidapp.Constants;
+import com.example.hostelfinderandroidapp.common.Constants;
 import com.example.hostelfinderandroidapp.user.FragmentHostelDescriptionUser;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.model.Hostel;

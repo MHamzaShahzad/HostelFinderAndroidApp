@@ -1,18 +1,18 @@
 package com.example.hostelfinderandroidapp.provider;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.example.hostelfinderandroidapp.CommonFunctionsClass;
-import com.example.hostelfinderandroidapp.Constants;
-import com.example.hostelfinderandroidapp.FragmentBecomeHostelOwner;
-import com.example.hostelfinderandroidapp.FragmentInteractionListenerInterface;
-import com.example.hostelfinderandroidapp.FragmentUpdateProfile;
+import com.example.hostelfinderandroidapp.common.CommonFunctionsClass;
+import com.example.hostelfinderandroidapp.common.Constants;
+import com.example.hostelfinderandroidapp.common.FragmentBecomeHostelOwner;
+import com.example.hostelfinderandroidapp.interfaces.FragmentInteractionListenerInterface;
+import com.example.hostelfinderandroidapp.common.FragmentUpdateProfile;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseUser;
 import com.example.hostelfinderandroidapp.model.User;
+import com.example.hostelfinderandroidapp.user.FragmentBookingsUser;
 import com.example.hostelfinderandroidapp.user.FragmentHostelsListForUser;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -44,7 +44,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ProviderDrawerMainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener , FragmentInteractionListenerInterface {
+        implements NavigationView.OnNavigationItemSelectedListener, FragmentInteractionListenerInterface {
 
     private static final String TAG = ProviderDrawerMainActivity.class.getName();
     private Context context;
@@ -140,13 +140,18 @@ public class ProviderDrawerMainActivity extends AppCompatActivity
 
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentBecomeHostelOwner()).addToBackStack(null).commit();
 
+        } else if (id == R.id.nav_my_bookings) {
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new FragmentBookingsUser()).addToBackStack(null).commit();
+
         } else if (id == R.id.nav_logout) {
 
             MyFirebaseUser.SignOut(context);
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_contact_us) {
 
-        } else if (id == R.id.nav_send) {
+
+        } else if (id == R.id.nav_about_us) {
 
         }
 
@@ -155,8 +160,8 @@ public class ProviderDrawerMainActivity extends AppCompatActivity
         return true;
     }
 
-    public void clearFragmentBackStack(){
-        for (int i = 0; i < getSupportFragmentManager().getBackStackEntryCount(); i++){
+    public void clearFragmentBackStack() {
+        for (int i = 0; i < getSupportFragmentManager().getBackStackEntryCount(); i++) {
             getSupportFragmentManager().popBackStack();
         }
     }
@@ -177,7 +182,7 @@ public class ProviderDrawerMainActivity extends AppCompatActivity
 
     public static void setNavigationHeader(User user) {
         if (user != null) {
-            Log.e(TAG, "setNavigationHeader: " + user.getImageUrl() + " : " + user.getUserName() + " : " + user.getPhone() + " : " + user.getEmail() );
+            Log.e(TAG, "setNavigationHeader: " + user.getImageUrl() + " : " + user.getUserName() + " : " + user.getPhone() + " : " + user.getEmail());
             if (user.getImageUrl() != null)
                 try {
                     Picasso.get().load(user.getImageUrl()).placeholder(R.drawable.user_avatar).fit().into(userNavHeaderImage);
@@ -194,14 +199,14 @@ public class ProviderDrawerMainActivity extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists() && dataSnapshot.getValue() != null) {
-                    Log.e(TAG, "onDataChange: " + dataSnapshot.getValue() );
+                    Log.e(TAG, "onDataChange: " + dataSnapshot.getValue());
                     try {
                         User user = dataSnapshot.getValue(User.class);
                         if (user != null) {
 
                             //If account de-activated
                             if (user.getAccountStatus().equals(Constants.ACCOUNT_STATUS_INACTIVE)) {
-                                Log.e(TAG, "onDataChange: STATUS_INACTIVE"  );
+                                Log.e(TAG, "onDataChange: STATUS_INACTIVE");
                                 CommonFunctionsClass.showDialogAndSignOut(context, "Your account has been de-activated by admin.");
                             }
 

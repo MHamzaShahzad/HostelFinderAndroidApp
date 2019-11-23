@@ -1,4 +1,4 @@
-package com.example.hostelfinderandroidapp;
+package com.example.hostelfinderandroidapp.common;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -16,9 +16,9 @@ import android.widget.Toast;
 import androidx.fragment.app.FragmentActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseUser;
 import com.example.hostelfinderandroidapp.model.Hostel;
-import com.google.firestore.admin.v1beta1.Progress;
 
 public class CommonFunctionsClass {
 
@@ -122,6 +122,32 @@ public class CommonFunctionsClass {
 
         builder.create().show();
 
+    }
+
+    public static String getUserBelongsTo(String type){
+        switch (type){
+            case Constants.USER_CAT_STUDENT:
+                return Constants.STRING_USER_CAT_STUDENT;
+            case Constants.USER_CAT_JOB_HOLDER:
+                return Constants.STRING_USER_CAT_JOB_HOLDER;
+            case Constants.USER_CAT_OTHERS:
+                return Constants.STRING_USER_CAT_OTHERS;
+                default:
+                    return "";
+        }
+    }
+
+    public static String getBookingStatusString(String status){
+        switch (status){
+            case Constants.BOOKING_STATUS_PENDING:
+                return Constants.STRING_BOOKING_STATUS_PENDING;
+            case Constants.BOOKING_STATUS_ACCEPTED:
+                return Constants.STRING_BOOKING_STATUS_ACCEPTED;
+            case Constants.BOOKING_STATUS_REJECTED:
+                return Constants.STRING_BOOKING_STATUS_REJECTED;
+                default:
+                    return "";
+        }
     }
 
 }

@@ -18,9 +18,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.hostelfinderandroidapp.CommonFunctionsClass;
-import com.example.hostelfinderandroidapp.Constants;
-import com.example.hostelfinderandroidapp.FragmentInteractionListenerInterface;
+import com.example.hostelfinderandroidapp.common.CommonFunctionsClass;
+import com.example.hostelfinderandroidapp.common.Constants;
+import com.example.hostelfinderandroidapp.controlers.SendPushNotificationFirebase;
+import com.example.hostelfinderandroidapp.interfaces.FragmentInteractionListenerInterface;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
 import com.example.hostelfinderandroidapp.model.Hostel;
@@ -188,6 +189,12 @@ public class FragmentHostelDescriptionAdmin extends Fragment {
             @Override
             public void onSuccess(Void aVoid) {
                 Toast.makeText(context, "Status Changed", Toast.LENGTH_SHORT).show();
+                SendPushNotificationFirebase.buildAndSendNotification(
+                        context,
+                        hostel.getOwnerId(),
+                        "Hostel Status Changed",
+                        "Your hostel "+ hostel.getHostelName() +" status has been changed by admin!"
+                );
                 ((FragmentActivity) context).getSupportFragmentManager().popBackStack();
             }
         }).addOnFailureListener(new OnFailureListener() {

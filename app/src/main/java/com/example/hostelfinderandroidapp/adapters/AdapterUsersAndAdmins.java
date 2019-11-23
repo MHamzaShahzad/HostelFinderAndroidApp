@@ -12,11 +12,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hostelfinderandroidapp.Constants;
+import com.example.hostelfinderandroidapp.common.Constants;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseUser;
+import com.example.hostelfinderandroidapp.controlers.SendPushNotificationFirebase;
 import com.example.hostelfinderandroidapp.model.User;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -55,10 +57,10 @@ public class AdapterUsersAndAdmins extends RecyclerView.Adapter<AdapterUsersAndA
         holder.email.setText(user.getEmail());
         holder.name.setText(user.getUserName());
         holder.phoneNumber.setText(user.getPhone());
-        if (user.getAccountType().equals(Constants.ACCOUNT_TYPE_USER)){
+        if (user.getAccountType().equals(Constants.ACCOUNT_TYPE_USER)) {
             holder.btnToggleAdminUser.setText(ACCOUNT_TYPE_ADMIN_TEXT);
         }
-        if (user.getAccountType().equals(Constants.ACCOUNT_TYPE_ADMIN)){
+        if (user.getAccountType().equals(Constants.ACCOUNT_TYPE_ADMIN)) {
             holder.btnToggleAdminUser.setText(ACCOUNT_TYPE_USER_TEXT);
         }
 
@@ -68,22 +70,20 @@ public class AdapterUsersAndAdmins extends RecyclerView.Adapter<AdapterUsersAndA
 
                 User clickedUser = list.get(holder.getAdapterPosition());
 
-                if (clickedUser.getAccountType().equals(Constants.ACCOUNT_TYPE_USER)){
+                if (clickedUser.getAccountType().equals(Constants.ACCOUNT_TYPE_USER)) {
                     changeAccountType(clickedUser, Constants.ACCOUNT_TYPE_ADMIN);
                 }
-                if (clickedUser.getAccountType().equals(Constants.ACCOUNT_TYPE_ADMIN)){
+                if (clickedUser.getAccountType().equals(Constants.ACCOUNT_TYPE_ADMIN)) {
                     changeAccountType(clickedUser, Constants.ACCOUNT_TYPE_USER);
                 }
 
             }
         });
         if (user.getUserId() != null)
-            Log.e(TAG, "onBindViewHolder: 1" );
-
-        if (user.getUserId().equals(MyFirebaseUser.mUser.getUid()))
-            holder.btnToggleAdminUser.setVisibility(View.GONE);
-        else
-            holder.btnToggleAdminUser.setVisibility(View.VISIBLE);
+            if (user.getUserId().equals(MyFirebaseUser.mUser.getUid()))
+                holder.btnToggleAdminUser.setVisibility(View.GONE);
+            else
+                holder.btnToggleAdminUser.setVisibility(View.VISIBLE);
 
     }
 
@@ -111,9 +111,19 @@ public class AdapterUsersAndAdmins extends RecyclerView.Adapter<AdapterUsersAndA
         }
     }
 
-    private void changeAccountType(User user, String type){
+    private void changeAccountType(final User user, String type) {
 
-        MyFirebaseDatabase.USER_REFERENCE.child(user.getUserId()).child("accountType").setValue(type);
+        MyFirebaseDatabase.USER_REFERENCE.child(user.getUserId()).child("accountType").setValue(type).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                SendPushNotificationFirebase.buildAndSendNotification(
+                        context,
+                        user.getUserId(),
+                        "Account Type Changed",
+                        "Your account type has been changed by admin!"
+                );
+            }
+        });
 
     }
 

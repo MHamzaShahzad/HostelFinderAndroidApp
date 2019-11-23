@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:clickable="true"
+    tools:context="com.example.hostelfinderandroidapp.user.FragmentBookingForHostelRooms">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <EditText
+                android:id="@+id/userName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/style_edit_box"
+                android:fontFamily="@font/ralewaylight"
+                android:hint="Your Name"
+                android:inputType="textPersonName"
+                android:textColor="@color/colorText"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/userMobileNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/style_edit_box"
+                android:fontFamily="@font/ralewaylight"
+                android:hint="Phone Number"
+                android:inputType="phone"
+                android:textColor="@color/colorText"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/userCNIC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/style_edit_box"
+                android:fontFamily="@font/ralewaylight"
+                android:hint="Enter CNIC"
+                android:inputType="number"
+                android:textColor="@color/colorText"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/userBookingMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/style_edit_box"
+                android:fontFamily="@font/ralewaylight"
+                android:gravity="top|start"
+                android:hint="Enter Message"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:textColor="@color/colorText"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/dateBookFrom"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:background="@drawable/style_edit_box"
+                    android:enabled="false"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="Date Book From"
+                    android:textColor="@color/colorText"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/image_view_book_from_pick"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.1"
+                    android:src="@drawable/ic_calendar" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/dateBookTill"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:background="@drawable/style_edit_box"
+                    android:enabled="false"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="Date Book Till"
+                    android:textColor="@color/colorText"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/image_view_book_till_pick"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.1"
+                    android:src="@drawable/ic_calendar" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/userBelongsInstitute"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/style_edit_box"
+                android:fontFamily="@font/ralewaylight"
+                android:hint="University / College / Company / Organization"
+                android:inputType="text"
+                android:textColor="@color/colorText"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/raleway_bold"
+                    android:padding="7dp"
+                    android:text="Belongs To"
+                    android:textColor="@color/colorText"
+                    android:textSize="15sp" />
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/userCatStudent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginRight="5dp"
+                        android:fontFamily="@font/ralewaylight"
+                        android:text="Student"
+                        android:textColor="@color/colorText" />
+
+                    <RadioButton
+                        android:id="@+id/userCatJobHolder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginRight="5dp"
+                        android:fontFamily="@font/ralewaylight"
+                        android:text="Job Holder"
+                        android:textColor="@color/colorText" />
+
+                    <RadioButton
+                        android:id="@+id/userCatOthers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ralewaylight"
+                        android:text="Others"
+                        android:textColor="@color/colorText" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:fontFamily="@font/raleway_bold"
+                    android:padding="7dp"
+                    android:text="Hostel For"
+                    android:textColor="@color/colorText"
+                    android:textSize="15sp" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroupHostelFor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radioButtonHostelForBoys"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:fontFamily="@font/ralewaylight"
+                        android:text="Boys"
+                        android:enabled="false"
+                        android:textColor="@color/colorText"
+                        android:textSize="15sp" />
+
+                    <RadioButton
+                        android:id="@+id/radioButtonHostelForGirls"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ralewaylight"
+                        android:text="Girls"
+                        android:enabled="false"
+                        android:textColor="@color/colorText"
+                        android:textSize="15sp" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/submitHostelBooking"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/style_button_solid"
+                android:text="Submit"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"
+                android:textSize="17sp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

@@ -15,6 +15,11 @@
             android:title="@string/become_hostel_owner" />
 
         <item
+            android:id="@+id/nav_my_bookings"
+            android:icon="@drawable/ic_bookings"
+            android:title="@string/menu_bookings" />
+
+        <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout"
             android:title="@string/logout" />
@@ -24,13 +29,13 @@
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_contact_us"
                 android:icon="@drawable/contect_us"
-                android:title="Contect Us" />
+                android:title="@string/menu_contact_us" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_about_us"
                 android:icon="@drawable/about_us"
-                android:title="About Us" />
+                android:title="@string/menu_about_us" />
         </menu>
     </item>
 

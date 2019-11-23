@@ -9,6 +9,7 @@ public class MyFirebaseDatabase {
 
     public static final DatabaseReference USER_REFERENCE = database.getReference("Users");
     public static final DatabaseReference HOSTELS_REFERENCE = database.getReference("Hostels");
+    public static final DatabaseReference BOOKINGS_REFERENCE = database.getReference("Bookings");
 
 
 }

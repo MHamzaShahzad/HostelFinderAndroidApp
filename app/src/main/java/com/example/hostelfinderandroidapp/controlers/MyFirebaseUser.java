@@ -4,12 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.hostelfinderandroidapp.Constants;
-import com.example.hostelfinderandroidapp.MainActivity;
+import com.example.hostelfinderandroidapp.common.Constants;
+import com.example.hostelfinderandroidapp.common.MainActivity;
 import com.example.hostelfinderandroidapp.admin.AdminDrawerMainActivity;
 import com.example.hostelfinderandroidapp.model.User;
 import com.example.hostelfinderandroidapp.provider.ProviderDrawerMainActivity;
@@ -22,6 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MyFirebaseUser {
 
@@ -45,6 +45,12 @@ public class MyFirebaseUser {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     public void onComplete(@NonNull Task<Void> task) {
                         // ...
+                        FirebaseMessaging.getInstance().unsubscribeFromTopic(mUser.getUid()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Log.e(TAG, "onComplete: TOPIC_UNSUBSCRIBED_SUCCESSFULLY!" );
+                            }
+                        });
                         context.startActivity(new Intent(context, MainActivity.class));
                         ((Activity) context).finish();
                     }

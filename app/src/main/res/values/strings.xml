@@ -29,5 +29,14 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="become_hostel_owner">Become Hostel Owner</string>
     <string name="logout">Logout</string>
+    <string name="menu_bookings">Bookings</string>
+    <string name="menu_logout">Logout</string>
+    <string name="menu_hostels">Hostels</string>
+    <string name="menu_users_and_admins">Users And Admins</string>
+    <string name="menu_owners">Owners</string>
+    <string name="menu_contact_us">Contact Us</string>
+    <string name="menu_about_us">About Us</string>
+    <string name="menu_my_hostels">My Hostels</string>
+    <string name="menu_add_hostel">Add Hostel</string>
 
 </resources>

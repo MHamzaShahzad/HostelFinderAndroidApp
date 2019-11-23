@@ -19,10 +19,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
-import com.example.hostelfinderandroidapp.CommonFunctionsClass;
-import com.example.hostelfinderandroidapp.Constants;
-import com.example.hostelfinderandroidapp.FragmentBecomeHostelOwner;
-import com.example.hostelfinderandroidapp.FragmentInteractionListenerInterface;
+import com.example.hostelfinderandroidapp.common.CommonFunctionsClass;
+import com.example.hostelfinderandroidapp.common.Constants;
+import com.example.hostelfinderandroidapp.interfaces.FragmentInteractionListenerInterface;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
 import com.example.hostelfinderandroidapp.model.Hostel;
@@ -39,7 +38,7 @@ public class FragmentMyHostelDescription extends Fragment implements View.OnClic
     Hostel hostel;
     Button btnEditHostel, btnRemoveHostel;
     ImageView hostelImage;
-    TextView hostelAvailableForPlace, hostelInternetAvailablePlace, hostelParkingAvailablePlace, hostelElectricityBackupAvailablePlace, hostelCityPlace, hostelUpdatedAtPlace, btn_view_on_map, hostelNamePlace, hostelAddressPlace, hostelAvailableRoomsPlace, hostelCostPerMemberPlace, hostelMaxMembersPerRoomPlace, hostelOwnerEmailPlace, hostelDescriptionPlace;
+    TextView btn_booking_requests, hostelAvailableForPlace, hostelInternetAvailablePlace, hostelParkingAvailablePlace, hostelElectricityBackupAvailablePlace, hostelCityPlace, hostelUpdatedAtPlace, btn_view_on_map, hostelNamePlace, hostelAddressPlace, hostelAvailableRoomsPlace, hostelCostPerMemberPlace, hostelMaxMembersPerRoomPlace, hostelOwnerEmailPlace, hostelDescriptionPlace;
     LinearLayout layout_edit_remove_hostel;
 
     private FragmentInteractionListenerInterface mListener;
@@ -49,7 +48,7 @@ public class FragmentMyHostelDescription extends Fragment implements View.OnClic
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         context = container.getContext();
@@ -60,6 +59,7 @@ public class FragmentMyHostelDescription extends Fragment implements View.OnClic
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_my_hostel_description, container, false);
 
+            btn_booking_requests = view.findViewById(R.id.btn_booking_requests);
             btn_view_on_map = view.findViewById(R.id.btn_view_on_map);
             hostelImage = view.findViewById(R.id.hostelImage);
             hostelNamePlace = view.findViewById(R.id.hostelNamePlace);
@@ -124,6 +124,17 @@ public class FragmentMyHostelDescription extends Fragment implements View.OnClic
                         @Override
                         public void onClick(View view) {
                             CommonFunctionsClass.setBtn_view_on_map(context, hostel);
+                        }
+                    });
+
+                    btn_booking_requests.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            FragmentBookingsProvider fragmentBookingsProvider = new FragmentBookingsProvider();
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable(Constants.HOSTEL_OBJECT, hostel);
+                            fragmentBookingsProvider.setArguments(bundle);
+                            ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().add(R.id.fragment_home, fragmentBookingsProvider).addToBackStack(null).commit();
                         }
                     });
 

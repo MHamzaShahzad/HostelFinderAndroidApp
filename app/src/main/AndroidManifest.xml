@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
 
     <dist:module dist:instant="true" />
@@ -66,7 +67,7 @@
             android:name=".admin.AdminDrawerMainActivity"
             android:label="@string/title_activity_admin_drawer_main"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".common.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -75,10 +76,19 @@
         </activity>
 
         <service
-            android:name=".BackgroundJobService"
+            android:name=".services.MyFirebaseMessagingService"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".services.BackgroundJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <service android:name=".BackgroundService"
+        <service android:name=".services.BackgroundService"
             android:enabled="true"/>
 
     </application>

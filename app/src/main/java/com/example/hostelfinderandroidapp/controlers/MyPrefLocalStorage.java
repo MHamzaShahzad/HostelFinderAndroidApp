@@ -3,7 +3,7 @@ package com.example.hostelfinderandroidapp.controlers;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.hostelfinderandroidapp.Constants;
+import com.example.hostelfinderandroidapp.common.Constants;
 import com.example.hostelfinderandroidapp.model.User;
 import com.google.gson.Gson;
 

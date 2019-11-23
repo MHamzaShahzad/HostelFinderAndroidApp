@@ -472,6 +472,20 @@
                     android:text="View On Map"
                     android:textAlignment="center"
                     android:textColor="@color/colorWhite"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/btn_booking_requests"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/btn_view_on_map"
+                    android:layout_marginTop="10dp"
+                    android:background="#019EB3"
+                    android:fontFamily="@font/ralewaylight"
+                    android:padding="10dp"
+                    android:text="Booking Requests"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhite"
                     android:layout_marginBottom="45dp"
                     android:textSize="17sp" />
 

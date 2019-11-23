@@ -1,4 +1,4 @@
-package com.example.hostelfinderandroidapp;
+package com.example.hostelfinderandroidapp.common;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.admin.AdminDrawerMainActivity;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseUser;
@@ -27,13 +28,16 @@ import com.example.hostelfinderandroidapp.provider.ProviderDrawerMainActivity;
 import com.example.hostelfinderandroidapp.user.DrawerMainActivity;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -211,6 +215,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void goToHomeAccordingToUserType(User user) {
         if (user.getAccountStatus() != null && user.getAccountStatus().equals(Constants.ACCOUNT_STATUS_ACTIVE)) {
+            FirebaseMessaging.getInstance().subscribeToTopic(user.getUserId()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Log.e(TAG, "onComplete: TOPIC_SUBSCRIBED_SUCCESSFULLY!" );
+                }
+            });
             switch (user.getAccountType()) {
                 case Constants.ACCOUNT_TYPE_USER:
                     startUserHomeActivity();

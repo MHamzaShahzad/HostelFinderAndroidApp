@@ -11,11 +11,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hostelfinderandroidapp.Constants;
+import com.example.hostelfinderandroidapp.common.Constants;
 import com.example.hostelfinderandroidapp.R;
 import com.example.hostelfinderandroidapp.controlers.MyFirebaseDatabase;
+import com.example.hostelfinderandroidapp.controlers.SendPushNotificationFirebase;
 import com.example.hostelfinderandroidapp.model.Hostel;
 import com.example.hostelfinderandroidapp.model.User;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -107,9 +109,18 @@ public class AdapterOwnersList extends RecyclerView.Adapter<AdapterOwnersList.Ho
         }
     }
 
-    private void changeOwnerAccountStatus(User user, String status) {
+    private void changeOwnerAccountStatus(final User user, String status) {
 
-        MyFirebaseDatabase.USER_REFERENCE.child(user.getUserId()).child("accountStatus").setValue(status);
+        MyFirebaseDatabase.USER_REFERENCE.child(user.getUserId()).child("accountStatus").setValue(status).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                SendPushNotificationFirebase.buildAndSendNotification(context,
+                        user.getUserId(),
+                        "Account Status",
+                        "Your account status has been changed by admin!"
+                );
+            }
+        });
 
     }
 
@@ -124,9 +135,18 @@ public class AdapterOwnersList extends RecyclerView.Adapter<AdapterOwnersList.Ho
                     Iterable<DataSnapshot> hostelListSnapshot = dataSnapshot.getChildren();
                     for (DataSnapshot hostelSnapshot : hostelListSnapshot) {
 
-                        Hostel hostel = hostelSnapshot.getValue(Hostel.class);
+                        final Hostel hostel = hostelSnapshot.getValue(Hostel.class);
                         if (hostel != null && hostel.getOwnerId().equals(user.getUserId()) && hostel.getStatus().equals(Constants.HOSTEL_STATUS_ACTIVE))
-                            MyFirebaseDatabase.HOSTELS_REFERENCE.child(hostel.getHostelId()).child("status").setValue(Constants.HOSTEL_STATUS_INACTIVE);
+                            MyFirebaseDatabase.HOSTELS_REFERENCE.child(hostel.getHostelId()).child("status").setValue(Constants.HOSTEL_STATUS_INACTIVE).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    SendPushNotificationFirebase.buildAndSendNotification(context,
+                                            user.getUserId(),
+                                            hostel.getHostelName() + " Inactivated",
+                                            hostel.getHostelName() + " has been inactivated by admin!"
+                                    );
+                                }
+                            });
 
                     }
 

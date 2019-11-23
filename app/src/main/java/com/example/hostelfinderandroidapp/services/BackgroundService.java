@@ -1,4 +1,4 @@
-package com.example.hostelfinderandroidapp;
+package com.example.hostelfinderandroidapp.services;
 
 import android.app.Service;
 import android.content.Intent;
