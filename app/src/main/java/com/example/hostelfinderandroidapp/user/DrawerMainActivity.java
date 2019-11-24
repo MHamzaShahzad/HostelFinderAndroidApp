@@ -3,6 +3,8 @@ package com.example.hostelfinderandroidapp.user;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.example.hostelfinderandroidapp.AboutUsFragment;
+import com.example.hostelfinderandroidapp.ContactUsFragment;
 import com.example.hostelfinderandroidapp.common.CommonFunctionsClass;
 import com.example.hostelfinderandroidapp.common.Constants;
 import com.example.hostelfinderandroidapp.common.FragmentBecomeHostelOwner;
@@ -147,8 +149,12 @@ public class DrawerMainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_contact_us) {
 
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new ContactUsFragment()).addToBackStack(null).commit();
+
 
         } else if (id == R.id.nav_about_us) {
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new AboutUsFragment()).addToBackStack(null).commit();
 
         }
 

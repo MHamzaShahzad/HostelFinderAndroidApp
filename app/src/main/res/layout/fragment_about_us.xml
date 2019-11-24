@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AboutUsFragment">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/txt_splash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="serif-monospace"
+            android:text="Hostel Finder"
+            android:textAlignment="center"
+            android:textColor="#028394"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/splash_logo"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_below="@id/txt_splash"
+            android:src="@drawable/logo_h" />
+
+        <TextView
+            android:id="@+id/tagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/splash_logo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:text="Nothing work better then Hostel Finder."
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tagline"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="7dp"
+            android:text="About us"
+            android:textColor="@color/colorPrimary"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/aboutus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/heading"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="7dp"
+            android:text="@string/about_us"
+            android:textSize="16sp"
+            android:layout_marginRight="8dp"
+            />
+
+        <TextView
+            android:id="@+id/about_us_"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/aboutus"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/about_us_"
+            android:textSize="16sp"
+            />
+
+        <TextView
+            android:id="@+id/rights_reserved"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/about_us_"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="7dp"
+            android:layout_marginTop="15dp"
+            android:text="Hostel Finder Pvt.Ltd 2019©, All rights reserved."
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rights_reserved"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:fontFamily="serif-monospace"
+            android:text="Hostel finder"
+            android:textAlignment="center"
+            android:textColor="#028394"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="3dp"/>
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

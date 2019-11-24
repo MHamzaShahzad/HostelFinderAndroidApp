@@ -39,4 +39,6 @@
     <string name="menu_my_hostels">My Hostels</string>
     <string name="menu_add_hostel">Add Hostel</string>
 
+    <string name="about_us">Hostel finder is community platform that provides available hostels in a single platform. User can see all the features of selected hostel. We provided locations of hostels too which make it easy to find them. A hostel owner will also advertise his hostel to connect with the community.</string>
+    <string name="about_us_">Hostel finder is the solution that let you find an economical accommodations with most facilities. For our users, we let you save your precious time and finds right hostel for your stay. Our users can book the suitable hostel they find, from any where. </string>
 </resources>
