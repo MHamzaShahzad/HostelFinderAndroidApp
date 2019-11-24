@@ -64,4 +64,7 @@ public class Constants {
     public static final String BOOKING_OBJECT = "booking_object";
 
     public static final String STRING_IS_PROVIDER = "is_provider";
+
+    public static final String TITLE_CONTACT_US = "Contact Us";
+    public static final String TITLE_ABOUT_US = "About Us";
 }

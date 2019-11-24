@@ -3,6 +3,8 @@ package com.example.hostelfinderandroidapp.admin;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.example.hostelfinderandroidapp.communicate.AboutUsFragment;
+import com.example.hostelfinderandroidapp.communicate.ContactUsFragment;
 import com.example.hostelfinderandroidapp.common.CommonFunctionsClass;
 import com.example.hostelfinderandroidapp.common.Constants;
 import com.example.hostelfinderandroidapp.interfaces.FragmentInteractionListenerInterface;
@@ -149,10 +151,14 @@ public class AdminDrawerMainActivity extends AppCompatActivity
 
             MyFirebaseUser.SignOut(context);
 
-        } else if (id == R.id.nav_contact_us) {
+        }  else if (id == R.id.nav_contact_us) {
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new ContactUsFragment()).addToBackStack(null).commit();
 
 
         } else if (id == R.id.nav_about_us) {
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new AboutUsFragment()).addToBackStack(null).commit();
 
         }
 

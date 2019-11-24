@@ -3,8 +3,8 @@ package com.example.hostelfinderandroidapp.user;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.example.hostelfinderandroidapp.AboutUsFragment;
-import com.example.hostelfinderandroidapp.ContactUsFragment;
+import com.example.hostelfinderandroidapp.communicate.AboutUsFragment;
+import com.example.hostelfinderandroidapp.communicate.ContactUsFragment;
 import com.example.hostelfinderandroidapp.common.CommonFunctionsClass;
 import com.example.hostelfinderandroidapp.common.Constants;
 import com.example.hostelfinderandroidapp.common.FragmentBecomeHostelOwner;
